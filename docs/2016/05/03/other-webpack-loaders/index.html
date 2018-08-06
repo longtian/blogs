@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>被遗忘的 Loader | 龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="源码  专门介绍 Webpack 那些冷门的 Loader  Webpack 的官方文档上有一个 list-of-loaders之是其中的大部分被使用到的机会非常少, 好心疼这些缺 :heart: 的模块, 所以有这个 repo 专门介绍这些冷门 Loader . demo  json script 等等  raw-loader作用:以 utf-8 编码加载文件的内容 json-loader作用:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="被遗忘的 Loader">
+<meta property="og:url" content="https://longtian.io/2016/05/03/other-webpack-loaders/index.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="源码  专门介绍 Webpack 那些冷门的 Loader  Webpack 的官方文档上有一个 list-of-loaders之是其中的大部分被使用到的机会非常少, 好心疼这些缺 :heart: 的模块, 所以有这个 repo 专门介绍这些冷门 Loader . demo  json script 等等  raw-loader作用:以 utf-8 编码加载文件的内容 json-loader作用:">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-06T15:03:11.063Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="被遗忘的 Loader">
+<meta name="twitter:description" content="源码  专门介绍 Webpack 那些冷门的 Loader  Webpack 的官方文档上有一个 list-of-loaders之是其中的大部分被使用到的机会非常少, 好心疼这些缺 :heart: 的模块, 所以有这个 repo 专门介绍这些冷门 Loader . demo  json script 等等  raw-loader作用:以 utf-8 编码加载文件的内容 json-loader作用:">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-other-webpack-loaders" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/03/other-webpack-loaders/" class="article-date">
+  <time datetime="2016-05-03T04:00:00.000Z" itemprop="datePublished">2016-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      被遗忘的 Loader
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/introduction-to-statsd" target="_blank" rel="noopener">源码</a></p>
+<blockquote>
+<p>专门介绍 Webpack 那些冷门的 Loader</p>
+</blockquote>
+<p>Webpack 的官方文档上有一个 <a href="http://webpack.github.io/docs/list-of-loaders.html" target="_blank" rel="noopener">list-of-loaders</a><br>之是其中的大部分被使用到的机会非常少, 好心疼这些缺 :heart: 的模块, 所以有这个 repo 专门介绍这些冷门 Loader .</p>
+<p><a href="https://wyvernnot.github.io/other-webpack-loaders" target="_blank" rel="noopener">demo</a></p>
+<ul>
+<li><a href="#json-loader">json</a></li>
+<li><a href="#script-loader">script</a></li>
+<li>等等</li>
+</ul>
+<h1 id="raw-loader"><a href="#raw-loader" class="headerlink" title="raw-loader"></a>raw-loader</h1><p>作用:以 utf-8 编码加载文件的内容</p>
+<h1 id="json-loader"><a href="#json-loader" class="headerlink" title="json-loader"></a>json-loader</h1><p>作用:加载一个JSON文件的内容并返回对象.</p>
+<p>在 Node.JS 环境下可以 require 一个 .json 格式的文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;./config.json&apos;)</span><br></pre></td></tr></table></figure>
+<p>但是在 wepack 打包的时候不可以直接 require 一个 .json 的文件. 这是因为 webpack 会把 .json 文件当成是 .js 文件来解析导致报错.<br>因此正确的做法是使用 json-loader</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;json!./config.json&apos;)</span><br></pre></td></tr></table></figure>
+<h1 id="hson-loader"><a href="#hson-loader" class="headerlink" title="hson-loader"></a>hson-loader</h1><p>作用:加载增强版的JSON (HSON) 并返回对象.</p>
+<p><a href="https://github.com/timjansen/hanson" target="_blank" rel="noopener">HSON</a> 对 JSON 的增强体现在:</p>
+<ul>
+<li>所有的 JSON 字符串都是有效的 HSON 字符串</li>
+<li>HSON 里可以写注释</li>
+<li>HSON 里属性名不一定要有引号</li>
+</ul>
+<h1 id="script-loader"><a href="#script-loader" class="headerlink" title="script-loader"></a>script-loader</h1><p>有的时候不希望 webpack 在打包某些文件的时候进行解析, 而是希望在浏览器中直接运行.<br>一个不常见的例子是某段代码重新定义了 require , 如下:</p>
+<p><strong>browser_require.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.require=function()&#123;</span><br><span class="line">    console.log(arguments);</span><br><span class="line">&#125;</span><br><span class="line">require(2);</span><br></pre></td></tr></table></figure>
+<p>引入该文件的正确方法是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;script!./browser_require.js&apos;)</span><br></pre></td></tr></table></figure>
+<p>这样该文件内容里的 require 就不会被 webpack 解析了, 使用 script-loader 整个文件会被转成字符串打到包里,最终在浏览器里通过 eval 来执行.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/03/other-webpack-loaders/" data-id="cjkig3hk5000jlsiw0p7ygxyb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/04/redux-unit-test/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Redux 如何单元测试
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/21/thressjs-react/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第一次尝试 Three.js</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/演讲/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/06/live-long/">珍惜身体</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/05/migrate-to-hexo/">整理博客</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/04/speech-fed-to-devops/">[演讲] 前端转行 DevOps 经验分享</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/04/speech-fed-devops-practices/">[演讲] 前端 DevOps 实践</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 longtian<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

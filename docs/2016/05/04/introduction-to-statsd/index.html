@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>StatsD 简介 | 龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="源码  介绍 StatsD 的发展，协议，最后附带有一个假想的例子。  自主开发一套监控系统可以从这三个部分分别着手：数据采集，数据存储和数据展示。 对于有代码经验的开发和运维人员，数据采集是很容易解决的问题，例如要统计一个方法的执行时间，只需要记录方法进入和退出的时间差即可。而对于后台架构中常见的各种组件如 Redis 和 MySQL 等，它们往往各自提供了数量可观的指标接口，使得运维人员可以快">
+<meta property="og:type" content="article">
+<meta property="og:title" content="StatsD 简介">
+<meta property="og:url" content="https://longtian.io/2016/05/04/introduction-to-statsd/index.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="源码  介绍 StatsD 的发展，协议，最后附带有一个假想的例子。  自主开发一套监控系统可以从这三个部分分别着手：数据采集，数据存储和数据展示。 对于有代码经验的开发和运维人员，数据采集是很容易解决的问题，例如要统计一个方法的执行时间，只需要记录方法进入和退出的时间差即可。而对于后台架构中常见的各种组件如 Redis 和 MySQL 等，它们往往各自提供了数量可观的指标接口，使得运维人员可以快">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-06T15:01:16.639Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="StatsD 简介">
+<meta name="twitter:description" content="源码  介绍 StatsD 的发展，协议，最后附带有一个假想的例子。  自主开发一套监控系统可以从这三个部分分别着手：数据采集，数据存储和数据展示。 对于有代码经验的开发和运维人员，数据采集是很容易解决的问题，例如要统计一个方法的执行时间，只需要记录方法进入和退出的时间差即可。而对于后台架构中常见的各种组件如 Redis 和 MySQL 等，它们往往各自提供了数量可观的指标接口，使得运维人员可以快">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-introduction-to-statsd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/04/introduction-to-statsd/" class="article-date">
+  <time datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      StatsD 简介
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/introduction-to-statsd" target="_blank" rel="noopener">源码</a></p>
+<blockquote>
+<p>介绍 StatsD 的发展，协议，最后附带有一个假想的例子。</p>
+</blockquote>
+<p>自主开发一套监控系统可以从这三个部分分别着手：数据采集，数据存储和数据展示。</p>
+<p>对于有代码经验的开发和运维人员，数据采集是很容易解决的问题，例如要统计一个方法的执行时间，只需要记录方法进入和退出的时间差即可。<br>而对于后台架构中常见的各种组件如 Redis 和 MySQL 等，它们往往各自提供了数量可观的指标接口，使得运维人员可以快速的获取组件的运行状况。</p>
+<p>数据存储曾经是比价复杂的一块，首先就是数据结构的设计，此外还要考虑快速的检索，统计操作等。<br>好在最近有很多兴起的时序数据库，如 InfluxDB 和 OpenTSDB，它们都对存储时间序列型的数据有很强的适用性。<br>数据展示可以采用开源的方案例如 Grafana 。</p>
+<p><strong>StatsD 的使用场景</strong></p>
+<p>把数据推送到存储模块的过程中，有的时候没有必要把所有采集到的数据都存起来。<br>典型的场景是 Web 服务器，当请求达到每分钟上万条时，把每条请求的响应时间都存入数据库是不现实也没有必要。</p>
+<p>这个时候可以考虑设计一个缓冲模块，来实现数据的累加，平均值，中间值计算等。<br>StatsD 正是这样一个实现数据中转的工具，它能够完成简单但是非常实用的统计步骤。<br>另一方面，由于往 StatsD 写入数据的时候使用的是 UDP 协议，所以对被检测的系统的影响可以控制的很小。</p>
+<h2 id="安装-StatsD-服务"><a href="#安装-StatsD-服务" class="headerlink" title="安装 StatsD 服务"></a>安装 StatsD 服务</h2><p>StatsD 安装指南</p>
+<p><a href="https://github.com/etsy/statsd#installation-and-configuration" target="_blank" rel="noopener">https://github.com/etsy/statsd#installation-and-configuration</a></p>
+<p>装好 StatsD 以后，还需安装 InfluxDB 或者 OpenTSDB，由于篇幅的关系不再展开。</p>
+<p>本文推荐使用 CloudInsight 监控系统，如果已经有 OneAPM 的账号，安装只需要 1 分钟左右。</p>
+<p><a href="http://docs-ci.oneapm.com/quick-start/" target="_blank" rel="noopener">http://docs-ci.oneapm.com/quick-start/</a></p>
+<h1 id="StatsD-协议"><a href="#StatsD-协议" class="headerlink" title="StatsD 协议"></a>StatsD 协议</h1><p>StatsD 的协议其实非常简单，每一行就是一条数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;metric_name&gt;:&lt;metric_value&gt;|&lt;metric_type&gt;</span><br></pre></td></tr></table></figure>
+<p>以监控系统负载为例，假如某一时刻系统 <code>1分钟的负载</code> 是 0.5，通过以下命令就可以写入 StatsD。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"system.load.1:0.5|g"</span> | nc 127.0.0.1 8251</span><br></pre></td></tr></table></figure>
+<p>结合其中的 <code>system.load.1:0.5|g</code>，各个部分分别为：</p>
+<ul>
+<li>指标名称 metric_name  = system.load.1</li>
+<li>指标的值 metric_value = 0.5</li>
+<li>指标类型 metric_type  = g(gauge)</li>
+</ul>
+<p><strong>指标名称</strong></p>
+<p>指标命名没有特别的限制，但是一般的约定是使用点号分割的命名空间。</p>
+<p><strong>指标的值</strong></p>
+<p>指标的值是大于等于 0 的浮点数。</p>
+<p><strong>指标类型</strong></p>
+<ul>
+<li><a href="gauge-标量">gauge</a></li>
+<li><a href="#counter-计数器">counter</a></li>
+<li><a href="#ms-时间">ms</a></li>
+<li><a href="#set-集合">set</a></li>
+</ul>
+<p>StatsD 封装了一些最常用的操作，例如周期内指标值的累加、统计执行时间等，因此对指标的值分成以下几种：</p>
+<h4 id="gauge-标量"><a href="#gauge-标量" class="headerlink" title="gauge 标量"></a>gauge 标量</h4><p>标量是任何可以测量的一维变量。例如人的身高，体重、某一时刻北京市 PM2.5 的值等。</p>
+<h4 id="counter-计数器"><a href="#counter-计数器" class="headerlink" title="counter 计数器"></a>counter 计数器</h4><p>如果某个变量没有办法一下子测量出来，这时就可以使用计数器，分步累加。</p>
+<p>例如要统计某个接口的流量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ent0.traffic:100|c</span><br></pre></td></tr></table></figure>
+<p>在每个周期里 StatsD 会自动累加流量的值，并把平均值传给后端。</p>
+<h4 id="ms-时间"><a href="#ms-时间" class="headerlink" title="ms 时间"></a>ms 时间</h4><p>记录执行时间。请求响应时间是 12 ms，写入到 StatsD 服务器的方法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;request.time:12|ms&quot; | nc 127.0.0.1 8251</span><br></pre></td></tr></table></figure>
+<p>StatsD 会自动计算以下指标：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">request.time.avg</span><br><span class="line">request.time.count</span><br><span class="line">request.time.max</span><br><span class="line">request.time.mean</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h4 id="set-集合"><a href="#set-集合" class="headerlink" title="set 集合"></a>set 集合</h4><p>统计变量不重复的个数。例如：当前在线的用户</p>
+<p>‘echo “online.user:9587|s” | nc 127.0.0.1 8251’</p>
+<p>‘echo “online.user:9588|s” | nc 127.0.0.1 8251’</p>
+<h1 id="StatsD-实例"><a href="#StatsD-实例" class="headerlink" title="StatsD 实例"></a>StatsD 实例</h1><p>以做一个完美的煎饼果子的过程为例，参数和类型的对应关系如下：</p>
+<p><strong>计数器</strong></p>
+<ul>
+<li>鸡蛋</li>
+<li>薄脆</li>
+<li>面粉</li>
+</ul>
+<p><strong>标量</strong></p>
+<ul>
+<li>油温</li>
+<li>辣度</li>
+</ul>
+<p><strong>集合</strong></p>
+<ul>
+<li>口味</li>
+</ul>
+<p><strong>计时器</strong></p>
+<ul>
+<li>做每一个煎饼果子的时间</li>
+</ul>
+<h2 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:wyvernnot/introduction-to-statsd.git</span><br><span class="line">cd introduction-to-statsd</span><br><span class="line">npm install</span><br><span class="line">npm run-script pipe</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a href="https://github.com/etsy/statsd/blob/v0.7.2/docs/metric_types.md" target="_blank" rel="noopener">https://github.com/etsy/statsd/blob/v0.7.2/docs/metric_types.md</a></p>
+</li>
+<li><p><a href="https://github.com/etsy/statsd/wiki#client-implementations" target="_blank" rel="noopener">https://github.com/etsy/statsd/wiki#client-implementations</a></p>
+</li>
+<li><p><a href="http://docs.datadoghq.com/guides/dogstatsd/#datagram-format" target="_blank" rel="noopener">http://docs.datadoghq.com/guides/dogstatsd/#datagram-format</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/04/introduction-to-statsd/" data-id="cjkig3hjo0007lsiw1pyalnw1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/12/gpg-howto/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          怎样为你的 Commit 加上 GPG 的签名
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/04/redux-unit-test/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redux 如何单元测试</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/演讲/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/06/live-long/">珍惜身体</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/05/migrate-to-hexo/">整理博客</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/04/speech-fed-to-devops/">[演讲] 前端转行 DevOps 经验分享</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/04/speech-fed-devops-practices/">[演讲] 前端 DevOps 实践</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 longtian<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

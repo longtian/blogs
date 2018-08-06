@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://longtian.io/page/2/index.html">
 <meta property="og:site_name" content="龙天的博客">
 <meta property="og:description" content="博客">
-<meta property="og:locale" content="zh-cn">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="龙天的博客">
 <meta name="twitter:description" content="博客">
@@ -54,7 +54,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://longtian.io"></form>
@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-using-v8-debug-protocol" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-gpg-howto" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/06/27/using-v8-debug-protocol/" class="article-date">
-  <time datetime="2015-06-27T05:00:00.000Z" itemprop="datePublished">2015-06-27</time>
+    <a href="/2016/05/12/gpg-howto/" class="article-date">
+  <time datetime="2016-05-12T04:00:00.000Z" itemprop="datePublished">2016-05-12</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/27/using-v8-debug-protocol/">使用 v8 的 debug 协议搞事情</a>
+      <a class="article-title" href="/2016/05/12/gpg-howto/">怎样为你的 Commit 加上 GPG 的签名</a>
     </h1>
   
 
@@ -87,188 +87,674 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://github.com/longtian/interference_demo" target="_blank" rel="noopener">源码</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/06/27/using-v8-debug-protocol/" data-id="cjkh0omem000baoiwbhhucls6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-visual-callback-demo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/06/08/visual-callback-demo/" class="article-date">
-  <time datetime="2015-06-08T05:00:00.000Z" itemprop="datePublished">2015-06-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/08/visual-callback-demo/">可视化的 Callback</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/visual-callback-demo" target="_blank" rel="noopener">源码</a></p>
-<p>通过使用 <code>async-listener</code> 把 <code>Node.js</code> 中的异步回调可视化。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/06/08/visual-callback-demo/" data-id="cjkh0omeo000daoiwat074foj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-phpunit-yo-integration" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/18/phpunit-yo-integration/" class="article-date">
-  <time datetime="2014-08-18T04:00:00.000Z" itemprop="datePublished">2014-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/18/phpunit-yo-integration/">在 PHP 的集成测试中使用 YO 的通知服务</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/phpyonit" target="_blank" rel="noopener">源码</a></p>
-<p>PHPUnit</p>
+        <p><a href="https://github.com/longtian/gpg-howtot" target="_blank" rel="noopener">源码</a></p>
 <blockquote>
-<p>PHPUnit is a programmer-oriented testing framework for PHP. PHPUnit</p>
+<p>开源赋予了每个人贡献代码的权利，要提高开源软件整体的安全性需要从一个个提交开始。<br>为 Commit 带上 GPG 的签名就是一个很好的开始，它能够在一定程度上保证安全性。<br>GPG 是一个非常出色的加密软件。当年斯诺登就是用 GPG 把大量的绝密文件发送给了记者。<br>本文以 Ubuntu 为例，介绍怎样为你的 Commit 加上 GPG 的签名。</p>
 </blockquote>
-<p>Apache Ant</p>
-<blockquote>
-<p>Apache Ant is a Java library and command-line tool whose mission is to drive processes described in build files as targets and extension points dependent upon each other. Apache Ant</p>
-</blockquote>
-<p>YO</p>
-<blockquote>
-<p>It’s that simple. yo</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2014/08/18/phpunit-yo-integration/" data-id="cjkh0omeg0007aoiwgvaicw81" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-nodejs-qemu-demo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/08/nodejs-qemu-demo/" class="article-date">
-  <time datetime="2014-08-08T04:00:00.000Z" itemprop="datePublished">2014-08-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/08/nodejs-qemu-demo/">使用 Node.js 开发一个 QEMU 的网页版入口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/noemu" target="_blank" rel="noopener">源码</a></p>
-<p>NOEMU (Node &lt;3 QEMU)</p>
-<p><strong>Why this project</strong></p>
-<p>I’m a front-end developer and I’m learning Node<br>I’m also learning QEMU, which works as a hypersior<br>I want to build a light weighted VM host using these two technology</p>
-<p><strong>Why QEMU</strong></p>
-<p>QEMU is the simplest hypervisor I can thinkof, it is easy to install on Ubuntu<br>It has great performance on virtual machines, compared to other hypervisors.<br>QEMU has great VDI to access virtual machines via SPICE and VNC<br>SPICE is friendly to HTML5</p>
-<p><strong>Project Goals</strong></p>
-<p>VM Host<br>RESTFul Management API</p>
-<p><strong>What API will be provided</strong></p>
-<p>Create Image<br>Delete Image<br>Create VM<br>Delete VM<br>Power On VM<br>Power Off VM<br>Configure VM<br>Take Snapshot<br>Restore Snapshot</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2014/08/08/nodejs-qemu-demo/" data-id="cjkh0omef0006aoiwknsfu9fz" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-h5ml-vdi" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/07/02/h5ml-vdi/" class="article-date">
-  <time datetime="2014-07-02T15:22:19.000Z" itemprop="datePublished">2014-07-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/02/h5ml-vdi/">基于 HTML5 的远程桌面技术</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/html5-vdi" target="_blank" rel="noopener">源码</a></p>
-<p>主要有这三种</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>注意只有 <code>git</code> 2.0 及以后的版本才支持 <code>GPG</code> 签名。</p>
+<p><strong>查看 git 版本：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~$ git --version</span><br><span class="line">git version 2.8.2</span><br></pre></td></tr></table></figure>
+<p><strong>确保 <code>git</code> 是 <code>2.x</code> 版本</strong> 如果需要可以执行下面的命令升级:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:git-core/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<p><strong>查看 GPG 是否安装</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ gpg --version</span><br><span class="line">gpg (GnuPG) 1.4.16</span><br><span class="line">Copyright (C) 2013 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.</span><br></pre></td></tr></table></figure>
+<p>系统里一般都已经装上了 <code>GPG</code>，如果没有可以 <strong>手动安装 GnuPG</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnupg</span><br></pre></td></tr></table></figure>
+<p>确保 <code>git</code> 和 <code>GNU</code> 都安装成功就可以开始下一步了。</p>
+<h2 id="生成-GPG-Key"><a href="#生成-GPG-Key" class="headerlink" title="生成 GPG Key"></a>生成 GPG Key</h2><p>命令行输入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --gen-key</span><br></pre></td></tr></table></figure>
+<p>生成过程中需要输入一些信息：</p>
 <ul>
-<li>NoVNC</li>
-<li>wssh</li>
-<li>SPICE</li>
+<li>加密算法 推荐选择 <code>RSA</code></li>
+<li>密匙长度 推荐选择 <code>4096</code></li>
+<li>过期时间 推荐选择 <code>1y</code> 也就是一年</li>
+<li>名字 可以随便填</li>
+<li>邮箱 需要是 Github 认证过的邮箱</li>
+<li>注释 可以随便填</li>
+</ul>
+<p>最后需要输入一个密码，类似于保护 <code>SSH</code> 证书的密码，可以留空，不过最好是填上。</p>
+<p>接下来是漫长的生成过程，在等待的过程里可以多移动鼠标，多打开几个网页，以此来增加机器的随机性。</p>
+<h2 id="查看-GPG-Key-ID"><a href="#查看-GPG-Key-ID" class="headerlink" title="查看 GPG Key ID"></a>查看 GPG Key ID</h2><p><code>GPG Key ID</code> 是一个8位的字符串，对应着一个 <code>GPG Key</code></p>
+<p>在命令行里查看 <code>GPG Key</code> 列表：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ gpg --list-keys</span><br><span class="line">/home/***/.gnupg/pubring.gpg</span><br><span class="line">----------------------------</span><br><span class="line">pub   4096R/6******7 2016-05-11 [expires: 2017-05-11]</span><br><span class="line">uid                  Wang Yan &lt;wyvernnot@gmail.com&gt;</span><br><span class="line">sub   4096R/B******E 2016-05-11 [expires: 2017-05-11]</span><br></pre></td></tr></table></figure>
+<p>输出结果里的 6<strong>**</strong>7 就是这个 <code>GPG Key ID</code></p>
+<h2 id="导出-GPG-公匙"><a href="#导出-GPG-公匙" class="headerlink" title="导出 GPG 公匙"></a>导出 GPG 公匙</h2><p>执行命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --armor --<span class="built_in">export</span> 6******7</span><br></pre></td></tr></table></figure>
+<p>会在命令行看到公匙的文本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PGP PUBLIC KEY BLOCK-----</span><br><span class="line">Version: GnuPG v1</span><br><span class="line"></span><br><span class="line">mQINBFczB1kBEAC3afc50p08I7knynnm4ea/8VZy42zGH/qrIWoInqT8HbgwLb9s</span><br><span class="line">TrulTgLMbMTTOhl4zqFtTR52ZTwfLOtnV8tCM62ZNqO6z0nd0bFPA7HVp5t9z4a5</span><br><span class="line">qBF3l3AZO5TFjn8gTsxatpVf5Ug9gmkEOCAejwSPFKNvfAun+WSLZ19LaFcorrj1</span><br><span class="line">                          ...</span><br><span class="line">cOyj7VNdmx1//BMp/5A6SEqJFkkLxebaJpcrv1dm1HvKGU8vty3JAdWgOjY5VVmn</span><br><span class="line">nUaAr8D0uNquASkap4dki/zscK+tEJiH6HLnQGGtIf+fR2zoHAUfBvtTuUhq8w/Q</span><br><span class="line">F0R/UVgc4Sg+Vz4gyYNJKO8BdTTTfvOZMDNFw4x70vXfhCZDm4QxgfUwRs//kkIh</span><br><span class="line">Z3QylTf5xSk4</span><br><span class="line">=kuFS</span><br><span class="line">-----END PGP PUBLIC KEY BLOCK-----</span><br></pre></td></tr></table></figure>
+<p>拷贝这一大段到剪贴板，然后登录 <code>Github</code> 添加这个公匙，添加的入口在 <code>Settings</code> 下的 <code>SSH and GPG Keys</code> 里面。</p>
+<h2 id="配置-Git-启用-GPG-签名"><a href="#配置-Git-启用-GPG-签名" class="headerlink" title="配置 Git 启用 GPG 签名"></a>配置 Git 启用 GPG 签名</h2><p>首先设置 <code>Git</code> 默认使用的 <code>GPG Key ID</code>，就是上面那个 8 位的字符串。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.signingkey 6******7</span><br></pre></td></tr></table></figure>
+<p>提交的时候加上一个 <code>-s</code> 参数就可以为提交签名：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -S -m your commit message</span><br></pre></td></tr></table></figure>
+<p>要想以后如果每次提交都默认都开启 <code>GPG</code> 签名，尤其是使用 IDE 的情况下，需要修改 <code>git</code> 的一个全局设置项：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global commit.gpgsign <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>执行 <code>git push</code> 后登录到 <code>Github</code>， 看看提交历史的右边是不是多了一个 <code>Verified</code> 图标。</p>
+<p>如果看到下面的结果，那么恭喜你已经为整个开源世界的安全迈出了一小步！</p>
+<p><img src="./history.png" alt="提交历史"></p>
+<h2 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h2><p>如果在 Github 上把 <code>GPG Public Key</code> 移除, 那么之前的 <code>Verified</code> 提交会变成 <code>Unverified</code>。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/07/gpg.html</a></li>
+<li><a href="https://www.gnupg.org/howtos/zh/index.html" target="_blank" rel="noopener">https://www.gnupg.org/howtos/zh/index.html</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2014-11/109972.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2014-11/109972.htm</a></li>
+<li><a href="https://help.github.com/articles/generating-a-new-gpg-key/" target="_blank" rel="noopener">https://help.github.com/articles/generating-a-new-gpg-key/</a></li>
+<li><a href="https://help.github.com/articles/adding-a-new-gpg-key-to-your-github-account/" target="_blank" rel="noopener">https://help.github.com/articles/adding-a-new-gpg-key-to-your-github-account/</a></li>
+<li><a href="https://help.github.com/articles/telling-git-about-your-gpg-key/" target="_blank" rel="noopener">https://help.github.com/articles/telling-git-about-your-gpg-key/</a></li>
+<li><a href="https://help.github.com/articles/signing-commits-using-gpg/" target="_blank" rel="noopener">https://help.github.com/articles/signing-commits-using-gpg/</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2014/07/02/h5ml-vdi/" data-id="cjkh0ome70001aoiwaphszawc" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/05/12/gpg-howto/" data-id="cjkig3hjg0003lsiwigzl7du9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-introduction-to-statsd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/04/introduction-to-statsd/" class="article-date">
+  <time datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/04/introduction-to-statsd/">StatsD 简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/introduction-to-statsd" target="_blank" rel="noopener">源码</a></p>
+<blockquote>
+<p>介绍 StatsD 的发展，协议，最后附带有一个假想的例子。</p>
+</blockquote>
+<p>自主开发一套监控系统可以从这三个部分分别着手：数据采集，数据存储和数据展示。</p>
+<p>对于有代码经验的开发和运维人员，数据采集是很容易解决的问题，例如要统计一个方法的执行时间，只需要记录方法进入和退出的时间差即可。<br>而对于后台架构中常见的各种组件如 Redis 和 MySQL 等，它们往往各自提供了数量可观的指标接口，使得运维人员可以快速的获取组件的运行状况。</p>
+<p>数据存储曾经是比价复杂的一块，首先就是数据结构的设计，此外还要考虑快速的检索，统计操作等。<br>好在最近有很多兴起的时序数据库，如 InfluxDB 和 OpenTSDB，它们都对存储时间序列型的数据有很强的适用性。<br>数据展示可以采用开源的方案例如 Grafana 。</p>
+<p><strong>StatsD 的使用场景</strong></p>
+<p>把数据推送到存储模块的过程中，有的时候没有必要把所有采集到的数据都存起来。<br>典型的场景是 Web 服务器，当请求达到每分钟上万条时，把每条请求的响应时间都存入数据库是不现实也没有必要。</p>
+<p>这个时候可以考虑设计一个缓冲模块，来实现数据的累加，平均值，中间值计算等。<br>StatsD 正是这样一个实现数据中转的工具，它能够完成简单但是非常实用的统计步骤。<br>另一方面，由于往 StatsD 写入数据的时候使用的是 UDP 协议，所以对被检测的系统的影响可以控制的很小。</p>
+<h2 id="安装-StatsD-服务"><a href="#安装-StatsD-服务" class="headerlink" title="安装 StatsD 服务"></a>安装 StatsD 服务</h2><p>StatsD 安装指南</p>
+<p><a href="https://github.com/etsy/statsd#installation-and-configuration" target="_blank" rel="noopener">https://github.com/etsy/statsd#installation-and-configuration</a></p>
+<p>装好 StatsD 以后，还需安装 InfluxDB 或者 OpenTSDB，由于篇幅的关系不再展开。</p>
+<p>本文推荐使用 CloudInsight 监控系统，如果已经有 OneAPM 的账号，安装只需要 1 分钟左右。</p>
+<p><a href="http://docs-ci.oneapm.com/quick-start/" target="_blank" rel="noopener">http://docs-ci.oneapm.com/quick-start/</a></p>
+<h1 id="StatsD-协议"><a href="#StatsD-协议" class="headerlink" title="StatsD 协议"></a>StatsD 协议</h1><p>StatsD 的协议其实非常简单，每一行就是一条数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;metric_name&gt;:&lt;metric_value&gt;|&lt;metric_type&gt;</span><br></pre></td></tr></table></figure>
+<p>以监控系统负载为例，假如某一时刻系统 <code>1分钟的负载</code> 是 0.5，通过以下命令就可以写入 StatsD。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"system.load.1:0.5|g"</span> | nc 127.0.0.1 8251</span><br></pre></td></tr></table></figure>
+<p>结合其中的 <code>system.load.1:0.5|g</code>，各个部分分别为：</p>
+<ul>
+<li>指标名称 metric_name  = system.load.1</li>
+<li>指标的值 metric_value = 0.5</li>
+<li>指标类型 metric_type  = g(gauge)</li>
+</ul>
+<p><strong>指标名称</strong></p>
+<p>指标命名没有特别的限制，但是一般的约定是使用点号分割的命名空间。</p>
+<p><strong>指标的值</strong></p>
+<p>指标的值是大于等于 0 的浮点数。</p>
+<p><strong>指标类型</strong></p>
+<ul>
+<li><a href="gauge-标量">gauge</a></li>
+<li><a href="#counter-计数器">counter</a></li>
+<li><a href="#ms-时间">ms</a></li>
+<li><a href="#set-集合">set</a></li>
+</ul>
+<p>StatsD 封装了一些最常用的操作，例如周期内指标值的累加、统计执行时间等，因此对指标的值分成以下几种：</p>
+<h4 id="gauge-标量"><a href="#gauge-标量" class="headerlink" title="gauge 标量"></a>gauge 标量</h4><p>标量是任何可以测量的一维变量。例如人的身高，体重、某一时刻北京市 PM2.5 的值等。</p>
+<h4 id="counter-计数器"><a href="#counter-计数器" class="headerlink" title="counter 计数器"></a>counter 计数器</h4><p>如果某个变量没有办法一下子测量出来，这时就可以使用计数器，分步累加。</p>
+<p>例如要统计某个接口的流量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ent0.traffic:100|c</span><br></pre></td></tr></table></figure>
+<p>在每个周期里 StatsD 会自动累加流量的值，并把平均值传给后端。</p>
+<h4 id="ms-时间"><a href="#ms-时间" class="headerlink" title="ms 时间"></a>ms 时间</h4><p>记录执行时间。请求响应时间是 12 ms，写入到 StatsD 服务器的方法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;request.time:12|ms&quot; | nc 127.0.0.1 8251</span><br></pre></td></tr></table></figure>
+<p>StatsD 会自动计算以下指标：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">request.time.avg</span><br><span class="line">request.time.count</span><br><span class="line">request.time.max</span><br><span class="line">request.time.mean</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h4 id="set-集合"><a href="#set-集合" class="headerlink" title="set 集合"></a>set 集合</h4><p>统计变量不重复的个数。例如：当前在线的用户</p>
+<p>‘echo “online.user:9587|s” | nc 127.0.0.1 8251’</p>
+<p>‘echo “online.user:9588|s” | nc 127.0.0.1 8251’</p>
+<h1 id="StatsD-实例"><a href="#StatsD-实例" class="headerlink" title="StatsD 实例"></a>StatsD 实例</h1><p>以做一个完美的煎饼果子的过程为例，参数和类型的对应关系如下：</p>
+<p><strong>计数器</strong></p>
+<ul>
+<li>鸡蛋</li>
+<li>薄脆</li>
+<li>面粉</li>
+</ul>
+<p><strong>标量</strong></p>
+<ul>
+<li>油温</li>
+<li>辣度</li>
+</ul>
+<p><strong>集合</strong></p>
+<ul>
+<li>口味</li>
+</ul>
+<p><strong>计时器</strong></p>
+<ul>
+<li>做每一个煎饼果子的时间</li>
+</ul>
+<h2 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:wyvernnot/introduction-to-statsd.git</span><br><span class="line">cd introduction-to-statsd</span><br><span class="line">npm install</span><br><span class="line">npm run-script pipe</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a href="https://github.com/etsy/statsd/blob/v0.7.2/docs/metric_types.md" target="_blank" rel="noopener">https://github.com/etsy/statsd/blob/v0.7.2/docs/metric_types.md</a></p>
+</li>
+<li><p><a href="https://github.com/etsy/statsd/wiki#client-implementations" target="_blank" rel="noopener">https://github.com/etsy/statsd/wiki#client-implementations</a></p>
+</li>
+<li><p><a href="http://docs.datadoghq.com/guides/dogstatsd/#datagram-format" target="_blank" rel="noopener">http://docs.datadoghq.com/guides/dogstatsd/#datagram-format</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/04/introduction-to-statsd/" data-id="cjkig3hjo0007lsiw1pyalnw1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redux-unit-test" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/04/redux-unit-test/" class="article-date">
+  <time datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/04/redux-unit-test/">Redux 如何单元测试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/redux-unit-test-example" target="_blank" rel="noopener">源码</a></p>
+<p>redux 里有一些好玩的东西，如果与 React 一起学习各种环境搭起来速度比较慢，也比较麻烦。如果使用单元测试来学习，<br>并且阅读源代码，可以更快地搞懂。</p>
+<h2 id="TOP-Level"><a href="#TOP-Level" class="headerlink" title="TOP Level"></a>TOP Level</h2><blockquote>
+<p>Redux 顶层的 API 允许你创建 Store, 合并 Reducer，并通过 storeEnhancer 来引入中间件进行扩展。</p>
+</blockquote>
+<ul>
+<li>createStore(reducer, [initialState], [enhancer])</li>
+<li>combineReducers(reducers)</li>
+<li>applyMiddleware(…middlewares)</li>
+<li>bindActionCreators(actionCreators, dispatch)</li>
+<li>compose(…functions)</li>
+</ul>
+<h2 id="Store-API"><a href="#Store-API" class="headerlink" title="Store API"></a>Store API</h2><blockquote>
+<p>Store 创建后有这些方法可供调用</p>
+</blockquote>
+<ul>
+<li>dispatch</li>
+<li>subscribe</li>
+<li>getState</li>
+</ul>
+<h2 id="Redux-常用插件"><a href="#Redux-常用插件" class="headerlink" title="Redux 常用插件"></a>Redux 常用插件</h2><h3 id="redux-actions"><a href="#redux-actions" class="headerlink" title="redux-actions"></a>redux-actions</h3><blockquote>
+<p>简化 Action 的创建，使其符合 FSA 标准</p>
+</blockquote>
+<ul>
+<li>createAction(type, payloadCreator, metaCreator)</li>
+<li>handleAction(type, reducer | reducerMap)</li>
+<li>handleActions(reducerMap, defaultState)</li>
+</ul>
+<h3 id="redux-promise"><a href="#redux-promise" class="headerlink" title="redux-promise"></a>redux-promise</h3><blockquote>
+<p>使用 Promise 作为 Action 的 payload，以此减少不必要的代码</p>
+</blockquote>
+<h2 id="redux-thunk"><a href="#redux-thunk" class="headerlink" title="redux-thunk"></a>redux-thunk</h2><blockquote>
+<p>使用 Funtion 作为 Action， 从而延迟执行</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/04/redux-unit-test/" data-id="cjkig3hkf000qlsiwltfuzwts" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-other-webpack-loaders" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/03/other-webpack-loaders/" class="article-date">
+  <time datetime="2016-05-03T04:00:00.000Z" itemprop="datePublished">2016-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/03/other-webpack-loaders/">被遗忘的 Loader</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/introduction-to-statsd" target="_blank" rel="noopener">源码</a></p>
+<blockquote>
+<p>专门介绍 Webpack 那些冷门的 Loader</p>
+</blockquote>
+<p>Webpack 的官方文档上有一个 <a href="http://webpack.github.io/docs/list-of-loaders.html" target="_blank" rel="noopener">list-of-loaders</a><br>之是其中的大部分被使用到的机会非常少, 好心疼这些缺 :heart: 的模块, 所以有这个 repo 专门介绍这些冷门 Loader .</p>
+<p><a href="https://wyvernnot.github.io/other-webpack-loaders" target="_blank" rel="noopener">demo</a></p>
+<ul>
+<li><a href="#json-loader">json</a></li>
+<li><a href="#script-loader">script</a></li>
+<li>等等</li>
+</ul>
+<h1 id="raw-loader"><a href="#raw-loader" class="headerlink" title="raw-loader"></a>raw-loader</h1><p>作用:以 utf-8 编码加载文件的内容</p>
+<h1 id="json-loader"><a href="#json-loader" class="headerlink" title="json-loader"></a>json-loader</h1><p>作用:加载一个JSON文件的内容并返回对象.</p>
+<p>在 Node.JS 环境下可以 require 一个 .json 格式的文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;./config.json&apos;)</span><br></pre></td></tr></table></figure>
+<p>但是在 wepack 打包的时候不可以直接 require 一个 .json 的文件. 这是因为 webpack 会把 .json 文件当成是 .js 文件来解析导致报错.<br>因此正确的做法是使用 json-loader</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;json!./config.json&apos;)</span><br></pre></td></tr></table></figure>
+<h1 id="hson-loader"><a href="#hson-loader" class="headerlink" title="hson-loader"></a>hson-loader</h1><p>作用:加载增强版的JSON (HSON) 并返回对象.</p>
+<p><a href="https://github.com/timjansen/hanson" target="_blank" rel="noopener">HSON</a> 对 JSON 的增强体现在:</p>
+<ul>
+<li>所有的 JSON 字符串都是有效的 HSON 字符串</li>
+<li>HSON 里可以写注释</li>
+<li>HSON 里属性名不一定要有引号</li>
+</ul>
+<h1 id="script-loader"><a href="#script-loader" class="headerlink" title="script-loader"></a>script-loader</h1><p>有的时候不希望 webpack 在打包某些文件的时候进行解析, 而是希望在浏览器中直接运行.<br>一个不常见的例子是某段代码重新定义了 require , 如下:</p>
+<p><strong>browser_require.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.require=function()&#123;</span><br><span class="line">    console.log(arguments);</span><br><span class="line">&#125;</span><br><span class="line">require(2);</span><br></pre></td></tr></table></figure>
+<p>引入该文件的正确方法是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;script!./browser_require.js&apos;)</span><br></pre></td></tr></table></figure>
+<p>这样该文件内容里的 require 就不会被 webpack 解析了, 使用 script-loader 整个文件会被转成字符串打到包里,最终在浏览器里通过 eval 来执行.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/03/other-webpack-loaders/" data-id="cjkig3hk5000jlsiw0p7ygxyb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-thressjs-react" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/21/thressjs-react/" class="article-date">
+  <time datetime="2016-04-21T04:00:00.000Z" itemprop="datePublished">2016-04-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/21/thressjs-react/">第一次尝试 Three.js</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/react-three-example" target="_blank" rel="noopener">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/04/21/thressjs-react/" data-id="cjkig3hkw0010lsiwke3r1ywk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-speech-improve-fed-speed" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/28/speech-improve-fed-speed/" class="article-date">
+  <time datetime="2016-03-28T04:00:00.000Z" itemprop="datePublished">2016-03-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/演讲/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/28/speech-improve-fed-speed/">[演讲] Node.JS 项目中的性能监控的原理和 Docker 的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/node-party-10" target="_blank" rel="noopener">PPT</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/03/28/speech-improve-fed-speed/" data-id="cjkig3hkq000wlsiwqowoh8x9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-speech-rum-basedon-wilddog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/20/speech-rum-basedon-wilddog/" class="article-date">
+  <time datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/演讲/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/20/speech-rum-basedon-wilddog/">[演讲] 实时用户体验收集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.slideshare.net/wyvernnot/ss-63231573" target="_blank" rel="noopener">PPT</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/01/20/speech-rum-basedon-wilddog/" data-id="cjkig3hkt000ylsiwfxzc1qz6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-isomorphic-fetch-example " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/20/isomorphic-fetch-example /" class="article-date">
+  <time datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/20/isomorphic-fetch-example /">使用 Fetch API 实现前后端共用同一个 SDK</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/isomorphic-fetch-example" target="_blank" rel="noopener">源码</a></p>
+<p>架构设计实践: 使用 Fetch API 实现前后端共用同一个 SDK.</p>
+<p>做过一段时间的 Web 开发以后,就会有这样的感觉,前后端分离几乎和吃饭睡觉一样平常. 前端专注浏览器的一切,<br>通过 API 和后端通信,而后端工程师专注于系统的执行效率,可扩展性等问题.</p>
+<p>很多优秀的网站特别是有一部分面向开发者的网站都会提供 API 的 SDK.</p>
+<ul>
+<li>封装底层发起请求的方法</li>
+<li>异步请求成功和出错的处理</li>
+</ul>
+<ol>
+<li>封装</li>
+</ol>
+<p>浏览器端发送 AJAX 请求底层一般采用 XMLHttpRequest 来实现, 实际工作中常使用具体的封装良好的类库,<br>例如 jQuery, superagent 等. 而后端 Node.js 经常用的是基于 Stream 的解决方案, 由于 API 是很常见的<br>工作,所以已经封装到了 Node.JS 的核心模块 http 里, 此外比较常用的第三方的类库有 request.</p>
+<p>如果前后端公用一个 SDK, 那么必然要在上层引入一定的设计模式,来封装底层具体实现:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isBrowser)&#123;</span><br><span class="line">    <span class="keyword">return</span> facade(<span class="keyword">new</span> XMLHttpRequest(...))</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> facade(http.request(...))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在浏览器端发起 AJAX 请求现在有了一套新的API, 那就是 Fetch. 与基于 XMLHttpRequest 的方法相比,它有几个显著地优势.</p>
+<ul>
+<li>更安全</li>
+</ul>
+<p>虽然 Fetch 目前只在 Chrome 等比较新的浏览器上可以使用. 不过别担心, 已经有好几个垫片可以解决兼容性的问题.</p>
+<ol start="2">
+<li>异步</li>
+</ol>
+<p>不管是在客户端还是在服务器端,对请求的处理都是异步的,这是由 JavaScript 本身的特性决定的.在很长的一段时间里<br>回调函数一直都是处理异步问题首选的方案,但是在经过了这么多年的折磨之后,人们终于想到了一个非常优秀的替代方案 - Promise.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> api=<span class="built_in">require</span>(<span class="string">'my-awesome-api'</span>);</span><br><span class="line">api.repos(<span class="string">'github'</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 成功</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 失败</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>如果在客户端和在服务器端能够采用一致的方案,这无疑会大大提高 JavaScript 代码的质量和开发效率.</p>
+<p>公用 SDK 有很多好处:</p>
+<ul>
+<li>浏览器端专注于路由,页面的设计,把请求的封装处理交给 SDK</li>
+<li>后端的开发者可以使用 SDK</li>
+</ul>
+<p>所以是时候尝试和采用 Fetch API 了.</p>
+<h3 id="关于-Fetch-API-简单的介绍"><a href="#关于-Fetch-API-简单的介绍" class="headerlink" title="关于 Fetch API 简单的介绍"></a>关于 Fetch API 简单的介绍</h3><p><a href="http://github.github.io/fetch/" target="_blank" rel="noopener">http://github.github.io/fetch/</a></p>
+<h3 id="实现该模式的-SDK"><a href="#实现该模式的-SDK" class="headerlink" title="实现该模式的 SDK"></a>实现该模式的 SDK</h3><p><a href="https://github.com/ringcentral/ringcentral-js" target="_blank" rel="noopener">https://github.com/ringcentral/ringcentral-js</a></p>
+<h3 id="关键模块"><a href="#关键模块" class="headerlink" title="关键模块"></a>关键模块</h3><p><a href="https://github.com/matthew-andrews/isomorphic-fetch" target="_blank" rel="noopener">https://github.com/matthew-andrews/isomorphic-fetch</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/01/20/isomorphic-fetch-example /" data-id="cjkig3hjp0009lsiw9sn4pie6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-react-component-example" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/20/react-component-example/" class="article-date">
+  <time datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/20/react-component-example/">如何使用 ES6 编写一个 React 模块, 并且编译后发布到 NPM.</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/react-component-example" target="_blank" rel="noopener">源码</a></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#源代码">源代码</a></li>
+<li><a href="#编译">编译</a><ul>
+<li><a href="#babel">Babel</a></li>
+<li><a href="#命令详解">命令详解</a></li>
+<li><a href="#babelrc文件">.babelrc文件</a></li>
+</ul>
+</li>
+<li><a href="#样例代码">样例代码</a></li>
+<li><a href="#发布">发布</a></li>
+<li><a href="#使用">使用</a><ul>
+<li><a href="#使用源码">使用源码</a></li>
+<li><a href="#样式">样式</a></li>
+</ul>
+</li>
+<li><a href="#关于">关于</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前端开发果真是发展迅猛，刚享受到由模块化，组件化和单元测试带来的种种好处，又得迅速拥抱 Grunt, Gulp, Browserify， Webpack 这类自动化工具的变革。<br>除了工具和生态圈，JavaScript 本身也在飞速发展着。ES2015(ES6) ，ES2016(ES7) … 照这样的节奏，几乎是一年一个标准。标准多了，为解决兼容性的问题，<br>竟也派生出了 <code>源代码</code> 和 <code>编译</code> 的概念。前端开发者通过语法糖、转化器、Polyfill 等，可以享受到标准乃至尚未定稿草案里的规范的便利，大幅提升开发效率。</p>
+<p>如果你在使用 React， 那么肯定已经撸了好多自己的组件， 并尝试着共享出来。在 OneAPM 前端开发过程中， 我们也曾遇到了一些组件共享的问题：</p>
+<p>例如:</p>
+<ul>
+<li>是通过 git 直接发布还是通过 NPM 发布 ？</li>
+<li>发布的是 ES5 的代码还是 ES6 的代码 ？</li>
+<li>如何解决 Babel5 和 Babel6 的冲突 ？</li>
+</ul>
+<p>这篇文章会通过编写一个叫做 MyComponet 的组件来演示发布一个 React 组件需要注意的地方, 并不涉及单元测试和代码规范等。<br>至于这个模块本身,它的功能特别简单, 就是显示模块自身的的属性。</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>我们来编写 <code>MyComponent</code> 组件，放到项目的 <code>src</code> 目录下。</p>
+<p><strong>src/MyComponent.jsx</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MyComponent = <span class="function"><span class="params">props</span>=&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;</span><br><span class="line">    props:</span><br><span class="line">    &lt;pre&gt;&#123;JSON.stringify(props, null, 2)&#125;&lt;/pre&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> MyComponent;</span><br></pre></td></tr></table></figure>
+<p>关于各种文件放在哪里, 这里是我推荐的一些约定:</p>
+<ul>
+<li>src 下用于存放源代码</li>
+<li>lib 是编译后的代码，这个目录只读</li>
+<li>所有包含 ES6 语法的文件名统一后缀为 .es6</li>
+<li>所有包含 JSX 语法的文件后统一缀名为 .jsx</li>
+</ul>
+<p>假设源代码里还有另外两个文件 <code>foo.es6</code> 和 <code>bar.js</code>，简化起见都丢到 <code>src</code> 的根目录下。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h3 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h3><p>为了把 ES6 代码编译成 ES5，需要安装 Babel，这个工具可以说野心极大，一次编译可以让 JavaScript 运行在所有地方。（听起来是不是有点 Java 的作风）</p>
+<p>目前最常用的是 Babel5 版本，但是 Babel6 版本的设计更为精巧，已经非常推荐更新。也正是由于 Babel 有两个版本，所以开发过程中很有可能遇到这样的情况，<br>模块 A 的开发依赖于 Babel5 版本，而模块 B 依赖于 Babel6 版本。</p>
+<p><em>解决这个问题最好的做法就是把 A 和 B 拆开，独立开发和发布。并且在发布到 NPM 的时候发布是的编译后的，也就是 ES5 版本的代码。</em></p>
+<p>所以如果你的机器上的 <code>babel</code> 是全局安装的，是时候卸载它了，因为它的版本不是 5 就是 6 ，会导致一些不可预见的问题。</p>
+<p><code>npm uninstall babel-cli --global</code></p>
+<p>正确的安装方式是把 babel-cli 作为 development 依赖</p>
+<p><code>npm install babel-cli --save-dev</code></p>
+<p>使用的时候并不是直接调用全局的 <code>babel</code> 而是调用依赖里的 <code>babel</code> 可执行文件</p>
+<p><code>./node_modules/.bin/babel</code></p>
+<p>如果按照前文的约定来组织代码，<code>src</code> 目录结构看起来是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├── bar.js</span><br><span class="line">├── foo.es6</span><br><span class="line">└── MyComponent.jsx</span><br></pre></td></tr></table></figure>
+<p>模块所有的代码都在一个目录下，这样编译过程就简单多了，两条命令就可以完成</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/rimraf lib</span><br><span class="line">./node_modules/.bin/babel src --copy-files --<span class="built_in">source</span>-maps --extensions .es6,.es,.jsx --out-dir lib</span><br></pre></td></tr></table></figure>
+<p>输出目录的结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lib</span><br><span class="line">├── bar.js</span><br><span class="line">├── foo.js</span><br><span class="line">├── foo.js.map</span><br><span class="line">├── MyComponent.js</span><br><span class="line">└── MyComponent.js.map</span><br></pre></td></tr></table></figure>
+<h3 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h3><p>具体解释一下各个命令的作用：</p>
+<p>第一条命令 <code>./node_modules/.bin/rimraf lib</code></p>
+<p><strong>作用</strong> 编译前清空之前的 lib 目录，这是一个好习惯，可以杜绝对 lib 下的文件的任何手动更改。</p>
+<p>第二条命令</p>
+<p><code>./node_modules/.bin/babel src --out-dir lib --source-maps --extensions .es6,.es,.jsx --copy-files</code></p>
+<p><strong>作用</strong> 遍历 src 目录下的文件，如果后缀名是 .es/.es6/.jsx 中的一种，就编译成 ES5，否则就直接拷贝到输出目录 lib 下</p>
+<p>参数详解:</p>
+<p><code>--out-dir lib</code> 指定输出目录为 lib</p>
+<p><code>--extensions .es6,.es,.jsx</code> 指定需要编译的文件类型</p>
+<p><code>--copy-files</code> 对于不需要编译的文件直接拷贝</p>
+<p><code>--source-maps</code> 生成 souce-map 文件</p>
+<h3 id="babelrc-文件"><a href="#babelrc-文件" class="headerlink" title=".babelrc 文件"></a>.babelrc 文件</h3><p>编译过程中还隐含了一个步骤就是加载 <code>.babelrc</code> 文件里的配置，该文件内容如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    <span class="string">"es2015"</span>,</span><br><span class="line">    <span class="string">"stage-0"</span>,</span><br><span class="line">    <span class="string">"react"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 React 的 preset，同时项目依赖里要添加<br><code>babel-preset-react</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-preset-react --save-dev</span><br></pre></td></tr></table></figure>
+<h2 id="样例代码"><a href="#样例代码" class="headerlink" title="样例代码"></a>样例代码</h2><p>开发和调试 React 模块目前最好用的打包工具还是 Webpack，在项目跟目录下，新建一个 example 目录：</p>
+<p>example/index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>example/src/index.jsx</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> MyComponent,&#123;foo,bar&#125; <span class="keyword">from</span> <span class="string">'../../'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;render&#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(element);</span><br><span class="line">render(<span class="xml"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">name</span>=<span class="string">"myComponent"</span>/&gt;</span>, element);</span></span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: path.join(__dirname, <span class="string">'example'</span>, <span class="string">'src'</span>, <span class="string">'index.jsx'</span>),</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.jsx$/</span>,</span><br><span class="line">      loader: <span class="string">'babel'</span>,</span><br><span class="line">      include: [</span><br><span class="line">        path.join(__dirname, <span class="string">'example'</span>)</span><br><span class="line">      ]</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: path.join(__dirname, <span class="string">'example'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>运行样例代码</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/webpack-dev-server</span><br></pre></td></tr></table></figure>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>发布前，还有一件事就是为你的模块添加一个入口文件 <code>index.js</code>，全部指向编译后的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = require(&apos;./lib/MyComponent&apos;);</span><br><span class="line">exports.default = require(&apos;./lib/MyComponent&apos;);</span><br><span class="line">exports.bar = require(&apos;./lib/bar&apos;);</span><br><span class="line">exports.foo = require(&apos;./lib/foo&apos;);</span><br></pre></td></tr></table></figure>
+<p>接下来就可以发布到 NPM 了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>别的开发者如果想使用你新发布的模块的时候可以直接通过 NPM 安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-component-example --save-dev</span><br></pre></td></tr></table></figure>
+<p>然后在父级项目的代码里导入模块</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MyComponent,&#123;foo,bat&#125; <span class="keyword">from</span> <span class="string">'react-component-example'</span></span><br></pre></td></tr></table></figure>
+<p>此时导入的直接是 ES5 代码，跳过了组件的编译过程从而避免了出现组件 Babel 版本和父级项目 Babel 版本不一致的问题，并且速度更快，是不是很棒！</p>
+<h3 id="使用源码"><a href="#使用源码" class="headerlink" title="使用源码"></a>使用源码</h3><p>假设你的模块包含很多组件，开发者可能只想用其中的一个或某几个，这时可以这样导入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import MyComponent from &apos;react-component-example/src/MyComponent.jsx&apos;</span><br></pre></td></tr></table></figure>
+<p>这种情况下，导入的是 ES6 代码，并且会被加入父级项目的编译过程。此外，父级项目在编译这个文件的时候会读取组件的 .babelrc 配置文件。</p>
+<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>推荐每个模块在发布的时候把样式文件 style.css 放在根目录下，如果使用的是预处理工具 LESS 或者 SASS， 同样把处理前后的样式文件一起发布。</p>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p><strong>本文使用的 babel 版本</strong></p>
+<p><code>./node_modules/.bin/babel --version</code> 6.4.5 (babel-core 6.4.5)</p>
+<p><strong>LICENSE</strong></p>
+<p>MIT</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/01/20/react-component-example/" data-id="cjkig3hk7000llsiw3bi3gucm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker-compose-firsttime" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/18/docker-compose-firsttime/" class="article-date">
+  <time datetime="2016-01-18T04:00:00.000Z" itemprop="datePublished">2016-01-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/18/docker-compose-firsttime/">使用 Docker Compose 开发一个应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/docker-compose-examples" target="_blank" rel="noopener">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/01/18/docker-compose-firsttime/" data-id="cjkig3hj90001lsiw63ig8mq4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -282,7 +768,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -290,6 +776,13 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/演讲/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a></li></ul>
+    </div>
+  </div>
+
 
   
     
@@ -299,9 +792,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -309,28 +802,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/08/06/live-long/">珍惜身体</a>
+          </li>
         
           <li>
             <a href="/2018/08/05/migrate-to-hexo/">整理博客</a>
           </li>
         
           <li>
-            <a href="/2016/07/10/react-should-update-performance/">React ShouldComponentUpdate 方法是如何影响性能的</a>
+            <a href="/2017/05/04/speech-fed-to-devops/">[演讲] 前端转行 DevOps 经验分享</a>
           </li>
         
           <li>
-            <a href="/2016/07/01/webpack-feature-toggle/">基于 Webpack 的功能开关</a>
+            <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
           </li>
         
           <li>
-            <a href="/2016/05/30/v8-memory-dashboard/">基于 野狗 打造一个 v8 内存分配的实时仪表盘</a>
-          </li>
-        
-          <li>
-            <a href="/2016/05/04/redux-unit-test/">Redux 如何单元测试</a>
+            <a href="/2016/09/04/speech-fed-devops-practices/">[演讲] 前端 DevOps 实践</a>
           </li>
         
       </ul>

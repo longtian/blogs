@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>怎样为你的 Commit 加上 GPG 的签名 | 龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="源码  开源赋予了每个人贡献代码的权利，要提高开源软件整体的安全性需要从一个个提交开始。为 Commit 带上 GPG 的签名就是一个很好的开始，它能够在一定程度上保证安全性。GPG 是一个非常出色的加密软件。当年斯诺登就是用 GPG 把大量的绝密文件发送给了记者。本文以 Ubuntu 为例，介绍怎样为你的 Commit 加上 GPG 的签名。  环境配置注意只有 git 2.0 及以后的版本才支">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎样为你的 Commit 加上 GPG 的签名">
+<meta property="og:url" content="https://longtian.io/2016/05/12/gpg-howto/index.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="源码  开源赋予了每个人贡献代码的权利，要提高开源软件整体的安全性需要从一个个提交开始。为 Commit 带上 GPG 的签名就是一个很好的开始，它能够在一定程度上保证安全性。GPG 是一个非常出色的加密软件。当年斯诺登就是用 GPG 把大量的绝密文件发送给了记者。本文以 Ubuntu 为例，介绍怎样为你的 Commit 加上 GPG 的签名。  环境配置注意只有 git 2.0 及以后的版本才支">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://longtian.io/2016/05/12/gpg-howto/history.png">
+<meta property="og:updated_time" content="2018-08-06T14:59:49.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="怎样为你的 Commit 加上 GPG 的签名">
+<meta name="twitter:description" content="源码  开源赋予了每个人贡献代码的权利，要提高开源软件整体的安全性需要从一个个提交开始。为 Commit 带上 GPG 的签名就是一个很好的开始，它能够在一定程度上保证安全性。GPG 是一个非常出色的加密软件。当年斯诺登就是用 GPG 把大量的绝密文件发送给了记者。本文以 Ubuntu 为例，介绍怎样为你的 Commit 加上 GPG 的签名。  环境配置注意只有 git 2.0 及以后的版本才支">
+<meta name="twitter:image" content="https://longtian.io/2016/05/12/gpg-howto/history.png">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-gpg-howto" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/12/gpg-howto/" class="article-date">
+  <time datetime="2016-05-12T04:00:00.000Z" itemprop="datePublished">2016-05-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      怎样为你的 Commit 加上 GPG 的签名
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/gpg-howtot" target="_blank" rel="noopener">源码</a></p>
+<blockquote>
+<p>开源赋予了每个人贡献代码的权利，要提高开源软件整体的安全性需要从一个个提交开始。<br>为 Commit 带上 GPG 的签名就是一个很好的开始，它能够在一定程度上保证安全性。<br>GPG 是一个非常出色的加密软件。当年斯诺登就是用 GPG 把大量的绝密文件发送给了记者。<br>本文以 Ubuntu 为例，介绍怎样为你的 Commit 加上 GPG 的签名。</p>
+</blockquote>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>注意只有 <code>git</code> 2.0 及以后的版本才支持 <code>GPG</code> 签名。</p>
+<p><strong>查看 git 版本：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~$ git --version</span><br><span class="line">git version 2.8.2</span><br></pre></td></tr></table></figure>
+<p><strong>确保 <code>git</code> 是 <code>2.x</code> 版本</strong> 如果需要可以执行下面的命令升级:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:git-core/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<p><strong>查看 GPG 是否安装</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ gpg --version</span><br><span class="line">gpg (GnuPG) 1.4.16</span><br><span class="line">Copyright (C) 2013 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.</span><br></pre></td></tr></table></figure>
+<p>系统里一般都已经装上了 <code>GPG</code>，如果没有可以 <strong>手动安装 GnuPG</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnupg</span><br></pre></td></tr></table></figure>
+<p>确保 <code>git</code> 和 <code>GNU</code> 都安装成功就可以开始下一步了。</p>
+<h2 id="生成-GPG-Key"><a href="#生成-GPG-Key" class="headerlink" title="生成 GPG Key"></a>生成 GPG Key</h2><p>命令行输入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --gen-key</span><br></pre></td></tr></table></figure>
+<p>生成过程中需要输入一些信息：</p>
+<ul>
+<li>加密算法 推荐选择 <code>RSA</code></li>
+<li>密匙长度 推荐选择 <code>4096</code></li>
+<li>过期时间 推荐选择 <code>1y</code> 也就是一年</li>
+<li>名字 可以随便填</li>
+<li>邮箱 需要是 Github 认证过的邮箱</li>
+<li>注释 可以随便填</li>
+</ul>
+<p>最后需要输入一个密码，类似于保护 <code>SSH</code> 证书的密码，可以留空，不过最好是填上。</p>
+<p>接下来是漫长的生成过程，在等待的过程里可以多移动鼠标，多打开几个网页，以此来增加机器的随机性。</p>
+<h2 id="查看-GPG-Key-ID"><a href="#查看-GPG-Key-ID" class="headerlink" title="查看 GPG Key ID"></a>查看 GPG Key ID</h2><p><code>GPG Key ID</code> 是一个8位的字符串，对应着一个 <code>GPG Key</code></p>
+<p>在命令行里查看 <code>GPG Key</code> 列表：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ gpg --list-keys</span><br><span class="line">/home/***/.gnupg/pubring.gpg</span><br><span class="line">----------------------------</span><br><span class="line">pub   4096R/6******7 2016-05-11 [expires: 2017-05-11]</span><br><span class="line">uid                  Wang Yan &lt;wyvernnot@gmail.com&gt;</span><br><span class="line">sub   4096R/B******E 2016-05-11 [expires: 2017-05-11]</span><br></pre></td></tr></table></figure>
+<p>输出结果里的 6<strong>**</strong>7 就是这个 <code>GPG Key ID</code></p>
+<h2 id="导出-GPG-公匙"><a href="#导出-GPG-公匙" class="headerlink" title="导出 GPG 公匙"></a>导出 GPG 公匙</h2><p>执行命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --armor --<span class="built_in">export</span> 6******7</span><br></pre></td></tr></table></figure>
+<p>会在命令行看到公匙的文本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PGP PUBLIC KEY BLOCK-----</span><br><span class="line">Version: GnuPG v1</span><br><span class="line"></span><br><span class="line">mQINBFczB1kBEAC3afc50p08I7knynnm4ea/8VZy42zGH/qrIWoInqT8HbgwLb9s</span><br><span class="line">TrulTgLMbMTTOhl4zqFtTR52ZTwfLOtnV8tCM62ZNqO6z0nd0bFPA7HVp5t9z4a5</span><br><span class="line">qBF3l3AZO5TFjn8gTsxatpVf5Ug9gmkEOCAejwSPFKNvfAun+WSLZ19LaFcorrj1</span><br><span class="line">                          ...</span><br><span class="line">cOyj7VNdmx1//BMp/5A6SEqJFkkLxebaJpcrv1dm1HvKGU8vty3JAdWgOjY5VVmn</span><br><span class="line">nUaAr8D0uNquASkap4dki/zscK+tEJiH6HLnQGGtIf+fR2zoHAUfBvtTuUhq8w/Q</span><br><span class="line">F0R/UVgc4Sg+Vz4gyYNJKO8BdTTTfvOZMDNFw4x70vXfhCZDm4QxgfUwRs//kkIh</span><br><span class="line">Z3QylTf5xSk4</span><br><span class="line">=kuFS</span><br><span class="line">-----END PGP PUBLIC KEY BLOCK-----</span><br></pre></td></tr></table></figure>
+<p>拷贝这一大段到剪贴板，然后登录 <code>Github</code> 添加这个公匙，添加的入口在 <code>Settings</code> 下的 <code>SSH and GPG Keys</code> 里面。</p>
+<h2 id="配置-Git-启用-GPG-签名"><a href="#配置-Git-启用-GPG-签名" class="headerlink" title="配置 Git 启用 GPG 签名"></a>配置 Git 启用 GPG 签名</h2><p>首先设置 <code>Git</code> 默认使用的 <code>GPG Key ID</code>，就是上面那个 8 位的字符串。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.signingkey 6******7</span><br></pre></td></tr></table></figure>
+<p>提交的时候加上一个 <code>-s</code> 参数就可以为提交签名：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -S -m your commit message</span><br></pre></td></tr></table></figure>
+<p>要想以后如果每次提交都默认都开启 <code>GPG</code> 签名，尤其是使用 IDE 的情况下，需要修改 <code>git</code> 的一个全局设置项：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global commit.gpgsign <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>执行 <code>git push</code> 后登录到 <code>Github</code>， 看看提交历史的右边是不是多了一个 <code>Verified</code> 图标。</p>
+<p>如果看到下面的结果，那么恭喜你已经为整个开源世界的安全迈出了一小步！</p>
+<p><img src="./history.png" alt="提交历史"></p>
+<h2 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h2><p>如果在 Github 上把 <code>GPG Public Key</code> 移除, 那么之前的 <code>Verified</code> 提交会变成 <code>Unverified</code>。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/07/gpg.html</a></li>
+<li><a href="https://www.gnupg.org/howtos/zh/index.html" target="_blank" rel="noopener">https://www.gnupg.org/howtos/zh/index.html</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2014-11/109972.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2014-11/109972.htm</a></li>
+<li><a href="https://help.github.com/articles/generating-a-new-gpg-key/" target="_blank" rel="noopener">https://help.github.com/articles/generating-a-new-gpg-key/</a></li>
+<li><a href="https://help.github.com/articles/adding-a-new-gpg-key-to-your-github-account/" target="_blank" rel="noopener">https://help.github.com/articles/adding-a-new-gpg-key-to-your-github-account/</a></li>
+<li><a href="https://help.github.com/articles/telling-git-about-your-gpg-key/" target="_blank" rel="noopener">https://help.github.com/articles/telling-git-about-your-gpg-key/</a></li>
+<li><a href="https://help.github.com/articles/signing-commits-using-gpg/" target="_blank" rel="noopener">https://help.github.com/articles/signing-commits-using-gpg/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/12/gpg-howto/" data-id="cjkig3hjg0003lsiwigzl7du9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/30/v8-memory-dashboard/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基于 野狗 打造一个 v8 内存分配的实时仪表盘
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/04/introduction-to-statsd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">StatsD 简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/演讲/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/06/live-long/">珍惜身体</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/05/migrate-to-hexo/">整理博客</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/04/speech-fed-to-devops/">[演讲] 前端转行 DevOps 经验分享</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/04/speech-fed-devops-practices/">[演讲] 前端 DevOps 实践</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 longtian<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
