@@ -65,6 +65,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-v8-memory-dashboard" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/30/v8-memory-dashboard/" class="article-date">
+  <time datetime="2016-05-30T04:00:00.000Z" itemprop="datePublished">2016-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/30/v8-memory-dashboard/">基于 野狗 打造一个 v8 内存分配的实时仪表盘</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/v8-memory-dashboard" target="_blank" rel="noopener">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/30/v8-memory-dashboard/" data-id="cjm45vekl0016e8u2h6yaqoc2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-gpg-howto" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/05/12/gpg-howto/" class="article-date">
@@ -146,7 +183,77 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/05/12/gpg-howto/" data-id="cjkig3hjg0003lsiwigzl7du9" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/05/12/gpg-howto/" data-id="cjm45vejd0005e8u2ogr049o4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redux-unit-test" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/04/redux-unit-test/" class="article-date">
+  <time datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/04/redux-unit-test/">Redux 如何单元测试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/redux-unit-test-example" target="_blank" rel="noopener">源码</a></p>
+<p>redux 里有一些好玩的东西，如果与 React 一起学习各种环境搭起来速度比较慢，也比较麻烦。如果使用单元测试来学习，<br>并且阅读源代码，可以更快地搞懂。</p>
+<h2 id="TOP-Level"><a href="#TOP-Level" class="headerlink" title="TOP Level"></a>TOP Level</h2><blockquote>
+<p>Redux 顶层的 API 允许你创建 Store, 合并 Reducer，并通过 storeEnhancer 来引入中间件进行扩展。</p>
+</blockquote>
+<ul>
+<li>createStore(reducer, [initialState], [enhancer])</li>
+<li>combineReducers(reducers)</li>
+<li>applyMiddleware(…middlewares)</li>
+<li>bindActionCreators(actionCreators, dispatch)</li>
+<li>compose(…functions)</li>
+</ul>
+<h2 id="Store-API"><a href="#Store-API" class="headerlink" title="Store API"></a>Store API</h2><blockquote>
+<p>Store 创建后有这些方法可供调用</p>
+</blockquote>
+<ul>
+<li>dispatch</li>
+<li>subscribe</li>
+<li>getState</li>
+</ul>
+<h2 id="Redux-常用插件"><a href="#Redux-常用插件" class="headerlink" title="Redux 常用插件"></a>Redux 常用插件</h2><h3 id="redux-actions"><a href="#redux-actions" class="headerlink" title="redux-actions"></a>redux-actions</h3><blockquote>
+<p>简化 Action 的创建，使其符合 FSA 标准</p>
+</blockquote>
+<ul>
+<li>createAction(type, payloadCreator, metaCreator)</li>
+<li>handleAction(type, reducer | reducerMap)</li>
+<li>handleActions(reducerMap, defaultState)</li>
+</ul>
+<h3 id="redux-promise"><a href="#redux-promise" class="headerlink" title="redux-promise"></a>redux-promise</h3><blockquote>
+<p>使用 Promise 作为 Action 的 payload，以此减少不必要的代码</p>
+</blockquote>
+<h2 id="redux-thunk"><a href="#redux-thunk" class="headerlink" title="redux-thunk"></a>redux-thunk</h2><blockquote>
+<p>使用 Funtion 作为 Action， 从而延迟执行</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/05/04/redux-unit-test/" data-id="cjm45vekb000te8u2678iuvjn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -261,77 +368,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/05/04/introduction-to-statsd/" data-id="cjkig3hjo0007lsiw1pyalnw1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-redux-unit-test" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/05/04/redux-unit-test/" class="article-date">
-  <time datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/04/redux-unit-test/">Redux 如何单元测试</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/redux-unit-test-example" target="_blank" rel="noopener">源码</a></p>
-<p>redux 里有一些好玩的东西，如果与 React 一起学习各种环境搭起来速度比较慢，也比较麻烦。如果使用单元测试来学习，<br>并且阅读源代码，可以更快地搞懂。</p>
-<h2 id="TOP-Level"><a href="#TOP-Level" class="headerlink" title="TOP Level"></a>TOP Level</h2><blockquote>
-<p>Redux 顶层的 API 允许你创建 Store, 合并 Reducer，并通过 storeEnhancer 来引入中间件进行扩展。</p>
-</blockquote>
-<ul>
-<li>createStore(reducer, [initialState], [enhancer])</li>
-<li>combineReducers(reducers)</li>
-<li>applyMiddleware(…middlewares)</li>
-<li>bindActionCreators(actionCreators, dispatch)</li>
-<li>compose(…functions)</li>
-</ul>
-<h2 id="Store-API"><a href="#Store-API" class="headerlink" title="Store API"></a>Store API</h2><blockquote>
-<p>Store 创建后有这些方法可供调用</p>
-</blockquote>
-<ul>
-<li>dispatch</li>
-<li>subscribe</li>
-<li>getState</li>
-</ul>
-<h2 id="Redux-常用插件"><a href="#Redux-常用插件" class="headerlink" title="Redux 常用插件"></a>Redux 常用插件</h2><h3 id="redux-actions"><a href="#redux-actions" class="headerlink" title="redux-actions"></a>redux-actions</h3><blockquote>
-<p>简化 Action 的创建，使其符合 FSA 标准</p>
-</blockquote>
-<ul>
-<li>createAction(type, payloadCreator, metaCreator)</li>
-<li>handleAction(type, reducer | reducerMap)</li>
-<li>handleActions(reducerMap, defaultState)</li>
-</ul>
-<h3 id="redux-promise"><a href="#redux-promise" class="headerlink" title="redux-promise"></a>redux-promise</h3><blockquote>
-<p>使用 Promise 作为 Action 的 payload，以此减少不必要的代码</p>
-</blockquote>
-<h2 id="redux-thunk"><a href="#redux-thunk" class="headerlink" title="redux-thunk"></a>redux-thunk</h2><blockquote>
-<p>使用 Funtion 作为 Action， 从而延迟执行</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/05/04/redux-unit-test/" data-id="cjkig3hkf000qlsiwltfuzwts" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/05/04/introduction-to-statsd/" data-id="cjm45veje0006e8u273q86go0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -397,7 +434,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/05/03/other-webpack-loaders/" data-id="cjkig3hk5000jlsiw0p7ygxyb" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/05/03/other-webpack-loaders/" data-id="cjm45vek1000je8u2oomo3767" class="article-share-link">Share</a>
       
       
     </footer>
@@ -434,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/04/21/thressjs-react/" data-id="cjkig3hkw0010lsiwke3r1ywk" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/04/21/thressjs-react/" data-id="cjm45veki0010e8u2exg20ey4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -475,7 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/03/28/speech-improve-fed-speed/" data-id="cjkig3hkq000wlsiwqowoh8x9" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/03/28/speech-improve-fed-speed/" data-id="cjm45vekd000we8u2ue1ph7eg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -516,77 +553,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/20/speech-rum-basedon-wilddog/" data-id="cjkig3hkt000ylsiwfxzc1qz6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-isomorphic-fetch-example " class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/01/20/isomorphic-fetch-example /" class="article-date">
-  <time datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/20/isomorphic-fetch-example /">使用 Fetch API 实现前后端共用同一个 SDK</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/isomorphic-fetch-example" target="_blank" rel="noopener">源码</a></p>
-<p>架构设计实践: 使用 Fetch API 实现前后端共用同一个 SDK.</p>
-<p>做过一段时间的 Web 开发以后,就会有这样的感觉,前后端分离几乎和吃饭睡觉一样平常. 前端专注浏览器的一切,<br>通过 API 和后端通信,而后端工程师专注于系统的执行效率,可扩展性等问题.</p>
-<p>很多优秀的网站特别是有一部分面向开发者的网站都会提供 API 的 SDK.</p>
-<ul>
-<li>封装底层发起请求的方法</li>
-<li>异步请求成功和出错的处理</li>
-</ul>
-<ol>
-<li>封装</li>
-</ol>
-<p>浏览器端发送 AJAX 请求底层一般采用 XMLHttpRequest 来实现, 实际工作中常使用具体的封装良好的类库,<br>例如 jQuery, superagent 等. 而后端 Node.js 经常用的是基于 Stream 的解决方案, 由于 API 是很常见的<br>工作,所以已经封装到了 Node.JS 的核心模块 http 里, 此外比较常用的第三方的类库有 request.</p>
-<p>如果前后端公用一个 SDK, 那么必然要在上层引入一定的设计模式,来封装底层具体实现:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isBrowser)&#123;</span><br><span class="line">    <span class="keyword">return</span> facade(<span class="keyword">new</span> XMLHttpRequest(...))</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> facade(http.request(...))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在浏览器端发起 AJAX 请求现在有了一套新的API, 那就是 Fetch. 与基于 XMLHttpRequest 的方法相比,它有几个显著地优势.</p>
-<ul>
-<li>更安全</li>
-</ul>
-<p>虽然 Fetch 目前只在 Chrome 等比较新的浏览器上可以使用. 不过别担心, 已经有好几个垫片可以解决兼容性的问题.</p>
-<ol start="2">
-<li>异步</li>
-</ol>
-<p>不管是在客户端还是在服务器端,对请求的处理都是异步的,这是由 JavaScript 本身的特性决定的.在很长的一段时间里<br>回调函数一直都是处理异步问题首选的方案,但是在经过了这么多年的折磨之后,人们终于想到了一个非常优秀的替代方案 - Promise.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> api=<span class="built_in">require</span>(<span class="string">'my-awesome-api'</span>);</span><br><span class="line">api.repos(<span class="string">'github'</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 成功</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 失败</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p>如果在客户端和在服务器端能够采用一致的方案,这无疑会大大提高 JavaScript 代码的质量和开发效率.</p>
-<p>公用 SDK 有很多好处:</p>
-<ul>
-<li>浏览器端专注于路由,页面的设计,把请求的封装处理交给 SDK</li>
-<li>后端的开发者可以使用 SDK</li>
-</ul>
-<p>所以是时候尝试和采用 Fetch API 了.</p>
-<h3 id="关于-Fetch-API-简单的介绍"><a href="#关于-Fetch-API-简单的介绍" class="headerlink" title="关于 Fetch API 简单的介绍"></a>关于 Fetch API 简单的介绍</h3><p><a href="http://github.github.io/fetch/" target="_blank" rel="noopener">http://github.github.io/fetch/</a></p>
-<h3 id="实现该模式的-SDK"><a href="#实现该模式的-SDK" class="headerlink" title="实现该模式的 SDK"></a>实现该模式的 SDK</h3><p><a href="https://github.com/ringcentral/ringcentral-js" target="_blank" rel="noopener">https://github.com/ringcentral/ringcentral-js</a></p>
-<h3 id="关键模块"><a href="#关键模块" class="headerlink" title="关键模块"></a>关键模块</h3><p><a href="https://github.com/matthew-andrews/isomorphic-fetch" target="_blank" rel="noopener">https://github.com/matthew-andrews/isomorphic-fetch</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/20/isomorphic-fetch-example /" data-id="cjkig3hjp0009lsiw9sn4pie6" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/01/20/speech-rum-basedon-wilddog/" data-id="cjm45vekg000ze8u2libfz567" class="article-share-link">Share</a>
       
       
     </footer>
@@ -717,7 +684,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/20/react-component-example/" data-id="cjkig3hk7000llsiw3bi3gucm" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/01/20/react-component-example/" data-id="cjm45vek5000ne8u2nui50rzy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -727,10 +694,10 @@
 
 
   
-    <article id="post-docker-compose-firsttime" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-isomorphic-fetch-example " class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/01/18/docker-compose-firsttime/" class="article-date">
-  <time datetime="2016-01-18T04:00:00.000Z" itemprop="datePublished">2016-01-18</time>
+    <a href="/2016/01/20/isomorphic-fetch-example /" class="article-date">
+  <time datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
 </a>
     
   </div>
@@ -741,7 +708,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/18/docker-compose-firsttime/">使用 Docker Compose 开发一个应用</a>
+      <a class="article-title" href="/2016/01/20/isomorphic-fetch-example /">使用 Fetch API 实现前后端共用同一个 SDK</a>
     </h1>
   
 
@@ -749,12 +716,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://github.com/longtian/docker-compose-examples" target="_blank" rel="noopener">源码</a></p>
+        <p><a href="https://github.com/longtian/isomorphic-fetch-example" target="_blank" rel="noopener">源码</a></p>
+<p>架构设计实践: 使用 Fetch API 实现前后端共用同一个 SDK.</p>
+<p>做过一段时间的 Web 开发以后,就会有这样的感觉,前后端分离几乎和吃饭睡觉一样平常. 前端专注浏览器的一切,<br>通过 API 和后端通信,而后端工程师专注于系统的执行效率,可扩展性等问题.</p>
+<p>很多优秀的网站特别是有一部分面向开发者的网站都会提供 API 的 SDK.</p>
+<ul>
+<li>封装底层发起请求的方法</li>
+<li>异步请求成功和出错的处理</li>
+</ul>
+<ol>
+<li>封装</li>
+</ol>
+<p>浏览器端发送 AJAX 请求底层一般采用 XMLHttpRequest 来实现, 实际工作中常使用具体的封装良好的类库,<br>例如 jQuery, superagent 等. 而后端 Node.js 经常用的是基于 Stream 的解决方案, 由于 API 是很常见的<br>工作,所以已经封装到了 Node.JS 的核心模块 http 里, 此外比较常用的第三方的类库有 request.</p>
+<p>如果前后端公用一个 SDK, 那么必然要在上层引入一定的设计模式,来封装底层具体实现:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isBrowser)&#123;</span><br><span class="line">    <span class="keyword">return</span> facade(<span class="keyword">new</span> XMLHttpRequest(...))</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> facade(http.request(...))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在浏览器端发起 AJAX 请求现在有了一套新的API, 那就是 Fetch. 与基于 XMLHttpRequest 的方法相比,它有几个显著地优势.</p>
+<ul>
+<li>更安全</li>
+</ul>
+<p>虽然 Fetch 目前只在 Chrome 等比较新的浏览器上可以使用. 不过别担心, 已经有好几个垫片可以解决兼容性的问题.</p>
+<ol start="2">
+<li>异步</li>
+</ol>
+<p>不管是在客户端还是在服务器端,对请求的处理都是异步的,这是由 JavaScript 本身的特性决定的.在很长的一段时间里<br>回调函数一直都是处理异步问题首选的方案,但是在经过了这么多年的折磨之后,人们终于想到了一个非常优秀的替代方案 - Promise.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> api=<span class="built_in">require</span>(<span class="string">'my-awesome-api'</span>);</span><br><span class="line">api.repos(<span class="string">'github'</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 成功</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 失败</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>如果在客户端和在服务器端能够采用一致的方案,这无疑会大大提高 JavaScript 代码的质量和开发效率.</p>
+<p>公用 SDK 有很多好处:</p>
+<ul>
+<li>浏览器端专注于路由,页面的设计,把请求的封装处理交给 SDK</li>
+<li>后端的开发者可以使用 SDK</li>
+</ul>
+<p>所以是时候尝试和采用 Fetch API 了.</p>
+<h3 id="关于-Fetch-API-简单的介绍"><a href="#关于-Fetch-API-简单的介绍" class="headerlink" title="关于 Fetch API 简单的介绍"></a>关于 Fetch API 简单的介绍</h3><p><a href="http://github.github.io/fetch/" target="_blank" rel="noopener">http://github.github.io/fetch/</a></p>
+<h3 id="实现该模式的-SDK"><a href="#实现该模式的-SDK" class="headerlink" title="实现该模式的 SDK"></a>实现该模式的 SDK</h3><p><a href="https://github.com/ringcentral/ringcentral-js" target="_blank" rel="noopener">https://github.com/ringcentral/ringcentral-js</a></p>
+<h3 id="关键模块"><a href="#关键模块" class="headerlink" title="关键模块"></a>关键模块</h3><p><a href="https://github.com/matthew-andrews/isomorphic-fetch" target="_blank" rel="noopener">https://github.com/matthew-andrews/isomorphic-fetch</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/18/docker-compose-firsttime/" data-id="cjkig3hj90001lsiw63ig8mq4" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/01/20/isomorphic-fetch-example /" data-id="cjm45vejl000ae8u2e8ih0owk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -794,7 +794,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -805,6 +805,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/09/16/webpack-cross-platform-development/">基于 Webpack 的跨平台开发</a>
+          </li>
         
           <li>
             <a href="/2018/08/06/live-long/">珍惜身体</a>
@@ -820,10 +824,6 @@
         
           <li>
             <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
-          </li>
-        
-          <li>
-            <a href="/2016/09/04/speech-fed-devops-practices/">[演讲] 前端 DevOps 实践</a>
           </li>
         
       </ul>
