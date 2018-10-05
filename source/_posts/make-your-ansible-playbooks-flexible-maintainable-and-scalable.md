@@ -5,6 +5,8 @@ categories:
     - 翻译
 ---
 
+[原文](https://www.ansible.com/blog/make-your-ansible-playbooks-flexible-maintainable-and-scalable)
+
 自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。
 
 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对手，进而丢掉金钱，更重要的是我可能会疯掉。
