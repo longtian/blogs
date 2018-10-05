@@ -7,18 +7,18 @@
   
   <title>[译] 书写灵活、可维护，可扩展的 Ansible Playbook | 龙天的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对">
+  <meta name="description" content="原文 自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[译] 书写灵活、可维护，可扩展的 Ansible Playbook">
 <meta property="og:url" content="https://longtian.io/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable/index.html">
 <meta property="og:site_name" content="龙天的博客">
-<meta property="og:description" content="自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对">
+<meta property="og:description" content="原文 自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://www.ansible.com/hs-fs/hubfs/45982928-455cdb80-c020-11e8-96e4-833efbac87f4.jpg">
-<meta property="og:updated_time" content="2018-10-05T06:05:20.413Z">
+<meta property="og:updated_time" content="2018-10-05T06:07:48.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[译] 书写灵活、可维护，可扩展的 Ansible Playbook">
-<meta name="twitter:description" content="自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对">
+<meta name="twitter:description" content="原文 自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。 从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble">
 <meta name="twitter:image" content="https://www.ansible.com/hs-fs/hubfs/45982928-455cdb80-c020-11e8-96e4-833efbac87f4.jpg">
   
     <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
@@ -92,7 +92,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。</p>
+        <p><a href="https://www.ansible.com/blog/make-your-ansible-playbooks-flexible-maintainable-and-scalable" target="_blank" rel="noopener">原文</a></p>
+<p>自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。</p>
 <p>从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对手，进而丢掉金钱，更重要的是我可能会疯掉。</p>
 <p>今年我会在奥斯汀举办的 AnsibleFest 上做一个<a href="https://agenda.fest.ansible.com/SessionDetail.aspx?id=482018" target="_blank" rel="noopener">同名分享</a>，本文即总结这次分享的主题。</p>
 <h2 id="保持井井有条"><a href="#保持井井有条" class="headerlink" title="保持井井有条"></a>保持井井有条</h2><p>我喜欢摄影和自动化，所以我花了很多时间在涉及树莓派和相机的电子项目上。如果没有图中的组织系统，想要把部件放到正确的位置会是一件让人沮丧的事情。</p>
