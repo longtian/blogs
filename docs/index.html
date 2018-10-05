@@ -65,6 +65,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-make-your-ansible-playbooks-flexible-maintainable-and-scalable" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable/" class="article-date">
+  <time datetime="2018-10-05T03:20:35.000Z" itemprop="datePublished">2018-10-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/翻译/">翻译</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable/">[译] 书写灵活、可维护，可扩展的 Ansible Playbook</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。</p>
+<p>从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对手，进而丢掉金钱，更重要的是我可能会疯掉。</p>
+<p>今年我会在奥斯汀举办的 AnsibleFest 上做一个<a href="https://agenda.fest.ansible.com/SessionDetail.aspx?id=482018" target="_blank" rel="noopener">同名分享</a>，本文即总结这次分享的主题。</p>
+<h2 id="保持井井有条"><a href="#保持井井有条" class="headerlink" title="保持井井有条"></a>保持井井有条</h2><p>我喜欢摄影和自动化，所以我花了很多时间在涉及树莓派和相机的电子项目上。如果没有图中的组织系统，想要把部件放到正确的位置会是一件让人沮丧的事情。</p>
+<p><img src="https://www.ansible.com/hs-fs/hubfs/45982928-455cdb80-c020-11e8-96e4-833efbac87f4.jpg" alt="组织系统"></p>
+<p>同样的，在 Ansible 中，我喜欢把我常用的 task 组织起来，这样才能更轻松编写和测试它们，并且不需要太多的精力就可以管理好它们。</p>
+<p>开始的时候我会把所有的 task 写到一个 playbook 文件里。当文件到达 100 行左右，我会把相关的任务拆分到不同的文件里，并在 playbook 中使用 include_tasks 引入它们。</p>
+<p>随着 playbook 越来越复杂，我经常注意到有一些相关性很高的的 task 可以被独立开，例如安装一个软件、拷贝配置文件、启动（重启）一个守护进程。这种情况下我会用 <code>ansible-galaxy init ROLE_NAME</code> 命令新建一个 role，并且把那些 tasks 放进这个 role 里。</p>
+<p>如果这个 role 够通用，我会把 role 放到 Github 并且提交到 Ansible Galaxy 里，又或者放到一个单独的私有 Git 仓库里。现在我可以通过 <a href="https://github.com/metacloud/molecule/" target="_blank" rel="noopener">Molecule</a> 或者其它测试工具为 role 添加一系列的通用测试，哪怕这些 role 被隶属不同的团队的不同项目所使用。</p>
+<p>之后我会通过 <code>requirements.txt</code> 文件把外部的 role 引入到项目里。对于某些稳定性至关重要的项目，我会通过 git ref 或者 tag 指定 role 的版本。对于其它项目我则会牺牲一点稳定性以换取更好的可维护性（例如测试 playbook 或者一次性的服务器配置），我直接使用 role 的名字（如果不在 Ansible Galaxy 上就指定仓库的详情）。</p>
+<p>对于大部分项目我都不会把外部 role 提交到代码仓库里，因为在 CI 系统里每次从头运行的时候都会去安装。但是在有一些情况下，最好把所有的 role 都提交到仓库里。比如有一些开发者日常会用到我写的 <a href="https://www.drupalvm.com/" target="_blank" rel="noopener">Drupal 虚拟机</a>的 playbook，这些开发者通常住在离 Ansible Galaxy 服务器很远的地方，所以他们在安装大量必要依赖的时候会遇到麻烦。因此我把所有 role 都提交到仓库里了，这样他们在构建一个新的 Drupal 虚拟机实例的时候就不用等着所有 role 安装完成了。</p>
+<p>如果你真的把 role 都提交到仓库里了，你需要在每次更新 role 的时候有一个彻底（thorough）的流程，确保你的 <code>requirements.yml</code> 文件和已经安装的 role 同步！我通常通过 <code>ansible-galaxy install -r requirements.yml --force</code> 命令来强制替换仓库里的 role，并且保持诚实（踏实？）！</p>
+<h2 id="简化和优化"><a href="#简化和优化" class="headerlink" title="简化和优化"></a>简化和优化</h2><blockquote>
+<p>YAML 不是一门编程语言<br>- Jeff Geerling</p>
+</blockquote>
+<p>大家喜欢用 Ansible 的一个原因是它基于 YAML 并且拥有一套声明式的语法。如果你要安装一个模块就在 task 里这样写：<code>package: name=httpd state=present</code>。如果你要确保一个服务运行就这样写 <code>service: name=httpd state=started</code></p>
+<p>然而在很多情况下，你会需要让一切更智能化。举个例子，如果你用相同的 role 构建虚拟机和容器，但是你并不想在容器里启动服务，你需要增加一个只在某些条件下执行（when condition）的限制：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- name:</span> <span class="string">Ensure</span> <span class="string">Apache</span> <span class="string">is</span> <span class="string">started</span></span><br><span class="line"><span class="attr">  service:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">httpd</span></span><br><span class="line"><span class="attr">    state:</span> <span class="string">started</span></span><br><span class="line"><span class="attr">  when:</span> <span class="string">'server_type != "container" '</span></span><br></pre></td></tr></table></figure>
+<p>此类逻辑是简单的，并且在别人阅读 task 以搞清楚它的目的时候很有用。但是有的人会在 when condition 里写上一大堆花里胡哨的判断，甚至是 Ansible 暴露出的 Jinja2 和 Python 的接口，这种情况下容易失控（get off rails）。</p>
+<p>根据经验（as a rule of thumb），如果你在 playbook 的 when condition 里为了正确的转义引号上花费了 10 分钟以上，你这时候就应该考虑写一个单独的模块来完成 task 用到的逻辑。Python 脚本通常应该位于独立的模块里，而不是和其它的 YAML 写到行内。当然也有例外（比如比较复杂的字典和字符串时），但我会努力避免在 Ansible playbook 里写任何复杂的代码。</p>
+<p>除了避免复杂逻辑，还有一个很有效的方法是让 playbook 运行更快。我经常 profile 一个 playbook （通过设置 callback_whitelist = profile_roles, profile_tasks, timer 默认参数），发现一两个 task 或者 role 和 playbook 其它的相比花了很长的时间。</p>
+<p>举个例子，有一个 playbook 里用了 copy 模块来复制一个有几十个文件的大目录。由于 Ansible 拷贝文件模块的内部实现，复制每个文件都意味着一直在 SSH 链接上等待着传输完成。</p>
+<p>把这个 task 改成基于 synchronize 的可以在每次运行的时候节省好长时间。针对单次运行这看起来没什么，但是当 playbook 需要定期运行的时候（例如确保一台服务器的配置），或者作为 CI 流程的一部分的时候保持它的高效就很重要了。否则它会让 CPU 周期耗费在一些无用代码上，开发者通常会很讨厌等待 CI 测试通过，他们只想知道代码会不会导致问题。</p>
+<p>请关注我在 AnsibleFest Austin 2018 的演讲 <a href="https://agenda.fest.ansible.com/SessionDetail.aspx?id=482018" target="_blank" rel="noopener">Make your Ansible Playbooks flexible, maintainable, and scalable</a>。如果这还不够，我在我的书 《Ansible for DevOsp》 里有很多关于编写和维护 Ansible Playbook 的文章（<a href="https://www.ansible.com/resources/ebooks/ansible-for-devops" target="_blank" rel="noopener">你可以从 Red Hat 官网下载到摘录</a>）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable/" data-id="cjmvkfw1z0000poiwg501l70z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-webpack-cross-platform-development" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/16/webpack-cross-platform-development/" class="article-date">
@@ -191,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2018/09/16/webpack-cross-platform-development/" data-id="cjm4bakxy00008vu2927rplof" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2018/09/16/webpack-cross-platform-development/" data-id="cjmvkej0t001by8iw3j2r1ikv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -232,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2018/08/06/live-long/" data-id="cjm45veji0009e8u2k6e2kt8p" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2018/08/06/live-long/" data-id="cjmvkeiz30006y8iwgzkj826z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -270,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2018/08/05/migrate-to-hexo/" data-id="cjm45vejm000be8u2akz9afie" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2018/08/05/migrate-to-hexo/" data-id="cjmvkeiz8000ay8iwa2pp34gi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -311,7 +375,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2017/05/04/speech-fed-to-devops/" data-id="cjm45vekc000ve8u24qr4j2es" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2017/05/04/speech-fed-to-devops/" data-id="cjmvkeizv000ry8iwscghqrrx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -369,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/12/28/introduction-to-outlier-detection/" data-id="cjm45vejb0004e8u27f5cehn4" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/12/28/introduction-to-outlier-detection/" data-id="cjmvkeiyz0004y8iwm1o5roxx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +477,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/09/04/speech-fed-devops-practices/" data-id="cjm45veka000se8u2l2txjjgk" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/09/04/speech-fed-devops-practices/" data-id="cjmvkej00000sy8iwfeft5gcb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -454,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/07/22/react-makes-you-sad/" data-id="cjm45vek3000le8u2068lwkr0" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/07/22/react-makes-you-sad/" data-id="cjmvkeizl000ky8iwogrh5r3j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -491,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/07/10/react-should-update-performance/" data-id="cjm45vek4000me8u2injpgt64" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/07/10/react-should-update-performance/" data-id="cjmvkeizo000my8iw3yjw9wut" class="article-share-link">Share</a>
       
       
     </footer>
@@ -528,48 +592,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/07/01/webpack-feature-toggle/" data-id="cjm45vekm0018e8u2jbzpkr2t" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-speech-nodejs-performance-mornitoring" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/06/04/speech-nodejs-performance-mornitoring/" class="article-date">
-  <time datetime="2016-06-04T04:00:00.000Z" itemprop="datePublished">2016-06-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/演讲/">演讲</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/04/speech-nodejs-performance-mornitoring/">[演讲] 小创公司如何提升前端开发效率</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[PPT(<a href="https://www.slideshare.net/wyvernnot/frontend-devopsv10-62972604" target="_blank" rel="noopener">https://www.slideshare.net/wyvernnot/frontend-devopsv10-62972604</a>)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/06/04/speech-nodejs-performance-mornitoring/" data-id="cjm45veke000xe8u26900z00d" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/07/01/webpack-feature-toggle/" data-id="cjmvkej0p0018y8iwevwb3yap" class="article-share-link">Share</a>
       
       
     </footer>
@@ -609,7 +632,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -620,6 +643,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable/">[译] 书写灵活、可维护，可扩展的 Ansible Playbook</a>
+          </li>
         
           <li>
             <a href="/2018/09/16/webpack-cross-platform-development/">基于 Webpack 的跨平台开发</a>
@@ -635,10 +662,6 @@
         
           <li>
             <a href="/2017/05/04/speech-fed-to-devops/">[演讲] 前端转行 DevOps 经验分享</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
           </li>
         
       </ul>

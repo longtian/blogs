@@ -65,6 +65,137 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-react-component-example" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/20/react-component-example/" class="article-date">
+  <time datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/20/react-component-example/">如何使用 ES6 编写一个 React 模块, 并且编译后发布到 NPM.</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/longtian/react-component-example" target="_blank" rel="noopener">源码</a></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#源代码">源代码</a></li>
+<li><a href="#编译">编译</a><ul>
+<li><a href="#babel">Babel</a></li>
+<li><a href="#命令详解">命令详解</a></li>
+<li><a href="#babelrc文件">.babelrc文件</a></li>
+</ul>
+</li>
+<li><a href="#样例代码">样例代码</a></li>
+<li><a href="#发布">发布</a></li>
+<li><a href="#使用">使用</a><ul>
+<li><a href="#使用源码">使用源码</a></li>
+<li><a href="#样式">样式</a></li>
+</ul>
+</li>
+<li><a href="#关于">关于</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前端开发果真是发展迅猛，刚享受到由模块化，组件化和单元测试带来的种种好处，又得迅速拥抱 Grunt, Gulp, Browserify， Webpack 这类自动化工具的变革。<br>除了工具和生态圈，JavaScript 本身也在飞速发展着。ES2015(ES6) ，ES2016(ES7) … 照这样的节奏，几乎是一年一个标准。标准多了，为解决兼容性的问题，<br>竟也派生出了 <code>源代码</code> 和 <code>编译</code> 的概念。前端开发者通过语法糖、转化器、Polyfill 等，可以享受到标准乃至尚未定稿草案里的规范的便利，大幅提升开发效率。</p>
+<p>如果你在使用 React， 那么肯定已经撸了好多自己的组件， 并尝试着共享出来。在 OneAPM 前端开发过程中， 我们也曾遇到了一些组件共享的问题：</p>
+<p>例如:</p>
+<ul>
+<li>是通过 git 直接发布还是通过 NPM 发布 ？</li>
+<li>发布的是 ES5 的代码还是 ES6 的代码 ？</li>
+<li>如何解决 Babel5 和 Babel6 的冲突 ？</li>
+</ul>
+<p>这篇文章会通过编写一个叫做 MyComponet 的组件来演示发布一个 React 组件需要注意的地方, 并不涉及单元测试和代码规范等。<br>至于这个模块本身,它的功能特别简单, 就是显示模块自身的的属性。</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>我们来编写 <code>MyComponent</code> 组件，放到项目的 <code>src</code> 目录下。</p>
+<p><strong>src/MyComponent.jsx</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MyComponent = <span class="function"><span class="params">props</span>=&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;</span><br><span class="line">    props:</span><br><span class="line">    &lt;pre&gt;&#123;JSON.stringify(props, null, 2)&#125;&lt;/pre&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> MyComponent;</span><br></pre></td></tr></table></figure>
+<p>关于各种文件放在哪里, 这里是我推荐的一些约定:</p>
+<ul>
+<li>src 下用于存放源代码</li>
+<li>lib 是编译后的代码，这个目录只读</li>
+<li>所有包含 ES6 语法的文件名统一后缀为 .es6</li>
+<li>所有包含 JSX 语法的文件后统一缀名为 .jsx</li>
+</ul>
+<p>假设源代码里还有另外两个文件 <code>foo.es6</code> 和 <code>bar.js</code>，简化起见都丢到 <code>src</code> 的根目录下。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h3 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h3><p>为了把 ES6 代码编译成 ES5，需要安装 Babel，这个工具可以说野心极大，一次编译可以让 JavaScript 运行在所有地方。（听起来是不是有点 Java 的作风）</p>
+<p>目前最常用的是 Babel5 版本，但是 Babel6 版本的设计更为精巧，已经非常推荐更新。也正是由于 Babel 有两个版本，所以开发过程中很有可能遇到这样的情况，<br>模块 A 的开发依赖于 Babel5 版本，而模块 B 依赖于 Babel6 版本。</p>
+<p><em>解决这个问题最好的做法就是把 A 和 B 拆开，独立开发和发布。并且在发布到 NPM 的时候发布是的编译后的，也就是 ES5 版本的代码。</em></p>
+<p>所以如果你的机器上的 <code>babel</code> 是全局安装的，是时候卸载它了，因为它的版本不是 5 就是 6 ，会导致一些不可预见的问题。</p>
+<p><code>npm uninstall babel-cli --global</code></p>
+<p>正确的安装方式是把 babel-cli 作为 development 依赖</p>
+<p><code>npm install babel-cli --save-dev</code></p>
+<p>使用的时候并不是直接调用全局的 <code>babel</code> 而是调用依赖里的 <code>babel</code> 可执行文件</p>
+<p><code>./node_modules/.bin/babel</code></p>
+<p>如果按照前文的约定来组织代码，<code>src</code> 目录结构看起来是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├── bar.js</span><br><span class="line">├── foo.es6</span><br><span class="line">└── MyComponent.jsx</span><br></pre></td></tr></table></figure>
+<p>模块所有的代码都在一个目录下，这样编译过程就简单多了，两条命令就可以完成</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/rimraf lib</span><br><span class="line">./node_modules/.bin/babel src --copy-files --<span class="built_in">source</span>-maps --extensions .es6,.es,.jsx --out-dir lib</span><br></pre></td></tr></table></figure>
+<p>输出目录的结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lib</span><br><span class="line">├── bar.js</span><br><span class="line">├── foo.js</span><br><span class="line">├── foo.js.map</span><br><span class="line">├── MyComponent.js</span><br><span class="line">└── MyComponent.js.map</span><br></pre></td></tr></table></figure>
+<h3 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h3><p>具体解释一下各个命令的作用：</p>
+<p>第一条命令 <code>./node_modules/.bin/rimraf lib</code></p>
+<p><strong>作用</strong> 编译前清空之前的 lib 目录，这是一个好习惯，可以杜绝对 lib 下的文件的任何手动更改。</p>
+<p>第二条命令</p>
+<p><code>./node_modules/.bin/babel src --out-dir lib --source-maps --extensions .es6,.es,.jsx --copy-files</code></p>
+<p><strong>作用</strong> 遍历 src 目录下的文件，如果后缀名是 .es/.es6/.jsx 中的一种，就编译成 ES5，否则就直接拷贝到输出目录 lib 下</p>
+<p>参数详解:</p>
+<p><code>--out-dir lib</code> 指定输出目录为 lib</p>
+<p><code>--extensions .es6,.es,.jsx</code> 指定需要编译的文件类型</p>
+<p><code>--copy-files</code> 对于不需要编译的文件直接拷贝</p>
+<p><code>--source-maps</code> 生成 souce-map 文件</p>
+<h3 id="babelrc-文件"><a href="#babelrc-文件" class="headerlink" title=".babelrc 文件"></a>.babelrc 文件</h3><p>编译过程中还隐含了一个步骤就是加载 <code>.babelrc</code> 文件里的配置，该文件内容如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    <span class="string">"es2015"</span>,</span><br><span class="line">    <span class="string">"stage-0"</span>,</span><br><span class="line">    <span class="string">"react"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 React 的 preset，同时项目依赖里要添加<br><code>babel-preset-react</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-preset-react --save-dev</span><br></pre></td></tr></table></figure>
+<h2 id="样例代码"><a href="#样例代码" class="headerlink" title="样例代码"></a>样例代码</h2><p>开发和调试 React 模块目前最好用的打包工具还是 Webpack，在项目跟目录下，新建一个 example 目录：</p>
+<p>example/index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cn"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>example/src/index.jsx</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> MyComponent,&#123;foo,bar&#125; <span class="keyword">from</span> <span class="string">'../../'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;render&#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(element);</span><br><span class="line">render(<span class="xml"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">name</span>=<span class="string">"myComponent"</span>/&gt;</span>, element);</span></span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: path.join(__dirname, <span class="string">'example'</span>, <span class="string">'src'</span>, <span class="string">'index.jsx'</span>),</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.jsx$/</span>,</span><br><span class="line">      loader: <span class="string">'babel'</span>,</span><br><span class="line">      include: [</span><br><span class="line">        path.join(__dirname, <span class="string">'example'</span>)</span><br><span class="line">      ]</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: path.join(__dirname, <span class="string">'example'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>运行样例代码</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/webpack-dev-server</span><br></pre></td></tr></table></figure>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>发布前，还有一件事就是为你的模块添加一个入口文件 <code>index.js</code>，全部指向编译后的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = require(&apos;./lib/MyComponent&apos;);</span><br><span class="line">exports.default = require(&apos;./lib/MyComponent&apos;);</span><br><span class="line">exports.bar = require(&apos;./lib/bar&apos;);</span><br><span class="line">exports.foo = require(&apos;./lib/foo&apos;);</span><br></pre></td></tr></table></figure>
+<p>接下来就可以发布到 NPM 了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>别的开发者如果想使用你新发布的模块的时候可以直接通过 NPM 安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-component-example --save-dev</span><br></pre></td></tr></table></figure>
+<p>然后在父级项目的代码里导入模块</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MyComponent,&#123;foo,bat&#125; <span class="keyword">from</span> <span class="string">'react-component-example'</span></span><br></pre></td></tr></table></figure>
+<p>此时导入的直接是 ES5 代码，跳过了组件的编译过程从而避免了出现组件 Babel 版本和父级项目 Babel 版本不一致的问题，并且速度更快，是不是很棒！</p>
+<h3 id="使用源码"><a href="#使用源码" class="headerlink" title="使用源码"></a>使用源码</h3><p>假设你的模块包含很多组件，开发者可能只想用其中的一个或某几个，这时可以这样导入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import MyComponent from &apos;react-component-example/src/MyComponent.jsx&apos;</span><br></pre></td></tr></table></figure>
+<p>这种情况下，导入的是 ES6 代码，并且会被加入父级项目的编译过程。此外，父级项目在编译这个文件的时候会读取组件的 .babelrc 配置文件。</p>
+<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>推荐每个模块在发布的时候把样式文件 style.css 放在根目录下，如果使用的是预处理工具 LESS 或者 SASS， 同样把处理前后的样式文件一起发布。</p>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p><strong>本文使用的 babel 版本</strong></p>
+<p><code>./node_modules/.bin/babel --version</code> 6.4.5 (babel-core 6.4.5)</p>
+<p><strong>LICENSE</strong></p>
+<p>MIT</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://longtian.io/2016/01/20/react-component-example/" data-id="cjmvkeizj000iy8iw7ze53bo4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-docker-compose-firsttime" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/01/18/docker-compose-firsttime/" class="article-date">
@@ -92,7 +223,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/18/docker-compose-firsttime/" data-id="cjm45vej30001e8u21rvyksc8" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/01/18/docker-compose-firsttime/" data-id="cjmvkeiz60009y8iwggnjmmih" class="article-share-link">Share</a>
       
       
     </footer>
@@ -208,7 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/13/react-datatables-example/" data-id="cjm45vek6000oe8u2vz0sypby" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/01/13/react-datatables-example/" data-id="cjmvkeizk000jy8iwj33emnmq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -272,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2016/01/08/react-zeroclipboard-example/" data-id="cjm45vek9000re8u23qih7co2" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2016/01/08/react-zeroclipboard-example/" data-id="cjmvkeizn000ly8iwvw371781" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/10/27/service-discovery-using-nodejs/" data-id="cjm45vek7000qe8u2uk991os6" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2015/10/27/service-discovery-using-nodejs/" data-id="cjmvkeizt000qy8iw3dlov0k5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -352,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/09/16/minecraft-in-docker/" data-id="cjm45vejp000ce8u2vyvhz8gc" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2015/09/16/minecraft-in-docker/" data-id="cjmvkeiz9000by8iwd25qvky9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -389,7 +520,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/09/11/nodejs-4/" data-id="cjm45vejr000ee8u27i328p30" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2015/09/11/nodejs-4/" data-id="cjmvkeizd000dy8iwpabw59ki" class="article-share-link">Share</a>
       
       
     </footer>
@@ -426,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/08/11/javascript-performance-measurement/" data-id="cjm45vejh0007e8u2b4naolsv" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2015/08/11/javascript-performance-measurement/" data-id="cjmvkeiz40007y8iwtoummurt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,7 +594,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/07/21/nodejs-arduino-mbot/" data-id="cjm45vejv000ge8u2n4vue2dt" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2015/07/21/nodejs-arduino-mbot/" data-id="cjmvkeize000ey8iwsxmmnb4i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -500,45 +631,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/06/27/using-v8-debug-protocol/" data-id="cjm45vekj0012e8u2wj37r7xf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-visual-callback-demo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/06/08/visual-callback-demo/" class="article-date">
-  <time datetime="2015-06-08T05:00:00.000Z" itemprop="datePublished">2015-06-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/08/visual-callback-demo/">可视化的 Callback</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/longtian/visual-callback-demo" target="_blank" rel="noopener">源码</a></p>
-<p>通过使用 <code>async-listener</code> 把 <code>Node.js</code> 中的异步回调可视化。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://longtian.io/2015/06/08/visual-callback-demo/" data-id="cjm45vekk0014e8u2l1myitqq" class="article-share-link">Share</a>
+      <a data-url="https://longtian.io/2015/06/27/using-v8-debug-protocol/" data-id="cjmvkej0k0012y8iwyoeim3a6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -578,7 +671,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -589,6 +682,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable/">[译] 书写灵活、可维护，可扩展的 Ansible Playbook</a>
+          </li>
         
           <li>
             <a href="/2018/09/16/webpack-cross-platform-development/">基于 Webpack 的跨平台开发</a>
@@ -604,10 +701,6 @@
         
           <li>
             <a href="/2017/05/04/speech-fed-to-devops/">[演讲] 前端转行 DevOps 经验分享</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/28/introduction-to-outlier-detection/">异常指标检测</a>
           </li>
         
       </ul>
