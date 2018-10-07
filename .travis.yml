@@ -15,6 +15,7 @@ after_script:
 - git config user.email "wyvernnot@gmail.com"
 - git add .
 - git commit -m "Update docs"
+- git branch -m gh-pages
 - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" gh-pages:gh-pages
 # E: Build LifeCycle
 
