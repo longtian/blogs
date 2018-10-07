@@ -79,4 +79,4 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
 - type: git
-  repo: git@github.com:longtian/blog.longtian.io.git
+  repo: git@github.com:longtian/blogs.git
