@@ -16,12 +16,9 @@ after_script:
 - git add .
 - git commit -m "Update docs"
 - git branch -m gh-pages
-- git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" gh-pages:gh-pages
+- git push --force --quiet "https://${GH_TOKEN}@github.com/longtian/blogs.git" gh-pages:gh-pages
 # E: Build LifeCycle
 
 branches:
   only:
   - master
-env:
-  global:
-  - GH_REF: https://github.com/longtian/blogs.git
