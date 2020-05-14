@@ -1,0 +1,25 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: build
+  image: node
+  commands:
+    - npm install
+    - npm run build
+
+- name: upload
+  image: registry-vpc.cn-beijing.aliyuncs.com/longtian/ossutil
+  volumes:
+    - name: ossutilconfig
+      path: /root/.ossutilconfig
+  commands:
+    - ls -al /root
+    - ossutil --config-file /root/.ossutilconfig cp public oss://longtian-blog
+
+volumes:
+- name: ossutilconfig
+  host:
+    path: /root/.ossutilconfig
