@@ -17,7 +17,7 @@ steps:
       path: /root/.ossutilconfig
   commands:
     - ls -al /root
-    - ossutil --config-file /root/.ossutilconfig cp public oss://longtian-blog
+    - ossutil --config-file /root/.ossutilconfig cp public oss://longtian-blog -r -f -u
 
 volumes:
 - name: ossutilconfig
