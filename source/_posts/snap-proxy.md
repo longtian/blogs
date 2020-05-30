@@ -5,7 +5,7 @@ tags:
  - ubuntu
 ---
 
-Snap 从 `2.28` 版本开始支持代理设置了, 这样安装开发用的工具就方便很多
+Snap 从 `2.28` 版本开始支持代理设置了，安装开发用的工具就方便很多。
 
 ```bash
 sudo snap set system proxy.http="http://<proxy_addr>:<proxy_port>"
