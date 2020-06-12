@@ -8,3 +8,9 @@ build:
   script:
     - npm install
     - npm run build 
+    - ls
+
+dep:
+  image: registry.longtian.info/longtian/ossutil
+  script
+    - ls
