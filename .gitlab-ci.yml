@@ -9,6 +9,9 @@ build:
     - npm install
     - npm run build 
     - ls
+  artifacts:
+    paths:
+      - public
 
 dep:
   image: registry.longtian.info/longtian/ossutil
