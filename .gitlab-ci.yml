@@ -17,3 +17,5 @@ dep:
   image: registry.longtian.info/longtian/ossutil
   script:
     - ls
+  dependencies:
+    - build
