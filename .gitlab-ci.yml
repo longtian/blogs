@@ -18,8 +18,7 @@ dep:
   stage: deploy
   image: registry.longtian.info/longtian/ossutil
   script:
-    - ossutil config -e oss-cn-beijing.aliyuncs.com -i $ID -k $SECRET
-    - cp public oss://longtian-blog -r -f -u
-    - ls
+    - ossutil config -e oss-cn-beijing.aliyuncs.com -i $ID -k $SECRET -c /tmp/ossutilconfig
+    - ossutil cp -c /tmp/ossutilconfig public oss://longtian-blog -r -f -u
   dependencies:
     - build_site
