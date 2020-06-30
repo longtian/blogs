@@ -9,16 +9,6 @@ build_site:
   script:
     - npm install
     - npm run build 
-    - ls
   artifacts:
     paths:
       - public
-
-dep:
-  stage: deploy
-  image: registry.longtian.info/longtian/ossutil
-  script:
-    - ossutil config -e oss-cn-beijing.aliyuncs.com -i $ID -k $SECRET -c /tmp/ossutilconfig
-    - ossutil cp -c /tmp/ossutilconfig public oss://longtian-blog -r -f -u
-  dependencies:
-    - build_site
