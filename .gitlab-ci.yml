@@ -4,7 +4,7 @@ cache:
   paths:
     - node_modules/
 
-build_site:
+pages:
   stage: deploy
   script:
     - npm install
