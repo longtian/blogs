@@ -15,3 +15,7 @@ pages:
       - public
   only:
     - master
+  environment:
+    name: production
+    url: https://blog.longtian.info
+  
