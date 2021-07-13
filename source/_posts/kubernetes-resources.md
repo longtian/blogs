@@ -6,14 +6,14 @@ tags:
 
 最近遇到了 Kubernetes 上的 Web 应用响应时间长尾的问题，上网收集资料，分析了一下原因。
 
-- CGroup 节流导致 Web 相应时间增加
-- 核数越多 CGroup 碎片越严重，性能下降越明显
+- CGroup 节流导致 Web 请求相应时间增加
 - 当前执行的 CPU 不断变动
-- 未绑定到同一个 NUMA 节点
+- 核数越多 CGroup 补偿碎片越严重
+- 跨越 NUMA 节点
 
 ## 请求和限制计算资源
 
-Kubernetes 对资源的细粒度管理功能可以说是吸引传统应用上 Kubernetes 的若干重要原因之一。
+Kubernetes 对资源的细粒度管理功能可以说是吸引传统应用上 Kubernetes 的重要原因之一
 
 我们在定义 Pod 的时候通过以下两个字段可以控制计算资源的分配：
 
@@ -27,6 +27,8 @@ Kubernetes 对资源的细粒度管理功能可以说是吸引传统应用上 Ku
 - 如果不指定 `limits` , 在没有命名空间默认值的情况下可以无限制地使用资源
 - 如果指定了 `limits` , 但是没有指定 `requests` , 则 `requests` 值默认为 `limits` 值
 - 从分配角度讲 `CPU` 属于可以压缩的资源、内存属于不可以压缩的资源
+
+例如
 
 ```yaml
 apiVersion: v1
@@ -59,10 +61,12 @@ spec:
 | defaultRequest          | `request` 
 | min                     | 最小值
 | max                     | 最大值
-| maxLimitRequestRatio    | Limit/Request
+| maxLimitRequestRatio    | 比率
 | type                    | 对象
 
-```
+例如
+
+```yaml
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -82,7 +86,9 @@ spec:
 
 ## Pod 服务质量
 
-运行中的 `Pod` 有一个 `qosClass` 字段，它有以下三种取值
+当系统资源不足时就会有 Pod 遭殃，但是那么多 Pod 怎么知道要干掉哪一个呢。这就和 Pod 的服务质量有关。
+
+查看运行中的 `Pod` 会有一个 `qosClass` 字段，它有以下三种取值：
 
 类型            | 备注
 ---------------|------------
@@ -90,7 +96,7 @@ Guaranteed     | 被保证的，优先级最高，除非超过限制不然不会
 Burstable      | 允许突发，位于中间, 当系统资源不足且没有 `Best-Effort` 级别时
 BestEffort     | 尽力保证，优先级最低，当系统资源不足时最先被干掉
 
-`qosClass` 的值不可以直接设置，而是通过对应的 `requests` 和 `limits` 条件隐式设置
+需要注意 `qosClass` 的值无法直接设置，而是通过 `requests` 和 `limits` 组合隐式设置
 
 ### Guaranteed
 
@@ -110,7 +116,7 @@ BestEffort     | 尽力保证，优先级最低，当系统资源不足时最先
 
 在现代操作系统的设计下，负载运行可能会不断地迁移到不同的 CPU 核心，Kubernetes 上也是一样。
 
-Kubernetes 提供了 CPU 管理策略来实现负载和 CPU 核心的绑定。
+Kubernetes 提供了 CPU 管理策略来实现负载和 CPU 核的绑定。
 
 通过 kubelet 参数 `--cpu-manager-policy` 来指定 CPU 管理策略。
 
@@ -152,11 +158,34 @@ NUMA 是系统优化的一个常用思路，它是伴随着多处理器出现的
 常见的硬件有
 
 - CPU
-- Memoey
+- Memory
 - GPU
 - NIC
 
-`--topology-manager-scope pod` `--topology-manager-policy single-numa-node`
+安装 `numactl` 后可以通过下面的命令查看主机的 NUMA 相关信息
+
+`numactl --harware`
+
+通过下面的命令查看 NUMA 的统计信息
+
+`numastat`
+
+```
+numa_hit       | Number of pages allocated from the node the process wanted.
+numa_miss      | Number of pages allocated from this node, but the process preferred another node.
+numa_foreign   | Number of pages allocated another node, but the process preferred this node.
+local_node     | Number of pages allocated from this node while the process was running locally.
+other_node     | Number of pages allocated from this node while the process was running remotely (on another node).
+interleave_hit | Number of pages allocated successfully with the interleave strategy.
+```
+
+以上指标均可以通过 Telegraf 监控
+
+```
+[[inputs.kernel_vmstat]]
+```
+
+`--cpu-manager-policy static --topology-manager-scope pod --topology-manager-policy single-numa-node`
 
 ## 参考
 
