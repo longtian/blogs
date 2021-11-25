@@ -40,11 +40,16 @@ menu:
   Archives: /archives
 rss: /atom.xml
 banner: images/banner.jpg
+subtitle: This a subtitle
 
 # Content
 excerpt_link: Read More
 fancybox: true
 recent_posts_limits: 5
+# Footer
+copyright: |-
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+  All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
 
 # Sidebar
 sidebar: right
@@ -71,7 +76,7 @@ twitter:
 - **widgets** - Widgets displaying in sidebar
 - **google_analytics** - Google Analytics ID
 - **favicon** - Favicon path
-- **twitter** - Twiiter ID
+- **twitter** - Twitter ID
 
 ## Features
 
