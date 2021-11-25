@@ -5,6 +5,7 @@
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
+    "config": "hexo config theme_config.google_analytics UA-58200086-6",
     "server": "hexo server --draft"
   },
   "hexo": {
