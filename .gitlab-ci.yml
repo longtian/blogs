@@ -6,6 +6,8 @@ cache:
 
 pages:
   stage: deploy
+  variables:
+    npm_config_registry: https://registry.npmmirror.com
   script:
     - npm install
     - npm run config
