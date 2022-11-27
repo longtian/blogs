@@ -1,11 +1,6 @@
-image: node:16
-
-cache:
-  paths:
-    - node_modules/
-
 pages:
-  stage: deploy
+  image: node:16-alpine
+  stage: build
   variables:
     npm_config_registry: https://registry.npmmirror.com
   script:
@@ -17,7 +12,14 @@ pages:
       - public
   only:
     - master
+
+upload:
+  image: ossutil
+  stage: deploy
+  script:
+    - ossutil cp public oss://longtian-blog --recursive
   environment:
     name: production
     url: https://blog.longtian.info
-  
+
+
