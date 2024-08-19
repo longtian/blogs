@@ -36,6 +36,8 @@ https://hub.docker.com/_/alpine?tab=tags&page=1&name=3.12) 里
 - d9459083f962de6bd980ae6a05be2a4cf670df6a1d898157bceb420342bec280
 - 74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18
 
+<!-- more -->
+
 试着都拉取一下，发现都可以
 
 ```

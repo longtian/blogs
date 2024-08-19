@@ -1,8 +1,10 @@
 ---
-title: 腾讯软件源
 date: 2021-03-18 13:28:28
 tags:
 ---
+
+# 腾讯 Centos 软件源的使用
+
 
 ```
 wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
