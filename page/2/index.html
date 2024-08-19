@@ -87,6 +87,235 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-jira-internal-and-ldap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/08/12/jira-internal-and-ldap.html" class="article-date">
+  <time class="dt-published" datetime="2020-08-12T02:56:34.000Z" itemprop="datePublished">2020-08-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/08/12/jira-internal-and-ldap.html">JIRA 内置用户目录与 LDAP 的关系</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>作为运维开发怎么能不折腾一下 JIRA 呢。JIRA 支持从多个来源获取用户信息，默认的是内置用户目录，一个比较常见需求是改用 LDAP 作为用户目录，特别适合公司里有多个账号体系的情况。</p>
+<p>如果想了解其中的细节最好方式还是搭个独立的测试环境，主要是 Jira, OpenLDAP 和 MySQL，可以用一个 docker-compose 搞定。安装和配置部分略去，以下直接给出分析过程：</p>
+<h2 id="相关的表"><a href="#相关的表" class="headerlink" title="相关的表"></a>相关的表</h2><table>
+<thead>
+<tr>
+<th>表名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cwd_directory</td>
+<td>用户目录</td>
+</tr>
+<tr>
+<td>cwd_group</td>
+<td>用户组</td>
+</tr>
+<tr>
+<td>cwd_user</td>
+<td>用户</td>
+</tr>
+<tr>
+<td>cwd_membership</td>
+<td>用户组 -&gt;　用户</td>
+</tr>
+</tbody></table>
+<p><strong>cwd_directory</strong></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>directory_name</th>
+<th>impl_class</th>
+<th>directory_type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>JIRA Internal Directory</td>
+<td>com.atlassian.crowd.directory.InternalDirectory</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>My OpenLDAP</td>
+<td>com.atlassian.crowd.directory.OpenLDAP</td>
+<td>CONNECTOR</td>
+</tr>
+</tbody></table>
+<p>之前看到网上有一条语句改库完成 LDAP 迁移的神操作，这个操作会假设 OpenLDAP 的库 ID 是 10000，果然是艺高人胆大。</p>
+<p><strong>cwd_group</strong></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>directory_id</th>
+<th>group_name</th>
+<th>active</th>
+<th>local</th>
+<th>group_type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>1</td>
+<td>jira-administrators</td>
+<td>1</td>
+<td>0</td>
+<td>GROUP</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>1</td>
+<td>jira-software-users</td>
+<td>1</td>
+<td>0</td>
+<td>GROUP</td>
+</tr>
+<tr>
+<td>10110</td>
+<td>1</td>
+<td>jira-software-users</td>
+<td>1</td>
+<td>1</td>
+<td>GROUP</td>
+</tr>
+</tbody></table>
+<p><strong>cwd_user</strong></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>directory_id</th>
+<th>username</th>
+<th>active</th>
+<th>email_address</th>
+<th>CREDENTIAL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>1</td>
+<td>root</td>
+<td>1</td>
+<td><a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#x65;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#109;">&#114;&#x6f;&#111;&#x74;&#x40;&#x65;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#109;</a></td>
+<td>{PKCS5S2}********</td>
+</tr>
+<tr>
+<td>10102</td>
+<td>10000</td>
+<td>foo</td>
+<td>1</td>
+<td><a href="mailto:&#102;&#x6f;&#x6f;&#x40;&#x65;&#x78;&#97;&#109;&#x70;&#108;&#101;&#46;&#x63;&#111;&#x6d;">&#102;&#x6f;&#x6f;&#x40;&#x65;&#x78;&#97;&#109;&#x70;&#108;&#101;&#46;&#x63;&#111;&#x6d;</a></td>
+<td>nopass</td>
+</tr>
+<tr>
+<td>10100</td>
+<td>1</td>
+<td>foo</td>
+<td>1</td>
+<td><a href="mailto:&#x66;&#x6f;&#x6f;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#x6c;&#x65;&#x2e;&#x63;&#111;&#x6d;">&#x66;&#x6f;&#x6f;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#x6c;&#x65;&#x2e;&#x63;&#111;&#x6d;</a></td>
+<td>{PKCS5S2}********</td>
+</tr>
+</tbody></table>
+<p>迁移之前最大的顾虑就是迁移前的数据能够保存了，这块主要分两部分</p>
+<ul>
+<li>各种任务，评论等</li>
+<li>在项目里的角色</li>
+<li>用户组信息</li>
+</ul>
+<p>通过实验发现只要保证 internal 和 ldap 里的 username 一致 1 和 2 就可以得到保留，同样，只要保证 group_name 一致 3 就可以得到保留。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>结合表里的数据可得到以下结论：</p>
+<ul>
+<li>username 和 group_name 在各自的库里都是唯一的</li>
+<li>从全局看 username 对应的用户只能有一个，取决于目录的优先级顺序</li>
+<li>从全局看 group_name 是不同目录下的用户的集合</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2020/08/12/jira-internal-and-ldap.html" data-id="cm0177mo8000r3kq6gfk67mz4" data-title="JIRA 内置用户目录与 LDAP 的关系" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-vagrantfile-highliting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/07/09/vagrantfile-highliting.html" class="article-date">
+  <time class="dt-published" datetime="2020-07-09T02:00:25.000Z" itemprop="datePublished">2020-07-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/09/vagrantfile-highliting.html">Pycharm 里为 Vagrantfile 如何设置语法高亮</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近又开始捣鼓 <code>Vagrant</code> 了，但是在 Pycharm (2020.1.2) 里一直没有语法高亮，明明装了 <code>Vagrant</code> 插件的。</p>
+<p>还好网上搜到了这个<a target="_blank" rel="noopener" href="https://gist.github.com/boneskull/efcf2dcf265096f014d7#file-vagrantfile-xml">方法</a>，新建 <code>Vagrantfile.xml</code> 如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filetype</span> <span class="attr">binary</span>=<span class="string">&quot;false&quot;</span> <span class="attr">description</span>=<span class="string">&quot;Vagrant Configuration File&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Vagrantfile&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">highlighting</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">options</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;LINE_COMMENT&quot;</span> <span class="attr">value</span>=<span class="string">&quot;#&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;COMMENT_START&quot;</span> <span class="attr">value</span>=<span class="string">&quot;=begin&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;COMMENT_END&quot;</span> <span class="attr">value</span>=<span class="string">&quot;=end&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HEX_PREFIX&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;NUM_POSTFIXES&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_BRACES&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_BRACKETS&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_PARENS&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_STRING_ESCAPES&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">options</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords</span> <span class="attr">keywords</span>=<span class="string">&quot;BEGIN;END;begin;break;case;do;else;elsif;end;ensure;for;if;in;next;rescue;retry;then;until;when;while&quot;</span> <span class="attr">ignore_case</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords2</span> <span class="attr">keywords</span>=<span class="string">&quot;__ENCODING__;__END__;__FILE__;__LINE__&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords3</span> <span class="attr">keywords</span>=<span class="string">&quot;and;false;nil;not;or;true&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords4</span> <span class="attr">keywords</span>=<span class="string">&quot;class;def;module;return;self;super;undef;yield&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">highlighting</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">extensionMap</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">pattern</span>=<span class="string">&quot;Vagrantfile&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">extensionMap</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filetype</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>貌似得放到某个文件夹下，懒得找了，直接在 IDE 里设置吧：</p>
+<p>进入 <code>File &gt; Settings &gt; Editor &gt; File Types</code> 对话框，在 <code>Recognized file types:</code> 里点击 <code>+</code> 号，<br>添加 <code>Vagrantfile</code> 类型即可，其它的配置参照上面 <code>Vagrantfile.xml</code> 里，</p>
+<p>唯一要注意的是 <code>Keywords</code> 部分不是以 <code>;</code> 分割而是需要一行一个 <code>Keyword</code></p>
+<p><strong>错误</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__ENCODING__;__END__;__FILE__;__LINE__</span><br></pre></td></tr></table></figure>
+
+<p><strong>正确</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__ENCODING__</span><br><span class="line">__END__</span><br><span class="line">__FILE__</span><br><span class="line">__LINE__</span><br></pre></td></tr></table></figure>
+
+<p>用这种方法还可为任何类型的文件增加语法高亮，是不是很赞！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2020/07/09/vagrantfile-highliting.html" data-id="cm0177moo002c3kq6608ndbir" data-title="Pycharm 里为 Vagrantfile 如何设置语法高亮" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-crontab-in-docker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/06/22/crontab-in-docker.html" class="article-date">
@@ -183,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/06/22/crontab-in-docker.html" data-id="cm014jhwy0005psq6bmvufiix" data-title="在 Docker 容器里使用 Crontab" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2020/06/22/crontab-in-docker.html" data-id="cm0177mo000043kq64o36ggpp" data-title="在 Docker 容器里使用 Crontab" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -233,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/05/30/hashicorp-export-control.html" data-id="cm014jhx2000fpsq67jfa6f7r" data-title="也谈 HashiCorp 禁止中国公司使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2020/05/30/hashicorp-export-control.html" data-id="cm0177mo4000d3kq64zzfbehi" data-title="也谈 HashiCorp 禁止中国公司使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -285,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/05/30/snap-proxy.html" data-id="cm014jhxg001mpsq62b4q8bxh" data-title="Snap 设置代理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2020/05/30/snap-proxy.html" data-id="cm0177mok001t3kq65obzh1d3" data-title="Snap 设置代理" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -327,7 +556,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/05/14/migrate-to-aliyun-oss.html" data-id="cm014jhx7000zpsq6hzw1bn54" data-title="更换博客域名" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2020/05/14/migrate-to-aliyun-oss.html" data-id="cm0177moa00123kq684iwe0bi" data-title="更换博客域名" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -432,7 +661,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2018/10/21/5-reasons-sourcemaps-are-broken.html" data-id="cm014jhww0003psq6b3v5gxt1" data-title="[译] 导致 SourceMap 无效常见的 4 个原因" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2018/10/21/5-reasons-sourcemaps-are-broken.html" data-id="cm0177mnt00003kq624eogagu" data-title="[译] 导致 SourceMap 无效常见的 4 个原因" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -500,7 +729,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable.html" data-id="cm014jhx80011psq65a8ebsp5" data-title="[译] 书写灵活、可维护，可扩展的 Ansible Playbook" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable.html" data-id="cm0177moa000z3kq6ftoqdh9u" data-title="[译] 书写灵活、可维护，可扩展的 Ansible Playbook" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -647,7 +876,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2018/09/16/webpack-cross-platform-development.html" data-id="cm014jhxm002epsq60aj07t6g" data-title="基于 Webpack 的跨平台开发" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2018/09/16/webpack-cross-platform-development.html" data-id="cm0177mop002h3kq674gz4zhk" data-title="基于 Webpack 的跨平台开发" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -690,90 +919,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2018/08/06/live-long.html" data-id="cm014jhx6000wpsq655byag36" data-title="珍惜身体" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-migrate-to-hexo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/05/migrate-to-hexo.html" class="article-date">
-  <time class="dt-published" datetime="2018-08-05T15:00:00.000Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/05/migrate-to-hexo.html">整理博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>偶尔会有一些想法，有的时候会直接在 Github 上新建一个项目，但是越来越发现用这种方法不好整理。</p>
-<p>所以这两天把散落到 Github 上的文章好好整理一下。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2018/08/05/migrate-to-hexo.html" data-id="cm014jhx80012psq6enom99uo" data-title="整理博客" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-speech-fed-to-devops" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2017/05/04/speech-fed-to-devops.html" class="article-date">
-  <time class="dt-published" datetime="2017-05-04T04:00:00.000Z" itemprop="datePublished">2017-05-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2017/05/04/speech-fed-to-devops.html">[演讲] 前端转行 DevOps 经验分享</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/wyvernnot/devops-75662935">PPT</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2017/05/04/speech-fed-to-devops.html" data-id="cm014jhxh001spsq6hyuj7jwt" data-title="[演讲] 前端转行 DevOps 经验分享" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2018/08/06/live-long.html" data-id="cm0177mo9000x3kq64potd4fe" data-title="珍惜身体" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -810,7 +956,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alpine/" rel="tag">alpine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
     </div>
   </div>
 
@@ -820,7 +966,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+      <a href="/tags/alpine/" style="font-size: 10px;">alpine</a> <a href="/tags/devops/" style="font-size: 20px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
     </div>
   </div>
 
@@ -829,7 +975,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -842,6 +988,14 @@
       <ul>
         
           <li>
+            <a href="/2024/05/01/my-first-commit-to-alpine.html">我的第一个 Alpine OS Commit</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/new-baby.html">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
           </li>
         
@@ -851,14 +1005,6 @@
         
           <li>
             <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
           </li>
         
       </ul>

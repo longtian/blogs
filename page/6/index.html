@@ -87,6 +87,122 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-node-oneapm-decorators" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2015/01/21/node-oneapm-decorators.html" class="article-date">
+  <time class="dt-published" datetime="2015-01-21T04:00:00.000Z" itemprop="datePublished">2015-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2015/01/21/node-oneapm-decorators.html">用于 APM 的装饰器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/node-oneapm-decorators">源码</a></p>
+<h1 id="node-oneapm-decorators"><a href="#node-oneapm-decorators" class="headerlink" title="node-oneapm-decorators"></a>node-oneapm-decorators</h1><p>ES7 decorators that can be used in your app to track performance</p>
+<p><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/oneapm-decorators"><img src="https://img.shields.io/npm/v/oneapm-decorators.svg?style=flat-square"></a><br><img src="https://img.shields.io/badge/version-alpha-red.svg?style=flat-square"></p>
+<p>If you are writting a NodeJS application in ES6(7), you can use this module to track your application performance very easily.</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Let’s assume your application definition looks like this</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">App</span> &#123;</span><br><span class="line">  <span class="title function_">handleRequest</span>(<span class="params">req, res</span>) &#123;</span><br><span class="line">    res.<span class="title function_">end</span>(<span class="string">&#x27;ok&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here is how you start the server</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;createServer&#125; <span class="keyword">from</span> <span class="string">&#x27;http&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.es6&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> app = <span class="keyword">new</span> <span class="title class_">App</span>();</span><br><span class="line"><span class="keyword">let</span> server = <span class="title function_">createServer</span>(app.<span class="property">handleRequest</span>);</span><br><span class="line">server.<span class="title function_">listen</span>(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Enhance-it"><a href="#Enhance-it" class="headerlink" title="Enhance it"></a>Enhance it</h2><h3 id="Show-UserAgent-of-each-request"><a href="#Show-UserAgent-of-each-request" class="headerlink" title="Show UserAgent of each request"></a>Show UserAgent of each request</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;useragent&#125; <span class="keyword">from</span> <span class="string">&#x27;../&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">App</span> &#123;</span><br><span class="line">  @useragent</span><br><span class="line">  <span class="title function_">handleRequest</span>(<span class="params">req, res</span>) &#123;</span><br><span class="line">    res.<span class="title function_">end</span>(<span class="string">&#x27;ok&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Track-response-time-using-InfluxDB"><a href="#Track-response-time-using-InfluxDB" class="headerlink" title="Track response time using InfluxDB"></a>Track response time using InfluxDB</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;influxdb&#125; <span class="keyword">from</span> <span class="string">&#x27;../&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">App</span> &#123;</span><br><span class="line">  @<span class="title function_">influxdb</span>(&#123;</span><br><span class="line">    <span class="attr">host</span>: <span class="string">&#x27;influxdb-longtian.myalauda.cn&#x27;</span>,</span><br><span class="line">    <span class="attr">port</span>: <span class="number">11431</span></span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="title function_">handleRequest</span>(<span class="params">req, res</span>) &#123;</span><br><span class="line">    <span class="title function_">createReadStream</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;index.html&#x27;</span>)).<span class="title function_">pipe</span>(res);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>It will continue to flush performance data into InfluxDB, which can be visualized using Grafana</p>
+<p><img src="/doc/screenshot_grafana.png"></p>
+<p>You can set up your own Influxdb server, however here is the <a target="_blank" rel="noopener" href="http://grafana-longtian.myalauda.cn/">DEMO</a></p>
+<h2 id="How-to-run-the-demo"><a href="#How-to-run-the-demo" class="headerlink" title="How to run the demo"></a>How to run the demo</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:wyvernnot/node-oneapm-decorators.git</span><br><span class="line"><span class="built_in">cd</span> node-oneapm-decorators</span><br><span class="line">npm install</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure>
+
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
+<li>Set up an InfluxDB server</li>
+<li>Set up Grafana to visualize metrics in InfluxDB</li>
+<li>Import OneAPM decorators into your ES7 code</li>
+<li>Compile and restart your server</li>
+<li>Edit dashboards in Grafana to see charts</li>
+</ul>
+<h2 id="License"><a href="#License" class="headerlink" title="License"></a>License</h2><p>MIT</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2015/01/21/node-oneapm-decorators.html" data-id="cm0177mof00183kq6grpba9ob" data-title="用于 APM 的装饰器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-phpunit-yo-integration" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2014/08/18/phpunit-yo-integration.html" class="article-date">
+  <time class="dt-published" datetime="2014-08-18T04:00:00.000Z" itemprop="datePublished">2014-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2014/08/18/phpunit-yo-integration.html">在 PHP 的集成测试中使用 YO 的通知服务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/phpyonit">源码</a></p>
+<p>PHPUnit</p>
+<blockquote>
+<p>PHPUnit is a programmer-oriented testing framework for PHP. PHPUnit</p>
+</blockquote>
+<p>Apache Ant</p>
+<blockquote>
+<p>Apache Ant is a Java library and command-line tool whose mission is to drive processes described in build files as targets and extension points dependent upon each other. Apache Ant</p>
+</blockquote>
+<p>YO</p>
+<blockquote>
+<p>It’s that simple. yo</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2014/08/18/phpunit-yo-integration.html" data-id="cm0177moh001i3kq65lynec59" data-title="在 PHP 的集成测试中使用 YO 的通知服务" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-nodejs-qemu-demo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2014/08/08/nodejs-qemu-demo.html" class="article-date">
@@ -123,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2014/08/08/nodejs-qemu-demo.html" data-id="cm014jhxa001bpsq6a9k7dn7a" data-title="使用 Node.js 开发一个 QEMU 的网页版入口" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2014/08/08/nodejs-qemu-demo.html" data-id="cm0177mog001e3kq6em12crhp" data-title="使用 Node.js 开发一个 QEMU 的网页版入口" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -168,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2014/07/02/h5ml-vdi.html" data-id="cm014jhx1000bpsq6928u69iq" data-title="基于 HTML5 的远程桌面技术" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2014/07/02/h5ml-vdi.html" data-id="cm0177mo3000b3kq6d1v81l0m" data-title="基于 HTML5 的远程桌面技术" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -205,7 +321,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alpine/" rel="tag">alpine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
     </div>
   </div>
 
@@ -215,7 +331,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+      <a href="/tags/alpine/" style="font-size: 10px;">alpine</a> <a href="/tags/devops/" style="font-size: 20px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
     </div>
   </div>
 
@@ -224,7 +340,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -237,6 +353,14 @@
       <ul>
         
           <li>
+            <a href="/2024/05/01/my-first-commit-to-alpine.html">我的第一个 Alpine OS Commit</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/new-baby.html">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
           </li>
         
@@ -246,14 +370,6 @@
         
           <li>
             <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
           </li>
         
       </ul>

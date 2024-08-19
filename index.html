@@ -87,6 +87,85 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-my-first-commit-to-alpine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/01/my-first-commit-to-alpine.html" class="article-date">
+  <time class="dt-published" datetime="2024-04-30T16:00:00.000Z" itemprop="datePublished">2024-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/01/my-first-commit-to-alpine.html">我的第一个 Alpine OS Commit</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近特别爱用 Alpine OS， 试着在上面使用 K3S 搭建一个 Kubernetes 集群。</p>
+<p>当时使用的版本是 <code>Alpine v3.19</code> ，包管理器里自带的 Kubernetes 版本是 <code>k3s-1.28.8.1-r1</code>，安装过程没有报错，但是启动的时候有一个 <code>Fatal Error</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time=<span class="string">&quot;2024-04-10T00:58:17+08:00&quot;</span> level=fatal msg=<span class="string">&quot;Failed to validate golang version: kubernetes golang build version not set - see &#x27;golang: upstream version&#x27; in https://github.com/kubernetes/kubernetes/blob/v1.28.8/build/dependencies.yaml&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后定位到是 Alpine OS 包管理器没有及时同步上游的改动的问题，看到有人已经在 <code>Edge</code> 频道里修复了 <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/issues/15748">#15748</a>，我就基于这个改动，在 <code>Community</code> 频道里也修复了 <a target="_blank" rel="noopener" href="https://gitlab.alpinelinux.org/alpine/aports/-/merge_requests/63824">#63824</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2024/05/01/my-first-commit-to-alpine.html#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2024/05/01/my-first-commit-to-alpine.html" data-id="cm0177moe00173kq6aew4fgok" data-title="我的第一个 Alpine OS Commit" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/alpine/" rel="tag">alpine</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/devops/" rel="tag">devops</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-new-baby" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/12/27/new-baby.html" class="article-date">
+  <time class="dt-published" datetime="2023-12-27T03:00:00.000Z" itemprop="datePublished">2023-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>几天绝对是一个值得纪念的日子 :)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Baby</span>()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2023/12/27/new-baby.html" data-id="cm0177moe00163kq67a4j4hu1" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-reading-2022" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/06/21/reading-2022.html" class="article-date">
@@ -114,35 +193,15 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>今年上半年突然多了很多时间看书，先把以前囤的纸质书翻了翻，后来又买了一个华为出品的墨水屏，立刻荣升阅读主力。<br>总的来说搭配微信阅读 App 的付费会员还是比较省钱的，预计今年底就能回本。</p>
-<p><strong>读完：</strong></p>
-<h2 id="《原则2》"><a href="#《原则2》" class="headerlink" title="《原则2》"></a>《原则2》</h2><p>居家隔离 7 天的时候读完，大循环的概念可以说是非常实用的长期投资参考</p>
-<h2 id="《一本书读懂从来没懂过的经济学》"><a href="#《一本书读懂从来没懂过的经济学》" class="headerlink" title="《一本书读懂从来没懂过的经济学》"></a>《一本书读懂从来没懂过的经济学》</h2><p>以前确实忽视了理财，导致薪资占收入的几乎 100%，现在渐渐能看懂财报了，也学着投资黄金和基金</p>
-<h2 id="《隐秘战争》"><a href="#《隐秘战争》" class="headerlink" title="《隐秘战争》"></a>《隐秘战争》</h2><h2 id="《美国陷阱》"><a href="#《美国陷阱》" class="headerlink" title="《美国陷阱》"></a>《美国陷阱》</h2><p>长臂管辖太强大了，美国政府的压倒性制裁普通公司根本扛不住，国家才是坚强的后盾</p>
-<p>看本书我还整理了一个 <a target="_blank" rel="noopener" href="https://github.com/longtian/justice-system">美国刑事司法制度流程图</a> 需要自取，233333</p>
-<h2 id="《金融战争》"><a href="#《金融战争》" class="headerlink" title="《金融战争》"></a>《金融战争》</h2><p>书架上翻出来的一本已经泛黄的盗版书，里面的内容还是有点阴谋论的味道的</p>
-<h2 id="《创新公司：皮克斯的启示》"><a href="#《创新公司：皮克斯的启示》" class="headerlink" title="《创新公司：皮克斯的启示》"></a>《创新公司：皮克斯的启示》</h2><p>给自媒体公司如何保持作品质量、避免创意枯竭带来很多启示</p>
-<h2 id="《斯蒂夫·乔布斯传》"><a href="#《斯蒂夫·乔布斯传》" class="headerlink" title="《斯蒂夫·乔布斯传》"></a>《斯蒂夫·乔布斯传》</h2><p>RIP Jobs, 再次读已经是 10 年后了，很多东西都发生了变化，苹果也不再是原来的苹果<br>连 Apple Music 都可以在备受鄙夷的 Android 系统上使用了</p>
-<h2 id="《创新者的窘境》"><a href="#《创新者的窘境》" class="headerlink" title="《创新者的窘境》"></a>《创新者的窘境》</h2><p>据说是乔布斯读了好多遍的书（另外一本是关于禅修的，无感），怎么发展延续性和破坏性创新，这可能就是苹果至今保持市值的秘密</p>
-<h2 id="《乌合之众》"><a href="#《乌合之众》" class="headerlink" title="《乌合之众》"></a>《乌合之众》</h2><p>失智的人群</p>
-<h2 id="《无厂模式》"><a href="#《无厂模式》" class="headerlink" title="《无厂模式》"></a>《无厂模式》</h2><p>通过这本书可以大概了解芯片的产业链，尤其是最新的以 TSMC 为代表的的 Fabless 模式</p>
-<h2 id="《芯片先进封装》"><a href="#《芯片先进封装》" class="headerlink" title="《芯片先进封装》"></a>《芯片先进封装》</h2><p>稀有气体在芯片制造业中的应用</p>
-<h2 id="《奇妙的化学元素》"><a href="#《奇妙的化学元素》" class="headerlink" title="《奇妙的化学元素》"></a>《奇妙的化学元素》</h2><p>复习高中化学知识了属于是</p>
-<h2 id="《没有工作的世界》"><a href="#《没有工作的世界》" class="headerlink" title="《没有工作的世界》"></a>《没有工作的世界》</h2><h2 id="《人体简史》"><a href="#《人体简史》" class="headerlink" title="《人体简史》"></a>《人体简史》</h2><h2 id="《看懂芯片原来这么简单》"><a href="#《看懂芯片原来这么简单》" class="headerlink" title="《看懂芯片原来这么简单》"></a>《看懂芯片原来这么简单》</h2><h2 id="《汽车是怎样跑起来的》"><a href="#《汽车是怎样跑起来的》" class="headerlink" title="《汽车是怎样跑起来的》"></a>《汽车是怎样跑起来的》</h2><p>好像从来没有研究过汽车是怎么跑起来的</p>
-<h2 id="《寄生虫星球》"><a href="#《寄生虫星球》" class="headerlink" title="《寄生虫星球》"></a>《寄生虫星球》</h2><p>寄生虫太可怕了！ 寄生虫和情绪的关系令人称奇。</p>
-<h2 id="《看一眼你就会笑》"><a href="#《看一眼你就会笑》" class="headerlink" title="《看一眼你就会笑》"></a>《看一眼你就会笑》</h2><p>好笑是好笑，就是有的梗有点重复了</p>
-<h2 id="《生活蒙太奇》"><a href="#《生活蒙太奇》" class="headerlink" title="《生活蒙太奇》"></a>《生活蒙太奇》</h2><p>画风很减压</p>
-<h2 id="《从0到无穷》"><a href="#《从0到无穷》" class="headerlink" title="《从0到无穷》"></a>《从0到无穷》</h2><p>数学啊数学</p>
-<h2 id="《挽救计划》"><a href="#《挽救计划》" class="headerlink" title="《挽救计划》"></a>《挽救计划》</h2><p>期待电影</p>
-<h2 id="《月背征途》"><a href="#《月背征途》" class="headerlink" title="《月背征途》"></a>《月背征途》</h2><p>嫦娥和月兔怎么做敏捷迭代的</p>
-<h2 id="《识别急症陷阱》"><a href="#《识别急症陷阱》" class="headerlink" title="《识别急症陷阱》"></a>《识别急症陷阱》</h2><h2 id="《癌症·真相》"><a href="#《癌症·真相》" class="headerlink" title="《癌症·真相》"></a>《癌症·真相》</h2><p>跨国治疗癌症指南</p>
-<h2 id="《牛津通识读本：免疫系统》"><a href="#《牛津通识读本：免疫系统》" class="headerlink" title="《牛津通识读本：免疫系统》"></a>《牛津通识读本：免疫系统》</h2><h2 id="《牛津通识读本：细胞》"><a href="#《牛津通识读本：细胞》" class="headerlink" title="《牛津通识读本：细胞》"></a>《牛津通识读本：细胞》</h2><p>很担心身边的家人、朋友会得癌症，提前做一些知识储备</p>
-<p><strong>在读：</strong></p>
-<p>《沃兹传：与苹果一起疯狂》<br>《癌症传》<br>《国富论》<br>《美联储》<br>《微积分的力量》<br>《财报就像一本故事书》<br>《枪炮、病菌和钢铁》<br>《算力时代：一场新的产业革命》</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2022/06/21/reading-2022.html#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2022/06/21/reading-2022.html" data-id="cm014jhxf001lpsq610320nyh" data-title="我的 2022 书单" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2022/06/21/reading-2022.html" data-id="cm0177moj001o3kq677kceyp7" data-title="我的 2022 书单" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -188,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2022/02/11/how-gps-work.html" data-id="cm014jhx2000gpsq62jp2hghy" data-title="[译] GPS 工作原理的可视化" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2022/02/11/how-gps-work.html" data-id="cm0177mo5000f3kq6bxq52990" data-title="[译] GPS 工作原理的可视化" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -277,51 +336,15 @@
 <li>d9459083f962de6bd980ae6a05be2a4cf670df6a1d898157bceb420342bec280</li>
 <li>74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18</li>
 </ul>
-<p>试着都拉取一下，发现都可以</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull alpine@sha256:d9459083f962de6bd980ae6a05be2a4cf670df6a1d898157bceb420342bec280</span><br><span class="line">docker pull alpine@sha256:74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18</span><br></pre></td></tr></table></figure>
-
-<p>它们对应的镜像都是 <code>alpine:3.12</code> 可以说是一样但又不完全一样。这点可以通过 <code>docker image inspect alpine:3.12</code> 验证。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;Id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha256:b0925e0819214cd29937af66dbaf0e6fe239997faea60922cc890f9984512507&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;RepoTags&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;alpine:3.12&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;RepoDigests&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;alpine@sha256:74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;alpine@sha256:d9459083f962de6bd980ae6a05be2a4cf670df6a1d898157bceb420342bec280&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;Created&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2021-11-12T17:20:08.442217528Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;Container&quot;</span><span class="punctuation">:</span> <span class="string">&quot;385e1cc96cc7482dfb6847e293bb24baecd3f48a49791b9b45e297204b160287&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;...&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span> </span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
-
-<p>也就是两个 <code>Digest</code> 都对应着 Docker 官方打包机在 <code>2021-11-12T17:20:08.442217528Z</code> 这个时间点打包出来的镜像的 ID</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">构建链接（会被定期删除）</span><br><span class="line">https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/alpine/lastSuccessfulBuild/artifact/build-info/image-ids/alpine_3.12.txt</span><br><span class="line">镜像 ID</span><br><span class="line">sha256:b0925e0819214cd29937af66dbaf0e6fe239997faea60922cc890f9984512507</span><br></pre></td></tr></table></figure>
-
-<p>那么不同的 <code>Digest</code> 是怎么对应同一个镜像的呢，这就要查看 Docker Registry 的 API 文档并了解 Docker 拉取镜像的原理了。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p><code>docker pull</code> 显示的是跨平台的 manifest list 的 <code>Digest</code>，而 Docker Hub 显示的是各个平台 manifest 的 <code>Digest</code>。</p>
-<table>
-<thead>
-<tr>
-<th>请求对象</th>
-<th>MIME</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>manifest list</td>
-<td>application&#x2F;vnd.docker.distribution.manifest.list.v2+json</td>
-</tr>
-<tr>
-<td>manifest</td>
-<td>application&#x2F;vnd.docker.distribution.manifest.v2+json</td>
-</tr>
-</tbody></table>
-<p>可以通过 curl 指定不同的 <code>Accpet</code> HTTP 请求头参数测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https://registry.mirror.aliyuncs.com/v2/library/alpine/manifests/3.12 \</span><br><span class="line">  -H <span class="string">&quot;Accept: application/vnd.docker.distribution.manifest.list.v2+json&quot;</span> -v</span><br><span class="line">  </span><br><span class="line">curl https://registry.mirror.aliyuncs.com/v2/library/alpine/manifests/3.12 \</span><br><span class="line">  -H <span class="string">&quot;Accept: application/vnd.docker.distribution.manifest.v2+json&quot;</span> -v</span><br></pre></td></tr></table></figure>
-
-<h3 id="Manifest-List"><a href="#Manifest-List" class="headerlink" title="Manifest List"></a>Manifest List</h3><p>Response Header</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Content-Type:</span> <span class="string">application/vnd.docker.distribution.manifest.list.v2+json</span></span><br><span class="line"><span class="attr">Content-Length:</span> <span class="number">1638</span></span><br><span class="line"><span class="attr">Docker-Content-Digest:</span> <span class="string">sha256:d9459083f962de6bd980ae6a05be2a4cf670df6a1d898157bceb420342bec280</span></span><br><span class="line"><span class="attr">Docker-Distribution-Api-Version:</span> <span class="string">registry/2.0</span></span><br><span class="line"><span class="attr">Etag:</span> <span class="string">&quot;sha256:d9459083f962de6bd980ae6a05be2a4cf670df6a1d898157bceb420342bec280&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>Response Body</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;manifests&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;digest&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha256:74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;mediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/vnd.docker.distribution.manifest.v2+json&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;platform&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;architecture&quot;</span><span class="punctuation">:</span> <span class="string">&quot;amd64&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;os&quot;</span><span class="punctuation">:</span> <span class="string">&quot;linux&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">528</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;digest&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha256:8a6e4b2093eee6246fdd5181cfcad4b587db1068c93315ccf5366f79d8117485&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;mediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/vnd.docker.distribution.manifest.v2+json&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;platform&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;architecture&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arm&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;os&quot;</span><span class="punctuation">:</span> <span class="string">&quot;linux&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;variant&quot;</span><span class="punctuation">:</span> <span class="string">&quot;v6&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">528</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;...&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;mediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/vnd.docker.distribution.manifest.list.v2+json&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;schemaVersion&quot;</span><span class="punctuation">:</span> <span class="number">2</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Manifest"><a href="#Manifest" class="headerlink" title="Manifest"></a>Manifest</h3><p>Response Header</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Content-Type:</span> <span class="string">application/vnd.docker.distribution.manifest.v2+json</span></span><br><span class="line"><span class="attr">Content-Length:</span> <span class="number">528</span></span><br><span class="line"><span class="attr">Docker-Content-Digest:</span> <span class="string">sha256:74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18</span></span><br><span class="line"><span class="attr">Docker-Distribution-Api-Version:</span> <span class="string">registry/2.0</span></span><br><span class="line"><span class="attr">Etag:</span> <span class="string">&quot;sha256:74e5ad84a67e9b8ed7609b32dc2460b76175020923d7f494a73a851446222d18&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>Response Body</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;schemaVersion&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;mediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/vnd.docker.distribution.manifest.v2+json&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;mediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/vnd.docker.container.image.v1+json&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">1471</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;digest&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha256:b0925e0819214cd29937af66dbaf0e6fe239997faea60922cc890f9984512507&quot;</span></span><br><span class="line">   <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;layers&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;mediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/vnd.docker.image.rootfs.diff.tar.gzip&quot;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">2809473</span><span class="punctuation">,</span></span><br><span class="line">         <span class="attr">&quot;digest&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sha256:8572bc8fb8a32061648dd183b2c0451c82be1bd053a4ea8fae991436b92faebb&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">   <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2021/11/25/different-image-digest-in-console-and-on-hub.html" data-id="cm014jhwx0004psq61y93brnk" data-title="为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2021/11/25/different-image-digest-in-console-and-on-hub.html" data-id="cm0177mo000053kq645pp742w" data-title="为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -528,7 +551,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2021/07/12/kubernetes-resources.html" data-id="cm014jhx6000upsq616zpc6yx" data-title="Kubernetes 资源分配" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2021/07/12/kubernetes-resources.html" data-id="cm0177mo8000t3kq6ag432z2o" data-title="Kubernetes 资源分配" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -711,7 +734,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2021/04/21/istio-response-flags.html" data-id="cm014jhx5000ppsq67sabgdzu" data-title="Istio 请求响应标志" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2021/04/21/istio-response-flags.html" data-id="cm0177mo7000n3kq6gccjg5mz" data-title="Istio 请求响应标志" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -818,126 +841,15 @@
 <li>问题 1： 超过了容器的资源限制被 OOM 机制杀掉</li>
 <li>问题 2： 在核数比较高的机器上 JVM 频繁 GC</li>
 </ul>
-<h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题 1"></a>问题 1</h3><p>JDK 8u191 之前这个问题很常见，主要是由于 JVM 获得的最大内存是主机的最大内存而不是容器的最大可用内存，解决方法是修改启动逻辑。<br>让 JVM 能够获取到正确的最大可用内存</p>
-<h3 id="问题-2"><a href="#问题-2" class="headerlink" title="问题 2"></a>问题 2</h3><p>ParallelGC 线程数如果过高会导致 GC 过于频繁，和问题1 类似，这是由于 JVM 获得的可用核数不正确导致的。</p>
-<p>为了解决这两个需要同时修改容器的资源限制和 JVM 的启动参数，并使之相匹配。<br>当然也有一种不那么笨的做法是引入一个动态的启动脚本，先根据容器的实际资源限制算出对应的 JVM 参数再去启动 JVM。<br>JDK 社区已经注意到以上这几个容器化常遇到的问题并在新的 JDK 版本里解决了，由于 JDK8 的超长待机时间，以下便以 JDK8 为例</p>
-<table>
-<thead>
-<tr>
-<th>版本</th>
-<th>GA 时间</th>
-<th>验证镜像</th>
-<th>容器化支持</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>8u191</code></td>
-<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/8u191-relnotes.html">2018-10-16</a></td>
-<td>openjdk:8u191-alpine</td>
-<td>支持</td>
-</tr>
-<tr>
-<td><code>8u131</code></td>
-<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/8u131-relnotes.html">2017-04-18</a></td>
-<td>openjdk:8u131-alpine</td>
-<td>实验性支持</td>
-</tr>
-<tr>
-<td><code>8u121</code></td>
-<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/8u121-relnotes.html">2017-01-17</a></td>
-<td>openjdk:8u121-alpine</td>
-<td>不支持</td>
-</tr>
-</tbody></table>
-<h2 id="识别-CPU-资源"><a href="#识别-CPU-资源" class="headerlink" title="识别 CPU 资源"></a>识别 CPU 资源</h2><p>实验： 通过 <code>ParallelGCThreads</code> 是否符合预期来验证 JDK 对 CPU 资源的识别是否正确</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+PrintFlagsFinal -XX:+UseParallelGC -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
-
-<h3 id="8u191-之前不支持"><a href="#8u191-之前不支持" class="headerlink" title="8u191 之前不支持"></a>8u191 之前不支持</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpus 1 --rm openjdk:8u121-alpine java -XX:+PrintFlagsFinal -XX:+UseParallelGC -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
-
-<p>结果不符合预期，结果为主机核数</p>
-<h3 id="8u191-支持识别可用-CPU-核数"><a href="#8u191-支持识别可用-CPU-核数" class="headerlink" title="8u191 支持识别可用 CPU 核数"></a>8u191 支持识别可用 CPU 核数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpus 1 --rm openjdk:8u191-alpine java -XX:+PrintFlagsFinal -XX:+UseParallelGC -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
-
-<p>结果符合预期，结果为 1</p>
-<h3 id="8u191-关闭自动识别可用-CPU-核数"><a href="#8u191-关闭自动识别可用-CPU-核数" class="headerlink" title="8u191 关闭自动识别可用 CPU 核数"></a>8u191 关闭自动识别可用 CPU 核数</h3><p>在分到 4 个 CPU 核数的情况下，指定可用 CPU 核数为 1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpus 4 --rm openjdk:8u191-alpine java -XX:+PrintFlagsFinal -XX:+UseParallelGC -XX:ActiveProcessorCount=1 -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
-
-<p>结果符合预期，结果为 1</p>
-<h2 id="识别-Memory-资源"><a href="#识别-Memory-资源" class="headerlink" title="识别 Memory 资源"></a>识别 Memory 资源</h2><p>实验： 通过查看 JVM 运行时的参数来验证 JVM 对 Memory 资源的识别是否正确</p>
-<p><code>java -XshowSettings:vm -version</code></p>
-<h3 id="8u121-不支持"><a href="#8u121-不支持" class="headerlink" title="8u121 不支持"></a>8u121 不支持</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u121-alpine java -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
-
-<p>结果不符合预期，结果为主机内存的 25%，这是因为这个版本 JDK 的 MaxHeapSize 计算公式为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MaxHeapSize = MaxRAM / MaxRAMFraction</span><br></pre></td></tr></table></figure>
-
-<p>其中的 <code>MaxRAM</code> <a href="">来自于主机</a></p>
-<h3 id="8u131-实验性支持"><a href="#8u131-实验性支持" class="headerlink" title="8u131 实验性支持"></a>8u131 实验性支持</h3><p>直接使用 8u131 版本的 JDK 运行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u131-alpine java -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
-
-<p>结果不符合预期，说明 8u131 默认没有开启对容器化的支持，要开启需要加上实验性参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u131-alpine java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
-
-<p>结果符合预期</p>
-<h3 id="8u191-默认支持"><a href="#8u191-默认支持" class="headerlink" title="8u191 默认支持"></a>8u191 默认支持</h3><p>使用 8u191 版本运行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u191-alpine java -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
-
-<p>结果符合预期</p>
-<h3 id="8u191-关闭自动识别最大可用内存"><a href="#8u191-关闭自动识别最大可用内存" class="headerlink" title="8u191 关闭自动识别最大可用内存"></a>8u191 关闭自动识别最大可用内存</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u191-alpine java -XX:-UseContainerSupport -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
-
-<p>结果符合预期，结果为主机内存的 25%</p>
-<h2 id="JVM-容器化相关参数"><a href="#JVM-容器化相关参数" class="headerlink" title="JVM 容器化相关参数"></a>JVM 容器化相关参数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100M --rm openjdk:8u191-alpine java \</span><br><span class="line">  -XX:+UnlockExperimentalVMOptions \</span><br><span class="line">  -XX:+UnlockDiagnosticVMOptions \</span><br><span class="line">  -XX:+PrintFlagsFinal \</span><br><span class="line">  -XX:+UseParallelGC -version | grep -i &#x27;cgroup\|container\|parallelgcthreads&#x27;</span><br></pre></td></tr></table></figure>
-
-<h3 id="ActiveProcessorCount"><a href="#ActiveProcessorCount" class="headerlink" title="ActiveProcessorCount"></a>ActiveProcessorCount</h3><blockquote>
-<p>Specify the CPU count the VM should use and report as active</p>
-</blockquote>
-<p>8U191 引入</p>
-<h3 id="PrintContainerInfo"><a href="#PrintContainerInfo" class="headerlink" title="PrintContainerInfo"></a>PrintContainerInfo</h3><p>必须使用 UnlockDiagnosticVMOptions 开启</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u191-alpine java -XshowSettings:vm -XX:+UnlockDiagnosticVMOptions -XX:+PrintContainerInfo -version</span><br></pre></td></tr></table></figure>
-
-<h3 id="UseContainerSupport"><a href="#UseContainerSupport" class="headerlink" title="UseContainerSupport"></a>UseContainerSupport</h3><blockquote>
-<p>Enable detection and runtime container configuration support</p>
-</blockquote>
-<p><code>8U191</code> 引入</p>
-<h3 id="PreferContainerQuotaForCPUCount"><a href="#PreferContainerQuotaForCPUCount" class="headerlink" title="PreferContainerQuotaForCPUCount"></a>PreferContainerQuotaForCPUCount</h3><blockquote>
-<p>Calculate the container CPU availability based on the value of quotas (if set), when true. Otherwise, use the CPU shares value, provided it is less than quota.</p>
-</blockquote>
-<h3 id="UseCGroupMemoryLimitForHeap"><a href="#UseCGroupMemoryLimitForHeap" class="headerlink" title="UseCGroupMemoryLimitForHeap"></a>UseCGroupMemoryLimitForHeap</h3><blockquote>
-<p>Use CGroup memory limit as physical memory limit for heap sizing</p>
-</blockquote>
-<p><code>8U131</code> 引入</p>
-<p>在 JDK11 中已移除，被默认开启的 <code>UseContainerSupport</code> 代替</p>
-<h3 id="MinRAMFraction"><a href="#MinRAMFraction" class="headerlink" title="MinRAMFraction"></a>MinRAMFraction</h3><blockquote>
-<p>Minimum fraction (1&#x2F;n) of real memory used for maximum heap  size on systems with small physical memory size.<br>Deprecated, use MinRAMPercentage instead</p>
-</blockquote>
-<p><code>8U131</code> 引入 <code>8U191</code> 移除</p>
-<h3 id="MaxRAMFraction"><a href="#MaxRAMFraction" class="headerlink" title="MaxRAMFraction"></a>MaxRAMFraction</h3><blockquote>
-<p>Maximum fraction (1&#x2F;n) of real memory used for maximum heap size.                                                          <br>Deprecated, use MaxRAMPercentage instead</p>
-</blockquote>
-<p><code>8U131</code> 引入 <code>8U191</code> 移除</p>
-<h3 id="InitialRAMPercentage"><a href="#InitialRAMPercentage" class="headerlink" title="InitialRAMPercentage"></a>InitialRAMPercentage</h3><blockquote>
-<p>Percentage of real memory used for initial heap size</p>
-</blockquote>
-<p><code>8U191</code> 引入</p>
-<h3 id="MaxRAMPercentage"><a href="#MaxRAMPercentage" class="headerlink" title="MaxRAMPercentage"></a>MaxRAMPercentage</h3><blockquote>
-<p>Maximum percentage of real memory used for maximum heap size</p>
-</blockquote>
-<p>MaxRAMPercentage 在可用内存大于 250MB 时生效</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 1000MB --rm openjdk:8u212-alpine java -XshowSettings:vm -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0 -version</span><br></pre></td></tr></table></figure>
-
-<h3 id="MinRAMPercentage"><a href="#MinRAMPercentage" class="headerlink" title="MinRAMPercentage"></a>MinRAMPercentage</h3><blockquote>
-<p>Minimum percentage of real memory used for maximum heap size on systems with small physical memory size</p>
-</blockquote>
-<p>MaxRAMPercentage 和 MaxRAMPercentage 都是用来计算 MaxHeapSize 的</p>
-<p>MinRAMPercentage 在可用内存小于 250MB 时生效 （实际很少除非 IoT 设备）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 200MB --rm openjdk:8u212-alpine java -XshowSettings:vm -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0 -version</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://dzone.com/articles/difference-between-initialrampercentage-minramperc">https://dzone.com/articles/difference-between-initialrampercentage-minramperc</a></li>
-</ul>
-
+        
+          <p class="article-more-link">
+            <a href="/2021/04/13/containerized-jvm-parameters.html#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2021/04/13/containerized-jvm-parameters.html" data-id="cm014jhwz0007psq6evfpfqhr" data-title="JVM 对容器化支持的参数" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2021/04/13/containerized-jvm-parameters.html" data-id="cm0177mnz00033kq6f80zfyhj" data-title="JVM 对容器化支持的参数" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -959,23 +871,13 @@
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/18/tencentyun.html">腾讯软件源</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.cloud.tencent.com/repo/epel-7.repo</span><br><span class="line">sed -i &#x27;s/cloud\.tencent\.com/tencentyun\.com/1&#x27;</span><br></pre></td></tr></table></figure>
+        <h1 id="腾讯-Centos-软件源的使用"><a href="#腾讯-Centos-软件源的使用" class="headerlink" title="腾讯 Centos 软件源的使用"></a>腾讯 Centos 软件源的使用</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.cloud.tencent.com/repo/epel-7.repo</span><br><span class="line">sed -i &#x27;s/cloud\.tencent\.com/tencentyun\.com/1&#x27;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2021/03/18/tencentyun.html" data-id="cm014jhxj0020psq6akoxf5a8" data-title="腾讯软件源" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2021/03/18/tencentyun.html" data-id="cm0177mom00243kq6hsqgdv9e" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -1050,240 +952,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/09/18/letsencrypt-root-ca.html" data-id="cm014jhx7000xpsq67n4ifs5y" data-title="[译] Let&#39;s Encrypt 的新根证书和中间证书" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2020/09/18/letsencrypt-root-ca.html" data-id="cm0177mo9000v3kq6fvn2dxzf" data-title="[译] Let&#39;s Encrypt 的新根证书和中间证书" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pki/" rel="tag">pki</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-jira-internal-and-ldap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/08/12/jira-internal-and-ldap.html" class="article-date">
-  <time class="dt-published" datetime="2020-08-12T02:56:34.000Z" itemprop="datePublished">2020-08-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/08/12/jira-internal-and-ldap.html">JIRA 内置用户目录与 LDAP 的关系</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>作为运维开发怎么能不折腾一下 JIRA 呢。JIRA 支持从多个来源获取用户信息，默认的是内置用户目录，一个比较常见需求是改用 LDAP 作为用户目录，特别适合公司里有多个账号体系的情况。</p>
-<p>如果想了解其中的细节最好方式还是搭个独立的测试环境，主要是 Jira, OpenLDAP 和 MySQL，可以用一个 docker-compose 搞定。安装和配置部分略去，以下直接给出分析过程：</p>
-<h2 id="相关的表"><a href="#相关的表" class="headerlink" title="相关的表"></a>相关的表</h2><table>
-<thead>
-<tr>
-<th>表名</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>cwd_directory</td>
-<td>用户目录</td>
-</tr>
-<tr>
-<td>cwd_group</td>
-<td>用户组</td>
-</tr>
-<tr>
-<td>cwd_user</td>
-<td>用户</td>
-</tr>
-<tr>
-<td>cwd_membership</td>
-<td>用户组 -&gt;　用户</td>
-</tr>
-</tbody></table>
-<p><strong>cwd_directory</strong></p>
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>directory_name</th>
-<th>impl_class</th>
-<th>directory_type</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>JIRA Internal Directory</td>
-<td>com.atlassian.crowd.directory.InternalDirectory</td>
-<td>INTERNAL</td>
-</tr>
-<tr>
-<td>10000</td>
-<td>My OpenLDAP</td>
-<td>com.atlassian.crowd.directory.OpenLDAP</td>
-<td>CONNECTOR</td>
-</tr>
-</tbody></table>
-<p>之前看到网上有一条语句改库完成 LDAP 迁移的神操作，这个操作会假设 OpenLDAP 的库 ID 是 10000，果然是艺高人胆大。</p>
-<p><strong>cwd_group</strong></p>
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>directory_id</th>
-<th>group_name</th>
-<th>active</th>
-<th>local</th>
-<th>group_type</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>10000</td>
-<td>1</td>
-<td>jira-administrators</td>
-<td>1</td>
-<td>0</td>
-<td>GROUP</td>
-</tr>
-<tr>
-<td>10010</td>
-<td>1</td>
-<td>jira-software-users</td>
-<td>1</td>
-<td>0</td>
-<td>GROUP</td>
-</tr>
-<tr>
-<td>10110</td>
-<td>1</td>
-<td>jira-software-users</td>
-<td>1</td>
-<td>1</td>
-<td>GROUP</td>
-</tr>
-</tbody></table>
-<p><strong>cwd_user</strong></p>
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>directory_id</th>
-<th>username</th>
-<th>active</th>
-<th>email_address</th>
-<th>CREDENTIAL</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>10000</td>
-<td>1</td>
-<td>root</td>
-<td>1</td>
-<td><a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#101;&#120;&#x61;&#x6d;&#112;&#108;&#101;&#x2e;&#99;&#111;&#x6d;">&#114;&#x6f;&#x6f;&#116;&#64;&#101;&#120;&#x61;&#x6d;&#112;&#108;&#101;&#x2e;&#99;&#111;&#x6d;</a></td>
-<td>{PKCS5S2}********</td>
-</tr>
-<tr>
-<td>10102</td>
-<td>10000</td>
-<td>foo</td>
-<td>1</td>
-<td><a href="mailto:&#x66;&#x6f;&#111;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#x6c;&#x65;&#46;&#x63;&#x6f;&#x6d;">&#x66;&#x6f;&#111;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#x6c;&#x65;&#46;&#x63;&#x6f;&#x6d;</a></td>
-<td>nopass</td>
-</tr>
-<tr>
-<td>10100</td>
-<td>1</td>
-<td>foo</td>
-<td>1</td>
-<td><a href="mailto:&#102;&#x6f;&#111;&#x40;&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#99;&#x6f;&#x6d;">&#102;&#x6f;&#111;&#x40;&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#99;&#x6f;&#x6d;</a></td>
-<td>{PKCS5S2}********</td>
-</tr>
-</tbody></table>
-<p>迁移之前最大的顾虑就是迁移前的数据能够保存了，这块主要分两部分</p>
-<ul>
-<li>各种任务，评论等</li>
-<li>在项目里的角色</li>
-<li>用户组信息</li>
-</ul>
-<p>通过实验发现只要保证 internal 和 ldap 里的 username 一致 1 和 2 就可以得到保留，同样，只要保证 group_name 一致 3 就可以得到保留。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>结合表里的数据可得到以下结论：</p>
-<ul>
-<li>username 和 group_name 在各自的库里都是唯一的</li>
-<li>从全局看 username 对应的用户只能有一个，取决于目录的优先级顺序</li>
-<li>从全局看 group_name 是不同目录下的用户的集合</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/08/12/jira-internal-and-ldap.html" data-id="cm014jhx5000rpsq6hq4r3rqe" data-title="JIRA 内置用户目录与 LDAP 的关系" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-vagrantfile-highliting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/07/09/vagrantfile-highliting.html" class="article-date">
-  <time class="dt-published" datetime="2020-07-09T02:00:25.000Z" itemprop="datePublished">2020-07-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/07/09/vagrantfile-highliting.html">Pycharm 里为 Vagrantfile 如何设置语法高亮</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>最近又开始捣鼓 <code>Vagrant</code> 了，但是在 Pycharm (2020.1.2) 里一直没有语法高亮，明明装了 <code>Vagrant</code> 插件的。</p>
-<p>还好网上搜到了这个<a target="_blank" rel="noopener" href="https://gist.github.com/boneskull/efcf2dcf265096f014d7#file-vagrantfile-xml">方法</a>，新建 <code>Vagrantfile.xml</code> 如下</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filetype</span> <span class="attr">binary</span>=<span class="string">&quot;false&quot;</span> <span class="attr">description</span>=<span class="string">&quot;Vagrant Configuration File&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Vagrantfile&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">highlighting</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">options</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;LINE_COMMENT&quot;</span> <span class="attr">value</span>=<span class="string">&quot;#&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;COMMENT_START&quot;</span> <span class="attr">value</span>=<span class="string">&quot;=begin&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;COMMENT_END&quot;</span> <span class="attr">value</span>=<span class="string">&quot;=end&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HEX_PREFIX&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;NUM_POSTFIXES&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_BRACES&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_BRACKETS&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_PARENS&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">option</span> <span class="attr">name</span>=<span class="string">&quot;HAS_STRING_ESCAPES&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">options</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords</span> <span class="attr">keywords</span>=<span class="string">&quot;BEGIN;END;begin;break;case;do;else;elsif;end;ensure;for;if;in;next;rescue;retry;then;until;when;while&quot;</span> <span class="attr">ignore_case</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords2</span> <span class="attr">keywords</span>=<span class="string">&quot;__ENCODING__;__END__;__FILE__;__LINE__&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords3</span> <span class="attr">keywords</span>=<span class="string">&quot;and;false;nil;not;or;true&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">keywords4</span> <span class="attr">keywords</span>=<span class="string">&quot;class;def;module;return;self;super;undef;yield&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">highlighting</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">extensionMap</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">pattern</span>=<span class="string">&quot;Vagrantfile&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">extensionMap</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filetype</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>貌似得放到某个文件夹下，懒得找了，直接在 IDE 里设置吧：</p>
-<p>进入 <code>File &gt; Settings &gt; Editor &gt; File Types</code> 对话框，在 <code>Recognized file types:</code> 里点击 <code>+</code> 号，<br>添加 <code>Vagrantfile</code> 类型即可，其它的配置参照上面 <code>Vagrantfile.xml</code> 里，</p>
-<p>唯一要注意的是 <code>Keywords</code> 部分不是以 <code>;</code> 分割而是需要一行一个 <code>Keyword</code></p>
-<p><strong>错误</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__ENCODING__;__END__;__FILE__;__LINE__</span><br></pre></td></tr></table></figure>
-
-<p><strong>正确</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__ENCODING__</span><br><span class="line">__END__</span><br><span class="line">__FILE__</span><br><span class="line">__LINE__</span><br></pre></td></tr></table></figure>
-
-<p>用这种方法还可为任何类型的文件增加语法高亮，是不是很赞！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2020/07/09/vagrantfile-highliting.html" data-id="cm014jhxl0028psq65a8i8nwv" data-title="Pycharm 里为 Vagrantfile 如何设置语法高亮" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
 
     </footer>
   </div>
@@ -1318,7 +991,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alpine/" rel="tag">alpine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
     </div>
   </div>
 
@@ -1328,7 +1001,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+      <a href="/tags/alpine/" style="font-size: 10px;">alpine</a> <a href="/tags/devops/" style="font-size: 20px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
     </div>
   </div>
 
@@ -1337,7 +1010,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -1350,6 +1023,14 @@
       <ul>
         
           <li>
+            <a href="/2024/05/01/my-first-commit-to-alpine.html">我的第一个 Alpine OS Commit</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/new-baby.html">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
           </li>
         
@@ -1359,14 +1040,6 @@
         
           <li>
             <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
           </li>
         
       </ul>
