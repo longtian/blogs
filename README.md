@@ -1,6 +1,6 @@
 # 博客
 
-[blog.longtian.info](blog.longtian.info)
+[blog.longtian.io](blog.longtian.io)
 
 ## 生成
 
