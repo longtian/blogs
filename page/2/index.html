@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58200086-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58200086-6');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="龙天的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="龙天的博客">
+<meta property="og:url" content="https://blog.longtian.io/page/2/index.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="龙天的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="longtian">
+<meta property="article:tag" content="技术博客">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">大前端，DevOps，敏捷开发</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-crontab-in-docker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/06/22/crontab-in-docker.html" class="article-date">
+  <time class="dt-published" datetime="2020-06-22T14:11:55.000Z" itemprop="datePublished">2020-06-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/06/22/crontab-in-docker.html">在 Docker 容器里使用 Crontab</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近公司有一个需求是在容器里运行 Cron 服务</p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>CentOS 上安装 Cron 很简单，一条命令就可以搞定</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install cronie</span><br></pre></td></tr></table></figure>
+
+<p>目前的 <code>cronie</code> 版本是 <code>1.4.11</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Name        : cronie</span><br><span class="line">Arch        : x86_64</span><br><span class="line">Version     : 1.4.11</span><br><span class="line">Release     : 23.el7</span><br><span class="line">Size        : 215 k</span><br><span class="line">Repo        : installed</span><br><span class="line">From repo   : base</span><br><span class="line">Summary     : Cron daemon for executing programs at set times</span><br><span class="line">URL         : https://github.com/cronie-crond/cronie</span><br><span class="line">License     : MIT and BSD and ISC and GPLv2+</span><br><span class="line">Description : Cronie contains the standard UNIX daemon crond that runs specified programs at</span><br><span class="line">            : scheduled times and related tools. It is a fork of the original vixie-cron and</span><br><span class="line">            : has security and configuration enhancements like the ability to use pam and</span><br><span class="line">            : SELinux.</span><br></pre></td></tr></table></figure>
+
+<p>直接基于 CentOS7 编写 Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos:<span class="number">7</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> groupadd --gid 1000 foo &amp;&amp;\</span></span><br><span class="line"><span class="language-bash">    useradd  --uid 1000 --gid foo foo</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> yum install cronie -y</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;crond&quot;</span>,<span class="string">&quot;-n&quot;</span>,<span class="string">&quot;-x&quot;</span>,<span class="string">&quot;misc,load&quot;</span>,<span class="string">&quot;-i&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h2><p>Cron 的入口当然是 crond 啦，不过 crond 需要前台运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crond -n -i -x misc,load</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<p><code>-n</code> 进程挂前台</p>
+<p><code>-i</code> 关闭 inotify，因为容器里的 inotify 不生效因此检测不到挂载文件的变更</p>
+<p><code>-x</code> 开启调试信息： misc 可以打印命令的输出，load 可以显示读取了哪些配置，其它配置项见文末参考</p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>cron 的配置文件可以在构建镜像的时候打进去，也可以按照需要挂在</p>
+<h3 id="挂载为用户服务"><a href="#挂载为用户服务" class="headerlink" title="挂载为用户服务"></a>挂载为用户服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --<span class="built_in">rm</span> -v ./foo:/var/spool/cron/foo cron crond -n -x misc,load -i</span><br></pre></td></tr></table></figure>
+
+<p><code>foo</code> 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"> </span><br><span class="line">* * * * * id</span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载为系统服务"><a href="#挂载为系统服务" class="headerlink" title="挂载为系统服务"></a>挂载为系统服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --<span class="built_in">rm</span> -v ./root:/etc/crontab cron crond -n -x misc,load -i</span><br></pre></td></tr></table></figure>
+
+<p><code>crontab</code> 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line"> </span><br><span class="line">* * * * * root id</span><br></pre></td></tr></table></figure>
+
+
+<p>注意 &#x2F;etc&#x2F;crontab 和 &#x2F;var&#x2F;spool&#x2F;cron&#x2F;foo 不一样还有第 6 个参数，即指定运行的用户</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ext</td>
+<td>通常和其它几个变量组合使用</td>
+</tr>
+<tr>
+<td>sch</td>
+<td>scheduler</td>
+</tr>
+<tr>
+<td>proc</td>
+<td>进程控制</td>
+</tr>
+<tr>
+<td>pars</td>
+<td>语法解析</td>
+</tr>
+<tr>
+<td>load</td>
+<td>读取</td>
+</tr>
+<tr>
+<td>misc</td>
+<td>杂项</td>
+</tr>
+<tr>
+<td>test</td>
+<td>测试模式，命令实际不会执行</td>
+</tr>
+<tr>
+<td>bit</td>
+<td>？？</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2020/06/22/crontab-in-docker.html" data-id="cm014jhwy0005psq6bmvufiix" data-title="在 Docker 容器里使用 Crontab" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hashicorp-export-control" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/05/30/hashicorp-export-control.html" class="article-date">
+  <time class="dt-published" datetime="2020-05-30T02:52:05.000Z" itemprop="datePublished">2020-05-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/30/hashicorp-export-control.html">也谈 HashiCorp 禁止中国公司使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>昨天最大的瓜当属 <code>HashCorp</code> 禁止中国公司使用。</p>
+<p>作为一名 Devops 工程师，<code>HashCorp</code> 的产品或多或少都接触过。例如之前我们就用他家的 <code>Vagrant</code> 搭建 <code>Ansible</code> 脚本的 CI 环境， 用 <code>Consul</code> 做服务发现，整体给人的感觉还是不错的。</p>
+<p>今天这个瓜的震惊之处在于 <code>Hashicorp</code> 赤裸裸的在协议里写了禁止在中国使用，虽然实际上 <code>出口管制法</code> 并不是第一天存在了. 中国的很多外企分公司实际上都在遵守这一法律。比如微软、英特尔这样的公司很多核心技术都不会出口到中国来，甚至中国国籍的员工参与这些项目的研发也会被法律所限制。 </p>
+<p><code>HashiCorp</code> 错就错在中美斗争的这个关键节点上，把这个一直存在的问题又强调了一遍，<code>HashiCorp</code> 本可以只写 <code>出口限制国家</code> 的（这个列表里还有我们的朝鲜兄弟、伊朗兄弟等），但是非得写 <code>PEOPLE&#39;S REPUBLIC OF CHINA</code>，瞬间在技术圈引爆了一个大瓜。</p>
+<p>另一家公司 <code>Github</code> 其实也不让人省心，因为之前就爆出过屏蔽伊朗开发者的新闻。类似的事件或多或少都会影响中国的开发者参与国际开源软件的热情。还好疫情期间我自己在阿里云上搭了一个 <code>Git</code> 服务器，CI 环境使用的也是自己的，不再担心 <code>Travis</code> 总是很慢的问题。</p>
+<p>总之这次事件再次给我们提了个醒，自主知识产权是多么重要，国产软件加油，国产基础设施加油！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2020/05/30/hashicorp-export-control.html" data-id="cm014jhx2000fpsq67jfa6f7r" data-title="也谈 HashiCorp 禁止中国公司使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-snap-proxy" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/05/30/snap-proxy.html" class="article-date">
+  <time class="dt-published" datetime="2020-05-30T02:34:25.000Z" itemprop="datePublished">2020-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/30/snap-proxy.html">Snap 设置代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Snap 从 <code>2.28</code> 版本开始支持代理设置了，安装开发用的工具就方便很多。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> snap <span class="built_in">set</span> system proxy.http=<span class="string">&quot;http://&lt;proxy_addr&gt;:&lt;proxy_port&gt;&quot;</span></span><br><span class="line"><span class="built_in">sudo</span> snap <span class="built_in">set</span> system proxy.https=<span class="string">&quot;http://&lt;proxy_addr&gt;:&lt;proxy_port&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>分享几个我常用的</p>
+<p><strong>Redis Desktop Manager</strong></p>
+<p>Redis 的一个图形界面客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> snap install redis-desktop-manager</span><br></pre></td></tr></table></figure>
+
+<p><strong>Slack</strong></p>
+<p>Slack 客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> snap install slack</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2020/05/30/snap-proxy.html" data-id="cm014jhxg001mpsq62b4q8bxh" data-title="Snap 设置代理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-migrate-to-aliyun-oss" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/05/14/migrate-to-aliyun-oss.html" class="article-date">
+  <time class="dt-published" datetime="2020-05-14T04:27:44.000Z" itemprop="datePublished">2020-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/05/14/migrate-to-aliyun-oss.html">更换博客域名</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如你所见，博客域名迁移到了 <code>blog.longtian.info</code> 并且开启了 CDN，国内访问的速度更快。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2020/05/14/migrate-to-aliyun-oss.html" data-id="cm014jhx7000zpsq6hzw1bn54" data-title="更换博客域名" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-5-reasons-sourcemaps-are-broken" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/21/5-reasons-sourcemaps-are-broken.html" class="article-date">
+  <time class="dt-published" datetime="2018-10-21T02:59:16.000Z" itemprop="datePublished">2018-10-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/21/5-reasons-sourcemaps-are-broken.html">[译] 导致 SourceMap 无效常见的 4 个原因</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://blog.sentry.io/2018/10/18/4-reasons-why-your-source-maps-are-broken">原文</a></p>
+<p>Souce map 非常好用。换句话说，它们被用来在调试阶段显示源代码，这比线上压缩后的代码好懂多了。从某种意义上讲，source map 可以说是秘密代码（压缩后的代码）的解码器。</p>
+<p>但是要让 source map 正常工作可能很棘手。如果你遇到了麻烦，接下来的一些提示或许能帮助你更好的工作。</p>
+<p>如果你第一次接触 source map，请在继续阅读前看看这篇早期的博客 <a target="_blank" rel="noopener" href="https://blog.sentry.io/2015/10/29/debuggable-javascript-with-source-maps">Debugging Minified JavaScript with Source Maps</a>.</p>
+<h2 id="丢失或错误的-source-map-注释"><a href="#丢失或错误的-source-map-注释" class="headerlink" title="丢失或错误的 source map 注释"></a>丢失或错误的 source map 注释</h2><p>我们假设你已经通过 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/uglify-js">UglifyJS</a> 或者 <a target="_blank" rel="noopener" href="https://webpack.js.org/configuration/devtool/">Webpack</a> 生成了一个 source map。但如果只是生成，而浏览器实际上找不到它，那就很划不来了。要做到这一点，浏览器会假设打包好的 JavaScript 文件里有一行含 <code>sourceMappingURL</code> 的注释或者返回一个叫 <code>SourceMap</code> 的 HTTP 响应头，这个响应头指向 source map 文件的位置。</p>
+<p>为了验证 source map 注释能够正常工作，你需要：</p>
+<p><strong>找到文件最后，自成一行的 <code>sourceMappingURL</code> 注释</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//# sourceMappingURK=script.min.js.map</span></span><br></pre></td></tr></table></figure>
+
+<p>这个值必须是一个有效的 URI。如果是相对路径，那么它是相对于打包出来的 JavaScript 文件（例如 <code>script.min.js</code>）的路径。大多数 source map 生成工具会自动生成这个值，而且提供了选项用于覆盖它。</p>
+<p>如果用的是 UglifyJS，可以通过指定 source map 参数 <code>url=script.min.js.map</code> 来生成这个注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Using UglifyJS 3.3</span><br><span class="line">$ uglifyjs --source-map url=script.min.js.map,includeSources --output script.min.js script.js</span><br></pre></td></tr></table></figure>
+
+<p>如果用的是 Webpack ，通过指定 <code>devtool: &quot;source-map&quot;</code> 能够开启 source map，Webpack 会在最终生成的文件最后输出 <code>sourceMappingURL</code>。你可以通过 <code>sourceMapFilename</code> 自定义该文件的名称。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">app</span>: <span class="string">&quot;src/app.js&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&quot;[name].js&quot;</span>,</span><br><span class="line">    <span class="attr">sourceMapFilename</span>: <span class="string">&quot;[name].js.map&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">devtool</span>: <span class="string">&quot;source-map&quot;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是即使你正确生成了 <code>sourceMappingURL</code>，也有可能它没有在最终上线的版本里出现。例如，前端构建工具链里其它的工具可能会移除所有的注释，结果就是把 <code>//# sourceMappingURL</code> 也一并删掉。</p>
+<p>还有一种情况是你的 CDN 可能会相当智能地把不认识的注释统统删掉；Cloudflare 的自动压缩功能以前就会这么干。所以记住上线后一定要再次确认！</p>
+<p><strong>另外一种做法是：确保服务器返回有效的 SourceMap HTTP 响应头</strong></p>
+<p>除了这个神奇的 <code>sourceMappingURL</code> 注释，你还可以通过返回一个 <code>SourceMap</code> HTTP 响应头来指定 source map 的地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SourceMap: /path/to/script.min.js.map</span><br></pre></td></tr></table></figure>
+
+<p>和 <code>sourceMappingURL</code> 一样，如果这个值是相对路径则相对于打包出来的 JavaScript 文件。浏览器解析 <code>SourceMap</code> HTTP 响应头和 <code>sourceMappingURL</code> 的规则是一样的。</p>
+<p>注意你需要配置你的 web 服务器或者 CDN 来返回这个响应头。但是很多 JavaScript 开发者并不能够随意的修改线上资源的头，所以对大多数人来说，生成 <code>sourceMappingURL</code> 要更简单一些。</p>
+<h2 id="缺少源代码文件"><a href="#缺少源代码文件" class="headerlink" title="缺少源代码文件"></a>缺少源代码文件</h2><p>我们假设你已经正确配置好 source map，你的 <code>sourceMappingURL</code>（或者 <code>SourMap</code> 响应头）存在且生效。到源代码的转换前面部分已经能够正常工作；例如，错误堆栈现在指向源文件的文件名，并且行号和列号也有意义了。尽管这已经算有所提升，但还是缺少一部分，你还是不能通过浏览器的调试工具查看到源代码。</p>
+<p>这很有可能是由于你的 source map 文件没有包含或是指向你的源文件导致的。如果没有源文件，你在调试压缩后的代码时还是会卡住。哦天哪。</p>
+<p>有几种解决方案可以让源代码文件能够正常工作：</p>
+<p><strong>通过 <code>sourcesContent</code> 把源代码嵌到 source map 文件里</strong></p>
+<p>实际上把源代码放到 source map 里是有可能的。在 source map 里，这个字段是 <code>sourcesContent</code>。虽然这会导致 source map 的体积增迅速增长(数以兆计)，但是能够非常简单地让浏览器定位并关联你的源文件。如果你为了让浏览器显示源文件而焦头烂额，我们推荐你这么做。</p>
+<p>如果你用 UglifyJS，你可以用过 <code>includeSources</code> 命令行参数把源代码包含到 source map 的 <code>sourcesContent</code> 属性里：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uglifyjs --source-map url=script.min.js.map,includeSources --output script.min.js script.js</span><br></pre></td></tr></table></figure>
+
+<p>如果你用 Webpack，不需要做什么 - Webpack 会默认把源代码包含进 source map （前提是已经打开了 <code>devtool:&quot;source-map&quot;</code> 配置）。</p>
+<p><strong>把源代码放到开放服务器上</strong></p>
+<p>除了在 <code>source map</code> 里包含源代码，你也可以把它们放到服务器上供浏览器下载。如果你对安全性有担忧，毕竟是你的原始代码，你可以放到 <code>localhost</code> 服务器或者确保它们通过 VPN 才能访问（即这些文件只能通过公司内部网络访问）</p>
+<p><strong>Sentry 用户可以上传源文件</strong></p>
+<p>如果你是一个 Sentry 用户并且你的首要目的是确保 source map 文件能够被用来还原堆栈信息以及前后的源代码，你可以试一下第三种方法：使用 sentry-cli 或者直接调用 API <a target="_blank" rel="noopener" href="https://docs.sentry.io/platforms/javascript/sourcemaps/#uploading-source-maps-to-sentry">上传源文件</a>。</p>
+<p>当然，如果你用的是前两种方法 - 不管是在 source map 了包含源代码还是放到对外开放的服务器上 - Sentry 都能够找到。这完全取决于你。</p>
+<h2 id="多次转换导致-source-map-失效"><a href="#多次转换导致-source-map-失效" class="headerlink" title="多次转换导致 source map 失效"></a>多次转换导致 source map 失效</h2><p>如果你用到了两个或以上的 JavaScript 编译器（例如 Babel 和 UglifyJS）独立调用，有可能生成的 source map 文件指向的是一个处于中间转换状态的代码，而不是源代码。这意味着你在浏览器里调试的时候，步进的是未压缩的代码（这已经有所改善）而不是和你的源代码一一对应。</p>
+<p>举个例子，你用 Babel 把 ES2018 的代码转换成 ES2015，然后用 UglifyJS 进行压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Using Babel7.1 and UglifyJS 3.3</span></span><br><span class="line">$ babel-cli script.js --presets=@babel/env | uglifyjs -o script script.min.js --<span class="built_in">source</span> -map <span class="string">&quot;filename=app.min.js.map&quot;</span></span><br><span class="line">$ <span class="built_in">ls</span> script*</span><br><span class="line">script.js script.min.js script.min.js.map</span><br></pre></td></tr></table></figure>
+
+<p>如果你直接用这个命令生成的 source map 文件，你就会发现它并不准确。这是因为这个 source map 只能把压缩后的代码转换成 Bebel 生成的代码。它并不会指向你的源代码。</p>
+<p><strong>注意这个问题在用 Gulp 或者 Grunt 这类任务管理器的时候也很常见。</strong></p>
+<p>要解决这个问题，有两种方案：</p>
+<p><strong>用类似 Webpack 的打包工具管理所有的转换</strong></p>
+<p>不再把 Babel 和 UglifyJS 分开调用，而是用它们的 Webpack 插件形式（例如 <a target="_blank" rel="noopener" href="https://github.com/babel/babel-loader">babel-loader</a> 和 <a target="_blank" rel="noopener" href="https://github.com/webpack-contrib/uglifyjs-webpack-plugin">uglifyjs-webpack-plugin</a>）。Webpack 能够生成单一的 source map 文件来把最终结果转换回源代码，虽然实际上背后依然有多个转换步骤。</p>
+<p><strong>用一个库把不同转换步骤的 source map 串联起来</strong></p>
+<p>如果你决意要分开使用编译器，你可以用 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/source-map-merger">source-map-merger</a>，或者 Webpack 的 <a target="_blank" rel="noopener" href="https://webpack.js.org/loaders/source-map-loader/">source-map-loader</a> 插件，来把上一步的 source map 吐给下一步的转换。</p>
+<p>如果你有的选，还是推荐你用第一步，直接用 Webpack 省得后来哀怨。</p>
+<h2 id="文件版本不对或缺少版本管理"><a href="#文件版本不对或缺少版本管理" class="headerlink" title="文件版本不对或缺少版本管理"></a>文件版本不对或缺少版本管理</h2><p>我们假设你遵循了上面所有的步骤。你的 <code>sourceMappingURL</code>（或 <code>SourceMap</code> HTTP 响应头）存在并且被正确的声明。你的 source map 包括了你的源代码（或放到公网上）。并且你用了 Webpack 做转换端到端的管理。你的 source map 还是会时不时地映射错误。</p>
+<p>还剩下这样的可能：source map 和生成的代码不匹配。</p>
+<p>这个问题会在这种情况下会发生：首先、浏览器或者工具下载了一个生成的代码（例如 <code>script.min.js</code>），然后试着去下载对应的 source map 文件（<code>script.min.js.map</code>），但是下载到的是 “更新” 后的 source map 文件，和之前的生成代码已经不匹配了。</p>
+<p>这种情况并不会很常见，但是当你在调试的同时进行部署的时候会发生，或者你调试的是即将过期的、被浏览器缓存的资源时会发生。</p>
+<p><strong>要解决这个问题，你需要管理好文件和 source map 的版本</strong>，有下面几种方式：</p>
+<ul>
+<li>给每个文件添加版本号，例如：<code>script.abc123.min.js</code></li>
+<li>在 URL 里添加版本号字符，例如 <code>script.min.js?abc123</code></li>
+<li>为父级目录添加版本号，例如 <code>abc123/script.min.js</code></li>
+</ul>
+<p>选择哪种策略并不要紧，关键是对所有的 JavaScript 资源要使用一致的策略。最好每一个生成的文件和 source map 都有相同的版本号和命名规则，就像下面这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// script.abc123.min.js</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> a=[i=<span class="number">0</span>];++i&lt;<span class="number">20</span>;a[i]=i);</span><br><span class="line"><span class="comment">//# sourceMappingURL=script.abc123.min.js.map</span></span><br></pre></td></tr></table></figure>
+<p>用这种方法管理版本能够保证浏览器下载到生成代码和 source map 文件对应上，避免不必要的版本不一致问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2018/10/21/5-reasons-sourcemaps-are-broken.html" data-id="cm014jhww0003psq6b3v5gxt1" data-title="[译] 导致 SourceMap 无效常见的 4 个原因" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-make-your-ansible-playbooks-flexible-maintainable-and-scalable" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable.html" class="article-date">
+  <time class="dt-published" datetime="2018-10-05T03:20:35.000Z" itemprop="datePublished">2018-10-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable.html">[译] 书写灵活、可维护，可扩展的 Ansible Playbook</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.ansible.com/blog/make-your-ansible-playbooks-flexible-maintainable-and-scalable">原文</a></p>
+<p>自从 2013 年开始使用 Ansible，我已经用 Ansible 自动化完成很多事情：SaaS 服务，树莓派集群，家庭自动化系统，甚至我自己的电脑。</p>
+<p>从那以后，我学会了很多能够降低维护负担的技巧。对我来说项目的可维护性异常重要，因为我的很多项目，例如一个 Apache Solr 项目已经存在超过 10 年了！如果项目难维护或者架构上难以做出大的改变，我会把项目输给其它更敏捷（nimble）的对手，进而丢掉金钱，更重要的是我可能会疯掉。</p>
+<p>今年我会在奥斯汀举办的 AnsibleFest 上做一个<a target="_blank" rel="noopener" href="https://agenda.fest.ansible.com/SessionDetail.aspx?id=482018">同名分享</a>，本文即总结这次分享的主题。</p>
+<h2 id="保持井井有条"><a href="#保持井井有条" class="headerlink" title="保持井井有条"></a>保持井井有条</h2><p>我喜欢摄影和自动化，所以我花了很多时间在涉及树莓派和相机的电子项目上。如果没有图中的组织系统，想要把部件放到正确的位置会是一件让人沮丧的事情。</p>
+<p><img src="https://www.ansible.com/hs-fs/hubfs/45982928-455cdb80-c020-11e8-96e4-833efbac87f4.jpg" alt="组织系统"></p>
+<p>同样的，在 Ansible 中，我喜欢把我常用的 task 组织起来，这样才能更轻松编写和测试它们，并且不需要太多的精力就可以管理好它们。</p>
+<p>开始的时候我会把所有的 task 写到一个 playbook 文件里。当文件到达 100 行左右，我会把相关的任务拆分到不同的文件里，并在 playbook 中使用 include_tasks 引入它们。</p>
+<p>随着 playbook 越来越复杂，我经常注意到有一些相关性很高的的 task 可以被独立开，例如安装一个软件、拷贝配置文件、启动（重启）一个守护进程。这种情况下我会用 <code>ansible-galaxy init ROLE_NAME</code> 命令新建一个 role，并且把那些 tasks 放进这个 role 里。</p>
+<p>如果这个 role 够通用，我会把 role 放到 Github 并且提交到 Ansible Galaxy 里，又或者放到一个单独的私有 Git 仓库里。现在我可以通过 <a target="_blank" rel="noopener" href="https://github.com/metacloud/molecule/">Molecule</a> 或者其它测试工具为 role 添加一系列的通用测试，哪怕这些 role 被隶属不同的团队的不同项目所使用。</p>
+<p>之后我会通过 <code>requirements.txt</code> 文件把外部的 role 引入到项目里。对于某些稳定性至关重要的项目，我会通过 git ref 或者 tag 指定 role 的版本。对于其它项目我则会牺牲一点稳定性以换取更好的可维护性（例如测试 playbook 或者一次性的服务器配置），我直接使用 role 的名字（如果不在 Ansible Galaxy 上就指定仓库的详情）。</p>
+<p>对于大部分项目我都不会把外部 role 提交到代码仓库里，因为在 CI 系统里每次从头运行的时候都会去安装。但是在有一些情况下，最好把所有的 role 都提交到仓库里。比如有一些开发者日常会用到我写的 <a target="_blank" rel="noopener" href="https://www.drupalvm.com/">Drupal 虚拟机</a>的 playbook，这些开发者通常住在离 Ansible Galaxy 服务器很远的地方，所以他们在安装大量必要依赖的时候会遇到麻烦。因此我把所有 role 都提交到仓库里了，这样他们在构建一个新的 Drupal 虚拟机实例的时候就不用等着所有 role 安装完成了。</p>
+<p>如果你真的把 role 都提交到仓库里了，你需要在每次更新 role 的时候有一个彻底（thorough）的流程，确保你的 <code>requirements.yml</code> 文件和已经安装的 role 同步！我通常通过 <code>ansible-galaxy install -r requirements.yml --force</code> 命令来强制替换仓库里的 role，并且保持诚实（踏实？）！</p>
+<h2 id="简化和优化"><a href="#简化和优化" class="headerlink" title="简化和优化"></a>简化和优化</h2><blockquote>
+<p>YAML 不是一门编程语言<br>- Jeff Geerling</p>
+</blockquote>
+<p>大家喜欢用 Ansible 的一个原因是它基于 YAML 并且拥有一套声明式的语法。如果你要安装一个模块就在 task 里这样写：<code>package: name=httpd state=present</code>。如果你要确保一个服务运行就这样写 <code>service: name=httpd state=started</code></p>
+<p>然而在很多情况下，你会需要让一切更智能化。举个例子，如果你用相同的 role 构建虚拟机和容器，但是你并不想在容器里启动服务，你需要增加一个只在某些条件下执行（when condition）的限制：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Ensure</span> <span class="string">Apache</span> <span class="string">is</span> <span class="string">started</span></span><br><span class="line">  <span class="attr">service:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">httpd</span></span><br><span class="line">    <span class="attr">state:</span> <span class="string">started</span></span><br><span class="line">  <span class="attr">when:</span> <span class="string">&#x27;server_type != &quot;container&quot; &#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>此类逻辑是简单的，并且在别人阅读 task 以搞清楚它的目的时候很有用。但是有的人会在 when condition 里写上一大堆花里胡哨的判断，甚至是 Ansible 暴露出的 Jinja2 和 Python 的接口，这种情况下容易失控（get off rails）。</p>
+<p>根据经验（as a rule of thumb），如果你在 playbook 的 when condition 里为了正确的转义引号上花费了 10 分钟以上，你这时候就应该考虑写一个单独的模块来完成 task 用到的逻辑。Python 脚本通常应该位于独立的模块里，而不是和其它的 YAML 写到行内。当然也有例外（比如比较复杂的字典和字符串时），但我会努力避免在 Ansible playbook 里写任何复杂的代码。</p>
+<p>除了避免复杂逻辑，还有一个很有效的方法是让 playbook 运行更快。我经常 profile 一个 playbook （通过设置 callback_whitelist &#x3D; profile_roles, profile_tasks, timer 默认参数），发现一两个 task 或者 role 和 playbook 其它的相比花了很长的时间。</p>
+<p>举个例子，有一个 playbook 里用了 copy 模块来复制一个有几十个文件的大目录。由于 Ansible 拷贝文件模块的内部实现，复制每个文件都意味着一直在 SSH 链接上等待着传输完成。</p>
+<p>把这个 task 改成基于 synchronize 的可以在每次运行的时候节省好长时间。针对单次运行这看起来没什么，但是当 playbook 需要定期运行的时候（例如确保一台服务器的配置），或者作为 CI 流程的一部分的时候保持它的高效就很重要了。否则它会让 CPU 周期耗费在一些无用代码上，开发者通常会很讨厌等待 CI 测试通过，他们只想知道代码会不会导致问题。</p>
+<p>请关注我在 AnsibleFest Austin 2018 的演讲 <a target="_blank" rel="noopener" href="https://agenda.fest.ansible.com/SessionDetail.aspx?id=482018">Make your Ansible Playbooks flexible, maintainable, and scalable</a>。如果这还不够，我在我的书 《Ansible for DevOsp》 里有很多关于编写和维护 Ansible Playbook 的文章（<a target="_blank" rel="noopener" href="https://www.ansible.com/resources/ebooks/ansible-for-devops">你可以从 Red Hat 官网下载到摘录</a>）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable.html" data-id="cm014jhx80011psq65a8ebsp5" data-title="[译] 书写灵活、可维护，可扩展的 Ansible Playbook" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-webpack-cross-platform-development" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/09/16/webpack-cross-platform-development.html" class="article-date">
+  <time class="dt-published" datetime="2018-09-16T01:07:50.000Z" itemprop="datePublished">2018-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/09/16/webpack-cross-platform-development.html">基于 Webpack 的跨平台开发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>小程序、快应用的开发最近相当热门，公司也在开发对应的 SDK 。既然小程序、快应用都是选用的 JavaScript 做为开发语言，那么有没有<br>可能，让小程序和快应用都能公用基于 H5 的 SDK 核心。</p>
+<p>答案是肯定可以！如果用一个词来概括软件工程最想解决的问题，那么 <code>问题拆分</code> 也许是最合适的，我们把问题拆解：</p>
+<ul>
+<li>JavaScript 核心</li>
+<li>对不同平台接口的抽象</li>
+</ul>
+<p><code>JavaScript 核心</code> 不用说，和具体的业务逻辑有关，设计之初就要清晰的知道系统的边界在哪里，核心和接口之间如何通信。</p>
+<p>主要的问题在如何降低接口抽象的复杂度。</p>
+<h2 id="环境变量-代码如何知道当前运行的环境"><a href="#环境变量-代码如何知道当前运行的环境" class="headerlink" title="环境变量 - 代码如何知道当前运行的环境"></a>环境变量 - 代码如何知道当前运行的环境</h2><p>现代软件开发越来越重视过程，例如很多软件都很明显的区分为 <code>构建</code> 和 <code>运行</code> 两个部分。通过参数的不同取值指定运行环境<br>是 <code>构建</code> 过程一个比较常用的步骤，这样做的好处是能够为不同平台构建出不同的工件，有利于减小工件的体积。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 为 H5 打包</span></span><br><span class="line">PLATFORM=H5 build</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 为快应用打包</span></span><br><span class="line">PLATFORM=quickapp build</span><br></pre></td></tr></table></figure>
+
+<p>这样就通过环境变量把运行时的环境传给了负责构件的命令 <code>build</code> (这里假设构件的命令是 build)。</p>
+<p>下面的代码就能够打出不同的包，并在不同平台上会打印出不同的内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`我在 <span class="subst">$&#123;process.env.PLATFORM&#125;</span> 平台下`</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>不同平台如何访问环境变量</strong></p>
+<p><code>process</code> 其实是 Node.js 全局定义的一个属性，那么为什么在非 Node.js 平台下也能访问到呢？这就要借助 <strong><del>前端</del> JavaScript 打包</strong><br>工具 <code>webpack</code> 了, 关于 process 的处理有两种情况：</p>
+<ul>
+<li>在全局会有一个 mock 的 process 对象，确保相关代码能够访问到 process 对象而不会报错</li>
+<li>通过 <code>DefinePlugin</code> 替换代码里的 <code>process.env.PLATFORM</code></li>
+</ul>
+<h2 id="模块隔离-根据平台执行不同的逻辑"><a href="#模块隔离-根据平台执行不同的逻辑" class="headerlink" title="模块隔离 - 根据平台执行不同的逻辑"></a>模块隔离 - 根据平台执行不同的逻辑</h2><p>知道了当前的运行环境，就能够根据平台执行不同的逻辑了</p>
+<p><strong>一般做法</strong></p>
+<p>其实就是 <code>if else</code> ，代码里一定多多少少有一些判断当前平台的代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="keyword">if</span>(process.<span class="property">env</span>.<span class="property">PLATFORM</span> === <span class="string">&#x27;H5&#x27;</span>)&#123;</span><br><span class="line"> <span class="comment">// 如果是 H5 平台就执行这里的代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>if else</code> 虽然能够解决问题，但是当代码比较复杂的时候还是会导致难以维护，比如下面这种情况：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="keyword">if</span>(process.<span class="property">env</span>.<span class="property">PLATFORM</span> === <span class="string">&#x27;H5&#x27;</span>)&#123;</span><br><span class="line">  <span class="comment">// H5 相关逻辑</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(process.<span class="property">env</span>.<span class="property">PLATFORM</span> === <span class="string">&#x27;quickapp&#x27;</span>)&#123;</span><br><span class="line">  <span class="comment">// 快应用下要加载一个模块</span></span><br><span class="line">  <span class="keyword">const</span> dep = <span class="built_in">require</span>(<span class="string">&#x27;some-dependency&#x27;</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="comment">// 其它</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因此这种做法只适合代码比较简单的情况，例如传递一些 <code>flag</code>，否则可以用下面这种方法。</p>
+<p><strong>更优方案</strong></p>
+<p>假设 H5、快应用、小程序都需要用到一个模块叫做 <code>foo</code>，引入的源代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;./foo&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>目录结构如下，<code>foo</code> 模块对应不同平台有不同实现，但是暴露的方法签名以及返回类型是一致的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">foo.js</span><br><span class="line">foo.quickapp.js</span><br><span class="line">foo.miniprogram.js</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>webpack</code> 的 <code>config</code> 参数可以指定不同平台的配置文件。</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>webpack 配置文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>h5</td>
+<td>webpack.config.js</td>
+</tr>
+<tr>
+<td>miniprogram</td>
+<td>webpack.config.miniprogram.js</td>
+</tr>
+<tr>
+<td>quickapp</td>
+<td>webpack.config.quickapp.js</td>
+</tr>
+</tbody></table>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">resolve</span>: &#123;</span><br><span class="line">    <span class="attr">extensions</span>: [<span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.json&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果是快应用的话就修改成这样</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.quickapp.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">resolve</span>: &#123;</span><br><span class="line">    <span class="attr">extensions</span>: [<span class="string">&#x27;.quickapp.js&#x27;</span>, <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.json&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 <code>resolve.extensions</code> 其实是一个数组，当 <code>webpack</code> 遇到 <code>require</code> 一个文件依赖的时候会按照这个顺序进行匹配。</p>
+<h2 id="命名空间-解决第三方模块依赖于浏览器的问题"><a href="#命名空间-解决第三方模块依赖于浏览器的问题" class="headerlink" title="命名空间 - 解决第三方模块依赖于浏览器的问题"></a>命名空间 - 解决第三方模块依赖于浏览器的问题</h2><p>这其实是开发过程过程中一个非常具体的问题，这个模块是 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/jsencrypt">jsencrypt</a>。</p>
+<p>在 <code>H5</code> 平台下引入了这个模块，打包后运行没有问题，但是当尝试在快应用上运行的时候一直报这个错：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;window is undefined&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>显然这个插件是为了 H5 开发的，没有考虑其它平台的兼容性。</p>
+<p><strong>一般做法</strong></p>
+<p>直接把源码下下来丢到 <code>vendors</code> 文件夹下，然后把 <code>window</code>、<code>navigator</code> 相关的兼容性一个一个问题修复。这种做法其实放弃了使用 <code>npm</code> 管理依赖的优势，<br>并且在项目中留下了一个技术债。以后如果 <code>jsencrypt</code> 发布了一个新的不得不使用的版本（例如修复某个安全漏洞），需要手动更新依赖并且打补丁。</p>
+<p><strong>更优方案</strong></p>
+<p>后来突然想起来网上有人遇到过类似的情况：社区有很多的 jQuery 插件，这些插件在编写的时候会假设全局有一个 $ 对象，但是使用了 <code>webpack</code> 以后，<br>由于用到了闭包，全局环境下其实是没有 <code>$</code> 这个对象的的，而解决这个问题一个比较通用的做法是使用 <code>webpack</code> 的 <code>ProvidePlugin</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="comment">//...,</span></span><br><span class="line">    <span class="keyword">new</span> webpack.<span class="title class_">ProvidePlugin</span>(&#123;</span><br><span class="line">      <span class="attr">$</span>: <span class="string">&#x27;jquery&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>顺着这个思路，修改了一下 <code>webpack</code> 配置文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.quickapp.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="comment">//...,</span></span><br><span class="line">    <span class="keyword">new</span> webpack.<span class="title class_">ProvidePlugin</span>(&#123;</span><br><span class="line">      <span class="attr">window</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;noop.js&#x27;</span>),</span><br><span class="line">      <span class="attr">navigator</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;noop.js&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>noop</code> 的代码也非常简单，就是返回一个空对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// noop.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样至少可以保证所有第三方模块都不会报 <code>window</code> 或者 <code>navigator</code> 找不到的错误。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过上面几个由浅入深的问题，我们都够了解到 <code>webpack</code> 不仅仅是前端的打包工具，也可以用于跨平台的开发。</p>
+<table>
+<thead>
+<tr>
+<th>解决问题</th>
+<th>Webpack 配置</th>
+<th>试用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>环境变量</td>
+<td>DefinePlugin</td>
+<td>判断平台，传递 Flag 等较为简单的逻辑</td>
+</tr>
+<tr>
+<td>模块隔离</td>
+<td>resolve.extensions</td>
+<td>引入同一个模块在不同平台下的实现</td>
+</tr>
+<tr>
+<td>命名空间</td>
+<td>ProvidePlugin</td>
+<td>修复兼容性问题，提供跨平台的全局空间</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2018/09/16/webpack-cross-platform-development.html" data-id="cm014jhxm002epsq60aj07t6g" data-title="基于 Webpack 的跨平台开发" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-live-long" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/06/live-long.html" class="article-date">
+  <time class="dt-published" datetime="2018-08-06T15:39:11.000Z" itemprop="datePublished">2018-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/08/06/live-long.html">珍惜身体</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近每天中午都坚持去公园走上 1 万步，虽然没有防晒，皮肤黑了许多，但是感觉精神状态明显比之前强。</p>
+<p>前几天在朋友圈看到一位搞 IT 的朋友得了重病，在水滴筹上募捐。因为这条信息有很多熟人帮忙证实，所以我也参与了一下。</p>
+<p>今天，这位朋友发了一个公众号文章，文章里更新了他的最新状态，并表示将会退还所有捐款，文章末尾发出了他在极客帮上的技术专栏，想都没想就买了。</p>
+<p>后来，到晚上大概算了一下，只用了短短几个小时，课程销售的收入已经超过了之前的捐款总额，真心佩服这位兄弟！</p>
+<p>最后，祝他早日康复。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2018/08/06/live-long.html" data-id="cm014jhx6000wpsq655byag36" data-title="珍惜身体" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-migrate-to-hexo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/05/migrate-to-hexo.html" class="article-date">
+  <time class="dt-published" datetime="2018-08-05T15:00:00.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/08/05/migrate-to-hexo.html">整理博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>偶尔会有一些想法，有的时候会直接在 Github 上新建一个项目，但是越来越发现用这种方法不好整理。</p>
+<p>所以这两天把散落到 Github 上的文章好好整理一下。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2018/08/05/migrate-to-hexo.html" data-id="cm014jhx80012psq6enom99uo" data-title="整理博客" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-speech-fed-to-devops" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/05/04/speech-fed-to-devops.html" class="article-date">
+  <time class="dt-published" datetime="2017-05-04T04:00:00.000Z" itemprop="datePublished">2017-05-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/05/04/speech-fed-to-devops.html">[演讲] 前端转行 DevOps 经验分享</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/wyvernnot/devops-75662935">PPT</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2017/05/04/speech-fed-to-devops.html" data-id="cm014jhxh001spsq6hyuj7jwt" data-title="[演讲] 前端转行 DevOps 经验分享" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/how-gps-work.html">[译] GPS 工作原理的可视化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+</a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2024 longtian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

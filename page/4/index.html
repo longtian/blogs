@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58200086-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58200086-6');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="龙天的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="龙天的博客">
+<meta property="og:url" content="https://blog.longtian.io/page/4/index.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="龙天的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="longtian">
+<meta property="article:tag" content="技术博客">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">大前端，DevOps，敏捷开发</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-other-webpack-loaders" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/05/03/other-webpack-loaders.html" class="article-date">
+  <time class="dt-published" datetime="2016-05-03T04:00:00.000Z" itemprop="datePublished">2016-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/05/03/other-webpack-loaders.html">被遗忘的 Loader</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/introduction-to-statsd">源码</a></p>
+<blockquote>
+<p>专门介绍 Webpack 那些冷门的 Loader</p>
+</blockquote>
+<p>Webpack 的官方文档上有一个 <a target="_blank" rel="noopener" href="http://webpack.github.io/docs/list-of-loaders.html">list-of-loaders</a><br>之是其中的大部分被使用到的机会非常少, 好心疼这些缺 :heart: 的模块, 所以有这个 repo 专门介绍这些冷门 Loader .</p>
+<p><a target="_blank" rel="noopener" href="https://wyvernnot.github.io/other-webpack-loaders">demo</a></p>
+<ul>
+<li><a href="#json-loader">json</a></li>
+<li><a href="#script-loader">script</a></li>
+<li>等等</li>
+</ul>
+<h1 id="raw-loader"><a href="#raw-loader" class="headerlink" title="raw-loader"></a>raw-loader</h1><p>作用:以 utf-8 编码加载文件的内容</p>
+<h1 id="json-loader"><a href="#json-loader" class="headerlink" title="json-loader"></a>json-loader</h1><p>作用:加载一个JSON文件的内容并返回对象.</p>
+<p>在 Node.JS 环境下可以 require 一个 .json 格式的文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&#x27;./config.json&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>但是在 wepack 打包的时候不可以直接 require 一个 .json 的文件. 这是因为 webpack 会把 .json 文件当成是 .js 文件来解析导致报错.<br>因此正确的做法是使用 json-loader</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&#x27;json!./config.json&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="hson-loader"><a href="#hson-loader" class="headerlink" title="hson-loader"></a>hson-loader</h1><p>作用:加载增强版的JSON (HSON) 并返回对象.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/timjansen/hanson">HSON</a> 对 JSON 的增强体现在:</p>
+<ul>
+<li>所有的 JSON 字符串都是有效的 HSON 字符串</li>
+<li>HSON 里可以写注释</li>
+<li>HSON 里属性名不一定要有引号</li>
+</ul>
+<h1 id="script-loader"><a href="#script-loader" class="headerlink" title="script-loader"></a>script-loader</h1><p>有的时候不希望 webpack 在打包某些文件的时候进行解析, 而是希望在浏览器中直接运行.<br>一个不常见的例子是某段代码重新定义了 require , 如下:</p>
+<p><strong>browser_require.js</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.require=function()&#123;</span><br><span class="line">    console.log(arguments);</span><br><span class="line">&#125;</span><br><span class="line">require(2);</span><br></pre></td></tr></table></figure>
+
+<p>引入该文件的正确方法是:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&#x27;script!./browser_require.js&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>这样该文件内容里的 require 就不会被 webpack 解析了, 使用 script-loader 整个文件会被转成字符串打到包里,最终在浏览器里通过 eval 来执行.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/05/03/other-webpack-loaders.html" data-id="cm014jhxd001dpsq6hr6vazzp" data-title="被遗忘的 Loader" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-thressjs-react" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/04/21/thressjs-react.html" class="article-date">
+  <time class="dt-published" datetime="2016-04-21T04:00:00.000Z" itemprop="datePublished">2016-04-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/04/21/thressjs-react.html">第一次尝试 Three.js</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-three-example">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/04/21/thressjs-react.html" data-id="cm014jhxk0024psq6a1hv77va" data-title="第一次尝试 Three.js" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-speech-improve-fed-speed" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/03/28/speech-improve-fed-speed.html" class="article-date">
+  <time class="dt-published" datetime="2016-03-28T04:00:00.000Z" itemprop="datePublished">2016-03-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/03/28/speech-improve-fed-speed.html">[演讲] Node.JS 项目中的性能监控的原理和 Docker 的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/node-party-10">PPT</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/03/28/speech-improve-fed-speed.html" data-id="cm014jhxi001vpsq6gp5sbav7" data-title="[演讲] Node.JS 项目中的性能监控的原理和 Docker 的使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-isomorphic-fetch-example " class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/20/isomorphic-fetch-example%20.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/20/isomorphic-fetch-example%20.html">使用 Fetch API 实现前后端共用同一个 SDK</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/isomorphic-fetch-example">源码</a></p>
+<p>架构设计实践: 使用 Fetch API 实现前后端共用同一个 SDK.</p>
+<p>做过一段时间的 Web 开发以后,就会有这样的感觉,前后端分离几乎和吃饭睡觉一样平常. 前端专注浏览器的一切,<br>通过 API 和后端通信,而后端工程师专注于系统的执行效率,可扩展性等问题.</p>
+<p>很多优秀的网站特别是有一部分面向开发者的网站都会提供 API 的 SDK.</p>
+<ul>
+<li>封装底层发起请求的方法</li>
+<li>异步请求成功和出错的处理</li>
+</ul>
+<ol>
+<li>封装</li>
+</ol>
+<p>浏览器端发送 AJAX 请求底层一般采用 XMLHttpRequest 来实现, 实际工作中常使用具体的封装良好的类库,<br>例如 jQuery, superagent 等. 而后端 Node.js 经常用的是基于 Stream 的解决方案, 由于 API 是很常见的<br>工作,所以已经封装到了 Node.JS 的核心模块 http 里, 此外比较常用的第三方的类库有 request.</p>
+<p>如果前后端公用一个 SDK, 那么必然要在上层引入一定的设计模式,来封装底层具体实现:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(isBrowser)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">facade</span>(<span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>(...))</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">facade</span>(http.<span class="title function_">request</span>(...))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器端发起 AJAX 请求现在有了一套新的API, 那就是 Fetch. 与基于 XMLHttpRequest 的方法相比,它有几个显著地优势.</p>
+<ul>
+<li>更安全</li>
+</ul>
+<p>虽然 Fetch 目前只在 Chrome 等比较新的浏览器上可以使用. 不过别担心, 已经有好几个垫片可以解决兼容性的问题.</p>
+<ol start="2">
+<li>异步</li>
+</ol>
+<p>不管是在客户端还是在服务器端,对请求的处理都是异步的,这是由 JavaScript 本身的特性决定的.在很长的一段时间里<br>回调函数一直都是处理异步问题首选的方案,但是在经过了这么多年的折磨之后,人们终于想到了一个非常优秀的替代方案 - Promise.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> api=<span class="built_in">require</span>(<span class="string">&#x27;my-awesome-api&#x27;</span>);</span><br><span class="line">api.<span class="title function_">repos</span>(<span class="string">&#x27;github&#x27;</span>)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 成功</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 失败</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果在客户端和在服务器端能够采用一致的方案,这无疑会大大提高 JavaScript 代码的质量和开发效率.</p>
+<p>公用 SDK 有很多好处:</p>
+<ul>
+<li>浏览器端专注于路由,页面的设计,把请求的封装处理交给 SDK</li>
+<li>后端的开发者可以使用 SDK</li>
+</ul>
+<p>所以是时候尝试和采用 Fetch API 了.</p>
+<h3 id="关于-Fetch-API-简单的介绍"><a href="#关于-Fetch-API-简单的介绍" class="headerlink" title="关于 Fetch API 简单的介绍"></a>关于 Fetch API 简单的介绍</h3><p><a target="_blank" rel="noopener" href="http://github.github.io/fetch/">http://github.github.io/fetch/</a></p>
+<h3 id="实现该模式的-SDK"><a href="#实现该模式的-SDK" class="headerlink" title="实现该模式的 SDK"></a>实现该模式的 SDK</h3><p><a target="_blank" rel="noopener" href="https://github.com/ringcentral/ringcentral-js">https://github.com/ringcentral/ringcentral-js</a></p>
+<h3 id="关键模块"><a href="#关键模块" class="headerlink" title="关键模块"></a>关键模块</h3><p><a target="_blank" rel="noopener" href="https://github.com/matthew-andrews/isomorphic-fetch">https://github.com/matthew-andrews/isomorphic-fetch</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/20/isomorphic-fetch-example%20.html" data-id="cm014jhx3000kpsq6a3l4ggir" data-title="使用 Fetch API 实现前后端共用同一个 SDK" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-react-component-example" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/20/react-component-example.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/20/react-component-example.html">如何使用 ES6 编写一个 React 模块, 并且编译后发布到 NPM.</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-component-example">源码</a></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E6%BA%90%E4%BB%A3%E7%A0%81">源代码</a></li>
+<li><a href="#%E7%BC%96%E8%AF%91">编译</a><ul>
+<li><a href="#babel">Babel</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3">命令详解</a></li>
+<li><a href="#babelrc%E6%96%87%E4%BB%B6">.babelrc文件</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A0%B7%E4%BE%8B%E4%BB%A3%E7%A0%81">样例代码</a></li>
+<li><a href="#%E5%8F%91%E5%B8%83">发布</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8">使用</a><ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%BA%90%E7%A0%81">使用源码</a></li>
+<li><a href="#%E6%A0%B7%E5%BC%8F">样式</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B3%E4%BA%8E">关于</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前端开发果真是发展迅猛，刚享受到由模块化，组件化和单元测试带来的种种好处，又得迅速拥抱 Grunt, Gulp, Browserify， Webpack 这类自动化工具的变革。<br>除了工具和生态圈，JavaScript 本身也在飞速发展着。ES2015(ES6) ，ES2016(ES7) … 照这样的节奏，几乎是一年一个标准。标准多了，为解决兼容性的问题，<br>竟也派生出了 <code>源代码</code> 和 <code>编译</code> 的概念。前端开发者通过语法糖、转化器、Polyfill 等，可以享受到标准乃至尚未定稿草案里的规范的便利，大幅提升开发效率。</p>
+<p>如果你在使用 React， 那么肯定已经撸了好多自己的组件， 并尝试着共享出来。在 OneAPM 前端开发过程中， 我们也曾遇到了一些组件共享的问题：</p>
+<p>例如:</p>
+<ul>
+<li>是通过 git 直接发布还是通过 NPM 发布 ？</li>
+<li>发布的是 ES5 的代码还是 ES6 的代码 ？</li>
+<li>如何解决 Babel5 和 Babel6 的冲突 ？</li>
+</ul>
+<p>这篇文章会通过编写一个叫做 MyComponet 的组件来演示发布一个 React 组件需要注意的地方, 并不涉及单元测试和代码规范等。<br>至于这个模块本身,它的功能特别简单, 就是显示模块自身的的属性。</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>我们来编写 <code>MyComponent</code> 组件，放到项目的 <code>src</code> 目录下。</p>
+<p><strong>src&#x2F;MyComponent.jsx</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">MyComponent</span> = props=&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    props:</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">pre</span>&gt;</span>&#123;JSON.stringify(props, null, 2)&#125;<span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">MyComponent</span>;</span><br></pre></td></tr></table></figure>
+
+<p>关于各种文件放在哪里, 这里是我推荐的一些约定:</p>
+<ul>
+<li>src 下用于存放源代码</li>
+<li>lib 是编译后的代码，这个目录只读</li>
+<li>所有包含 ES6 语法的文件名统一后缀为 .es6</li>
+<li>所有包含 JSX 语法的文件后统一缀名为 .jsx</li>
+</ul>
+<p>假设源代码里还有另外两个文件 <code>foo.es6</code> 和 <code>bar.js</code>，简化起见都丢到 <code>src</code> 的根目录下。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h3 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h3><p>为了把 ES6 代码编译成 ES5，需要安装 Babel，这个工具可以说野心极大，一次编译可以让 JavaScript 运行在所有地方。（听起来是不是有点 Java 的作风）</p>
+<p>目前最常用的是 Babel5 版本，但是 Babel6 版本的设计更为精巧，已经非常推荐更新。也正是由于 Babel 有两个版本，所以开发过程中很有可能遇到这样的情况，<br>模块 A 的开发依赖于 Babel5 版本，而模块 B 依赖于 Babel6 版本。</p>
+<p><em>解决这个问题最好的做法就是把 A 和 B 拆开，独立开发和发布。并且在发布到 NPM 的时候发布是的编译后的，也就是 ES5 版本的代码。</em></p>
+<p>所以如果你的机器上的 <code>babel</code> 是全局安装的，是时候卸载它了，因为它的版本不是 5 就是 6 ，会导致一些不可预见的问题。</p>
+<p><code>npm uninstall babel-cli --global</code></p>
+<p>正确的安装方式是把 babel-cli 作为 development 依赖</p>
+<p><code>npm install babel-cli --save-dev</code></p>
+<p>使用的时候并不是直接调用全局的 <code>babel</code> 而是调用依赖里的 <code>babel</code> 可执行文件</p>
+<p><code>./node_modules/.bin/babel</code></p>
+<p>如果按照前文的约定来组织代码，<code>src</code> 目录结构看起来是这样的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├── bar.js</span><br><span class="line">├── foo.es6</span><br><span class="line">└── MyComponent.jsx</span><br></pre></td></tr></table></figure>
+
+<p>模块所有的代码都在一个目录下，这样编译过程就简单多了，两条命令就可以完成</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/rimraf lib</span><br><span class="line">./node_modules/.bin/babel src --copy-files --source-maps --extensions .es6,.es,.jsx --out-dir lib</span><br></pre></td></tr></table></figure>
+
+<p>输出目录的结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lib</span><br><span class="line">├── bar.js</span><br><span class="line">├── foo.js</span><br><span class="line">├── foo.js.map</span><br><span class="line">├── MyComponent.js</span><br><span class="line">└── MyComponent.js.map</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h3><p>具体解释一下各个命令的作用：</p>
+<p>第一条命令 <code>./node_modules/.bin/rimraf lib</code></p>
+<p><strong>作用</strong> 编译前清空之前的 lib 目录，这是一个好习惯，可以杜绝对 lib 下的文件的任何手动更改。</p>
+<p>第二条命令</p>
+<p><code>./node_modules/.bin/babel src --out-dir lib --source-maps --extensions .es6,.es,.jsx --copy-files  </code></p>
+<p><strong>作用</strong> 遍历 src 目录下的文件，如果后缀名是 .es&#x2F;.es6&#x2F;.jsx 中的一种，就编译成 ES5，否则就直接拷贝到输出目录 lib 下</p>
+<p>参数详解:</p>
+<p><code>--out-dir lib</code> 指定输出目录为 lib</p>
+<p><code>--extensions .es6,.es,.jsx</code> 指定需要编译的文件类型</p>
+<p><code>--copy-files</code> 对于不需要编译的文件直接拷贝</p>
+<p><code>--source-maps</code> 生成 souce-map 文件</p>
+<h3 id="babelrc-文件"><a href="#babelrc-文件" class="headerlink" title=".babelrc 文件"></a>.babelrc 文件</h3><p>编译过程中还隐含了一个步骤就是加载 <code>.babelrc</code> 文件里的配置，该文件内容如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;presets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;es2015&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;stage-0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;react&quot;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 React 的 preset，同时项目依赖里要添加<br><code>babel-preset-react</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-preset-react --save-dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="样例代码"><a href="#样例代码" class="headerlink" title="样例代码"></a>样例代码</h2><p>开发和调试 React 模块目前最好用的打包工具还是 Webpack，在项目跟目录下，新建一个 example 目录：</p>
+<p>example&#x2F;index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-cn&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;bundle.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>example&#x2F;src&#x2F;index.jsx</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">MyComponent</span>,&#123;foo,bar&#125; <span class="keyword">from</span> <span class="string">&#x27;../../&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;render&#125; <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> element = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;div&quot;</span>);</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(element);</span><br><span class="line"><span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">name</span>=<span class="string">&quot;myComponent&quot;</span>/&gt;</span></span>, element);</span><br></pre></td></tr></table></figure>
+
+<p>webpack.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;example&#x27;</span>, <span class="string">&#x27;src&#x27;</span>, <span class="string">&#x27;index.jsx&#x27;</span>),</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;bundle.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">loaders</span>: [&#123;</span><br><span class="line">      <span class="attr">test</span>: <span class="regexp">/\.jsx$/</span>,</span><br><span class="line">      <span class="attr">loader</span>: <span class="string">&#x27;babel&#x27;</span>,</span><br><span class="line">      <span class="attr">include</span>: [</span><br><span class="line">        path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;example&#x27;</span>)</span><br><span class="line">      ]</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">contentBase</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;example&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行样例代码</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/webpack-dev-server</span><br></pre></td></tr></table></figure>
+
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>发布前，还有一件事就是为你的模块添加一个入口文件 <code>index.js</code>，全部指向编译后的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = require(&#x27;./lib/MyComponent&#x27;);</span><br><span class="line">exports.default = require(&#x27;./lib/MyComponent&#x27;);</span><br><span class="line">exports.bar = require(&#x27;./lib/bar&#x27;);</span><br><span class="line">exports.foo = require(&#x27;./lib/foo&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>接下来就可以发布到 NPM 了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>别的开发者如果想使用你新发布的模块的时候可以直接通过 NPM 安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-component-example --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>然后在父级项目的代码里导入模块</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">MyComponent</span>,&#123;foo,bat&#125; <span class="keyword">from</span> <span class="string">&#x27;react-component-example&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时导入的直接是 ES5 代码，跳过了组件的编译过程从而避免了出现组件 Babel 版本和父级项目 Babel 版本不一致的问题，并且速度更快，是不是很棒！</p>
+<h3 id="使用源码"><a href="#使用源码" class="headerlink" title="使用源码"></a>使用源码</h3><p>假设你的模块包含很多组件，开发者可能只想用其中的一个或某几个，这时可以这样导入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import MyComponent from &#x27;react-component-example/src/MyComponent.jsx&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，导入的是 ES6 代码，并且会被加入父级项目的编译过程。此外，父级项目在编译这个文件的时候会读取组件的 .babelrc 配置文件。</p>
+<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>推荐每个模块在发布的时候把样式文件 style.css 放在根目录下，如果使用的是预处理工具 LESS 或者 SASS， 同样把处理前后的样式文件一起发布。</p>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p><strong>本文使用的 babel 版本</strong></p>
+<p><code>./node_modules/.bin/babel --version</code> 6.4.5 (babel-core 6.4.5)</p>
+<p><strong>LICENSE</strong></p>
+<p>MIT</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/20/react-component-example.html" data-id="cm014jhxe001hpsq6hbz0fbtq" data-title="如何使用 ES6 编写一个 React 模块, 并且编译后发布到 NPM." class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-speech-rum-basedon-wilddog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/20/speech-rum-basedon-wilddog.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-20T04:00:00.000Z" itemprop="datePublished">2016-01-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/20/speech-rum-basedon-wilddog.html">[演讲] 实时用户体验收集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/wyvernnot/ss-63231573">PPT</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/20/speech-rum-basedon-wilddog.html" data-id="cm014jhxi001xpsq68wp0bm95" data-title="[演讲] 实时用户体验收集" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-docker-compose-firsttime" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/18/docker-compose-firsttime.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-18T04:00:00.000Z" itemprop="datePublished">2016-01-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/18/docker-compose-firsttime.html">使用 Docker Compose 开发一个应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/docker-compose-examples">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/18/docker-compose-firsttime.html" data-id="cm014jhx00009psq65oid23a6" data-title="使用 Docker Compose 开发一个应用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-react-datatables-example" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/13/react-datatables-example.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-13T04:00:00.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/13/react-datatables-example.html">React 中集成 Datatables</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-datatables-example">源码</a></p>
+<h1 id="react-datables-example"><a href="#react-datables-example" class="headerlink" title="react-datables-example"></a>react-datables-example</h1><p>Example for Datatables usage with React and Webpack</p>
+<blockquote>
+<p>This example will mainly focus on how to use Datatables and its extensions in React project instead of diving into the <a target="_blank" rel="noopener" href="http://www.datatables.net/reference/api/">fabulous API</a>.</p>
+</blockquote>
+<p><strong>How to run this example</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install &amp;&amp; npm start</span><br></pre></td></tr></table></figure>
+
+<p>Open your browser and navigate to <a target="_blank" rel="noopener" href="http://localhost:8080/static/entry">http://localhost:8080/static/entry</a></p>
+<h3 id="How-to-import-Datatables"><a href="#How-to-import-Datatables" class="headerlink" title="How to import Datatables ?"></a>How to import Datatables ?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">&#x27;jquery&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>After being imported, you can initialize a table DOM element normally</p>
+<p><code>$(elem).dataTable(options)</code> or <code>$(elem).DataTable(options)</code></p>
+<h3 id="Is-it-possible-to-use-DataTable-object-directly"><a href="#Is-it-possible-to-use-DataTable-object-directly" class="headerlink" title="Is it possible to use DataTable object directly ?"></a>Is it possible to use DataTable object directly ?</h3><p>No, because it is deeply coupled with jQuery, it requires jQuery context to intialize the table.</p>
+<p>In fact, the DataTable object is imported by default.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">&#x27;jquery&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">DataTable</span> <span class="keyword">from</span> <span class="string">&#x27;datatables.net&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">DataTable</span> === $.fn.<span class="property">dataTable</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="How-to-import-Bootstrap-styling"><a href="#How-to-import-Bootstrap-styling" class="headerlink" title="How to import Bootstrap styling ?"></a>How to import Bootstrap styling ?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;bootstrap/dist/css/bootstrap.css&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-bs/js/dataTables.bootstrap&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-bs/css/dataTables.bootstrap.css&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>Then, make sure you configure the <code>css-loader</code> and <code>style-loader</code> right in <code>webpack.config.js</code> file.</p>
+<h3 id="How-to-load-the-i18n-fonts-file-asynchronously"><a href="#How-to-load-the-i18n-fonts-file-asynchronously" class="headerlink" title="How to load the i18n&#x2F;fonts file asynchronously ?"></a>How to load the i18n&#x2F;fonts file asynchronously ?</h3><p>Extend the dataTable.defaults object</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="title function_">extend</span>(<span class="literal">true</span>, $.fn.<span class="property">dataTable</span>.<span class="property">defaults</span>, &#123;</span><br><span class="line">  <span class="attr">language</span>: &#123;</span><br><span class="line">    <span class="attr">url</span>: <span class="built_in">require</span>(<span class="string">&#x27;../lib/zh_cn.json&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Loading i18n files is just like loading icon font files.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  test   : <span class="regexp">/\.(json|ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/</span>,</span><br><span class="line">  loader : <span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">  <span class="attr">query</span>:&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;[name]-[md5:hash:8].[ext]&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="How-to-load-extensions"><a href="#How-to-load-extensions" class="headerlink" title="How to load extensions ?"></a>How to load extensions ?</h3><p>Check the extensions list, <a target="_blank" rel="noopener" href="https://www.npmjs.com/~datatables">https://www.npmjs.com/~datatables</a></p>
+<p>To import an extension, normaly it would require two steps as following:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-fixedheader&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.css&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>1. Load the extension script, normaly the entry file is defined in package.json <code>main</code> property ;</p>
+<p>2. Load the style for specific front-end framework. For example, <code>bs</code> means <code>Bootstrap</code>.</p>
+<h3 id="How-to-use-string-templates"><a href="#How-to-use-string-templates" class="headerlink" title="How to use string templates"></a>How to use string templates</h3><p><a target="_blank" rel="noopener" href="https://github.com/esnext/es6-templates">ES6 template</a> is a good choice</p>
+<p>Data:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">    <span class="attr">foo</span>:&#123;</span><br><span class="line">      <span class="attr">bar</span>:<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>Columns:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">data</span>:<span class="string">&#x27;foo&#x27;</span>,</span><br><span class="line">    <span class="attr">title</span>:<span class="string">&#x27;foo.bar&#x27;</span>,</span><br><span class="line">    <span class="attr">render</span>:<span class="function"><span class="params">foo</span>=&gt;</span><span class="string">`&lt;em&gt;<span class="subst">$&#123;foo.bar&#125;</span>&lt;/em&gt;`</span></span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="How-to-use-React-components-in-cell-rendering"><a href="#How-to-use-React-components-in-cell-rendering" class="headerlink" title="How to use React components in cell rendering"></a>How to use React components in cell rendering</h3><p>Let’s assume we need to use the <code>react-toggle</code> component in our table.</p>
+<p>We have three ways to use it:</p>
+<p><strong>Implement render function and use React DOM server’s renderToStaticMarkup method</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">columns</span>:[&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">render</span>:<span class="function"><span class="params">elem</span>=&gt;</span><span class="title function_">renderToStaticMarkup</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Toggle</span>/&gt;</span></span>)</span><br><span class="line">  &#125;]</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Implement datatable createdCell function and create multiple React roots</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">columns</span>:[&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">createdCell</span>:<span class="function">(<span class="params">td,val</span>)=&gt;</span><span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Toggle</span>/&gt;</span></span>,td)</span><br><span class="line">  &#125;]</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Prepare the HTML markup first and then initialize the Datatable</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">&#123;</span><br><span class="line">  DATA.map(e=&gt;<span class="tag">&lt;<span class="name">tr</span> <span class="attr">key</span>=<span class="string">&#123;e.id&#125;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;e.id&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">data-order</span>=<span class="string">&#123;e.id&#125;</span>&gt;</span>&#123;e.name&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;e.value&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">Toggle</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>A performance test page is written to show the difference between these ways</p>
+<p><a target="_blank" rel="noopener" href="http://localhost:8080/static/toggle">http://localhost:8080/static/toggle</a></p>
+<p><img src="/assets/test_performance.png" alt="performance"></p>
+<p>And here is the performance report with 5000 data in table comparing above three options.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Duration</th>
+<th>usedJSHeapSize</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>renderToStaticMarkup</td>
+<td>6384.74ms</td>
+<td>29.75M</td>
+</tr>
+<tr>
+<td>render</td>
+<td>4579.46ms</td>
+<td>103.95M</td>
+</tr>
+<tr>
+<td>markup</td>
+<td>6497.95ms</td>
+<td>189.78M</td>
+</tr>
+</tbody></table>
+<p>Summary:</p>
+<ul>
+<li>If your component is dummy(e.g stateless funtion), use <code>renderToStaticMarkup</code></li>
+<li>If your component has state, but has no dependency in its context, use <code>render</code></li>
+<li>If your component has state or has dependency in its context (e.g Redux Componet or React Router Links), use <code>markup</code></li>
+</ul>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> work with JSON data</li>
+<li><input disabled="" type="checkbox"> Lifecycle</li>
+<li><input checked="" disabled="" type="checkbox"> Using React in column rendering</li>
+<li><input disabled="" type="checkbox"> How to avoid conflicts between them</li>
+<li><input checked="" disabled="" type="checkbox"> Work with react-dom&#x2F;server</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/13/react-datatables-example.html" data-id="cm014jhxe001fpsq68odug6ww" data-title="React 中集成 Datatables" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-react-zeroclipboard-example" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/08/react-zeroclipboard-example.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-08T04:00:00.000Z" itemprop="datePublished">2016-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/08/react-zeroclipboard-example.html">React 中集成 Datatables</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-zeroclipboard-example">源码</a></p>
+<h1 id="react-zeroclipboard-example"><a href="#react-zeroclipboard-example" class="headerlink" title="react-zeroclipboard-example"></a>react-zeroclipboard-example</h1><blockquote>
+<p>An example showing how to use ZeroClipboard in React application.</p>
+</blockquote>
+<h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>This example assumes you have working experience with these tools or frameworks</p>
+<ul>
+<li>React</li>
+<li>Babel</li>
+<li>Webpack</li>
+<li>ZeroClipboard</li>
+</ul>
+<p>The code base is written in ES6, and we will use Babel to compile it to ES5. Webpack comes in handy to make this workflow automated.</p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><p><a target="_blank" rel="noopener" href="http://wyvernnot.github.io/react-zeroclipboard-example/">http://wyvernnot.github.io/react-zeroclipboard-example/</a></p>
+<h3 id="Install-ZeroClipboard"><a href="#Install-ZeroClipboard" class="headerlink" title="Install ZeroClipboard"></a>Install ZeroClipboard</h3><p>ZeroClipboard can be easily installed using NPM.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install zeroclipboard -D</span><br></pre></td></tr></table></figure>
+
+<h3 id="Import-ZeroClipboad"><a href="#Import-ZeroClipboad" class="headerlink" title="Import ZeroClipboad"></a>Import ZeroClipboad</h3><p>After installing it, it can be imported just like importing other modules.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ZeroClipboard</span> <span class="keyword">from</span> <span class="string">&#x27;zeroclipboard&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Create-new-CopyButton-component"><a href="#Create-new-CopyButton-component" class="headerlink" title="Create new CopyButton component"></a>Create new CopyButton component</h3><p>We will create a React component using <a target="_blank" rel="noopener" href="http://facebook.github.io/react/docs/reusable-components.html#stateless-functions">stateless functions</a>,<br>the button is intialized in the <a target="_blank" rel="noopener" href="http://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute">ref-callback</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">CopyButton</span> = (<span class="params">props</span>)=&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> &#123;<span class="attr">...props</span>&#125; <span class="attr">ref</span>=<span class="string">&#123;elem</span>=&gt;</span>new ZeroClipboard(elem)&#125;&gt;</span></span><br><span class="line"><span class="language-xml">    &#123;props.children&#125;</span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Use-the-CopyButton-component-in-your-app"><a href="#Use-the-CopyButton-component-in-your-app" class="headerlink" title="Use the CopyButton component in your app"></a>Use the CopyButton component in your app</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">CopyButton</span> data-clipboard-text=&#123;textToBeCopied&#125;&gt;<span class="title class_">Click</span> to copy&lt;/<span class="title class_">CopyButton</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Solve-the-SWF-dependency"><a href="#Solve-the-SWF-dependency" class="headerlink" title="Solve the SWF dependency"></a>Solve the SWF dependency</h3><p>After the package is built and deployed, you will most likely run into this problem.</p>
+<p><img src="/README/404.png" alt="swf 404 not found"></p>
+<p><strong>The SWF file is not found</strong>, you can mannually copy this file into your static server and make sure the path is correct.<br>But you need to do this everytime after you do a fresh deployment. Let’s solve the problem using webpack.</p>
+<p>First, we need to config the ZeroClipboard’s <code>swfPath</code> option:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZeroClipboard.config(&#123;</span><br><span class="line">  swfPath: require(&#x27;zeroclipboard/dist/ZeroClipboard.swf&#x27;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>This piece of code looks very strange because a <code>.swf</code> file is <code>required</code>. Unless, the second step, we tell webpack how to deal with<br><code>.swf</code> files. We need a <a target="_blank" rel="noopener" href="http://webpack.github.io/docs/using-loaders.html">loader</a> which will simply copy required dependencies which<br>ends with <code>.swf</code> to the webpack output path. This loader can be installed by typing <code>npm install file-loader -D</code>. Last, we change the<br><code>module.loaders</code> part in <code>webpack.config.js</code> to:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">test</span>: <span class="regexp">/\.swf$/</span>,</span><br><span class="line">  <span class="attr">loader</span>: <span class="string">&#x27;file-loader&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Close"><a href="#Close" class="headerlink" title="Close"></a>Close</h3><p>In this example, we build a React application which integrates ZeroClipboard. The application is written in ES6<br>and compiled to ES5 using webpack. In order to solve the <code>ZeroClipboard.swf</code> 404 not found problem smartly, we use a<br>webpack loader called <code>file-loader</code>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/08/react-zeroclipboard-example.html" data-id="cm014jhxf001jpsq673aw1vwr" data-title="React 中集成 Datatables" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-service-discovery-using-nodejs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2015/10/27/service-discovery-using-nodejs.html" class="article-date">
+  <time class="dt-published" datetime="2015-10-27T05:00:00.000Z" itemprop="datePublished">2015-10-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2015/10/27/service-discovery-using-nodejs.html">Node.JS 做 Docker 上服务发现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/node-registor">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2015/10/27/service-discovery-using-nodejs.html" data-id="cm014jhxh001qpsq68n2oe4pf" data-title="Node.JS 做 Docker 上服务发现" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/how-gps-work.html">[译] GPS 工作原理的可视化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+</a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2024 longtian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58200086-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58200086-6');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>JVM 对容器化支持的参数 | 龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="背景知识阅读本文你需要了解  JVM 的启动参数 容器的启动参数  JVM 启动参数   参数 备注    -Xms MiniumHeapSize   -Xmx MaxHeapSize   -Xss StackSize   在容器化之前一般由运维工程师根据部署环境机器的内存大小来调整，并写在启动脚本里 容器启动参数在使用 k8s 编排容器的时候通常通过定义 resources 字段来限制容器使用的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM 对容器化支持的参数">
+<meta property="og:url" content="https://blog.longtian.io/2021/04/13/containerized-jvm-parameters.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="背景知识阅读本文你需要了解  JVM 的启动参数 容器的启动参数  JVM 启动参数   参数 备注    -Xms MiniumHeapSize   -Xmx MaxHeapSize   -Xss StackSize   在容器化之前一般由运维工程师根据部署环境机器的内存大小来调整，并写在启动脚本里 容器启动参数在使用 k8s 编排容器的时候通常通过定义 resources 字段来限制容器使用的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-13T09:23:31.000Z">
+<meta property="article:modified_time" content="2021-04-13T09:23:31.000Z">
+<meta property="article:author" content="longtian">
+<meta property="article:tag" content="技术博客">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">大前端，DevOps，敏捷开发</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-containerized-jvm-parameters" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/13/containerized-jvm-parameters.html" class="article-date">
+  <time class="dt-published" datetime="2021-04-13T09:23:31.000Z" itemprop="datePublished">2021-04-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JVM 对容器化支持的参数
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>阅读本文你需要了解</p>
+<ul>
+<li>JVM 的启动参数</li>
+<li>容器的启动参数</li>
+</ul>
+<h3 id="JVM-启动参数"><a href="#JVM-启动参数" class="headerlink" title="JVM 启动参数"></a>JVM 启动参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-Xms</code></td>
+<td>MiniumHeapSize</td>
+</tr>
+<tr>
+<td><code>-Xmx</code></td>
+<td>MaxHeapSize</td>
+</tr>
+<tr>
+<td><code>-Xss</code></td>
+<td>StackSize</td>
+</tr>
+</tbody></table>
+<p>在容器化之前一般由运维工程师根据部署环境机器的内存大小来调整，并写在启动脚本里</p>
+<h3 id="容器启动参数"><a href="#容器启动参数" class="headerlink" title="容器启动参数"></a>容器启动参数</h3><p>在使用 k8s 编排容器的时候通常通过定义 resources 字段来限制容器使用的资源</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">resources:</span></span><br><span class="line">  <span class="attr">limit:</span></span><br><span class="line">     <span class="attr">cpu:</span> <span class="string">1000m</span></span><br><span class="line">     <span class="attr">memory:</span> <span class="string">1G</span></span><br></pre></td></tr></table></figure>
+
+<p>为了方便验证，我们直接用本地 docker 来实验，docker run 命令的一些参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–cpus</td>
+<td>Number of CPUs</td>
+</tr>
+<tr>
+<td>–cpu-period int</td>
+<td>Limit CPU CFS (Completely Fair Scheduler) period</td>
+</tr>
+<tr>
+<td>–cpu-quota int</td>
+<td>Limit CPU CFS (Completely Fair Scheduler) quota</td>
+</tr>
+<tr>
+<td>–cpu-rt-period int</td>
+<td>Limit CPU real-time period in microseconds</td>
+</tr>
+<tr>
+<td>–cpu-rt-runtime int</td>
+<td>Limit CPU real-time runtime in microseconds</td>
+</tr>
+<tr>
+<td>–cpu-shares int</td>
+<td>CPU shares (relative weight)</td>
+</tr>
+<tr>
+<td>–memory</td>
+<td>Memory limit</td>
+</tr>
+</tbody></table>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>容器化的 JVM 程序会遇到这几个问题</p>
+<ul>
+<li>问题 1： 超过了容器的资源限制被 OOM 机制杀掉</li>
+<li>问题 2： 在核数比较高的机器上 JVM 频繁 GC</li>
+</ul>
+<h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题 1"></a>问题 1</h3><p>JDK 8u191 之前这个问题很常见，主要是由于 JVM 获得的最大内存是主机的最大内存而不是容器的最大可用内存，解决方法是修改启动逻辑。<br>让 JVM 能够获取到正确的最大可用内存</p>
+<h3 id="问题-2"><a href="#问题-2" class="headerlink" title="问题 2"></a>问题 2</h3><p>ParallelGC 线程数如果过高会导致 GC 过于频繁，和问题1 类似，这是由于 JVM 获得的可用核数不正确导致的。</p>
+<p>为了解决这两个需要同时修改容器的资源限制和 JVM 的启动参数，并使之相匹配。<br>当然也有一种不那么笨的做法是引入一个动态的启动脚本，先根据容器的实际资源限制算出对应的 JVM 参数再去启动 JVM。<br>JDK 社区已经注意到以上这几个容器化常遇到的问题并在新的 JDK 版本里解决了，由于 JDK8 的超长待机时间，以下便以 JDK8 为例</p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>GA 时间</th>
+<th>验证镜像</th>
+<th>容器化支持</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>8u191</code></td>
+<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/8u191-relnotes.html">2018-10-16</a></td>
+<td>openjdk:8u191-alpine</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><code>8u131</code></td>
+<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/8u131-relnotes.html">2017-04-18</a></td>
+<td>openjdk:8u131-alpine</td>
+<td>实验性支持</td>
+</tr>
+<tr>
+<td><code>8u121</code></td>
+<td><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/8u121-relnotes.html">2017-01-17</a></td>
+<td>openjdk:8u121-alpine</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<h2 id="识别-CPU-资源"><a href="#识别-CPU-资源" class="headerlink" title="识别 CPU 资源"></a>识别 CPU 资源</h2><p>实验： 通过 <code>ParallelGCThreads</code> 是否符合预期来验证 JDK 对 CPU 资源的识别是否正确</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+PrintFlagsFinal -XX:+UseParallelGC -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
+
+<h3 id="8u191-之前不支持"><a href="#8u191-之前不支持" class="headerlink" title="8u191 之前不支持"></a>8u191 之前不支持</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpus 1 --rm openjdk:8u121-alpine java -XX:+PrintFlagsFinal -XX:+UseParallelGC -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
+
+<p>结果不符合预期，结果为主机核数</p>
+<h3 id="8u191-支持识别可用-CPU-核数"><a href="#8u191-支持识别可用-CPU-核数" class="headerlink" title="8u191 支持识别可用 CPU 核数"></a>8u191 支持识别可用 CPU 核数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpus 1 --rm openjdk:8u191-alpine java -XX:+PrintFlagsFinal -XX:+UseParallelGC -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
+
+<p>结果符合预期，结果为 1</p>
+<h3 id="8u191-关闭自动识别可用-CPU-核数"><a href="#8u191-关闭自动识别可用-CPU-核数" class="headerlink" title="8u191 关闭自动识别可用 CPU 核数"></a>8u191 关闭自动识别可用 CPU 核数</h3><p>在分到 4 个 CPU 核数的情况下，指定可用 CPU 核数为 1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpus 4 --rm openjdk:8u191-alpine java -XX:+PrintFlagsFinal -XX:+UseParallelGC -XX:ActiveProcessorCount=1 -version | grep -i ParallelGCThreads</span><br></pre></td></tr></table></figure>
+
+<p>结果符合预期，结果为 1</p>
+<h2 id="识别-Memory-资源"><a href="#识别-Memory-资源" class="headerlink" title="识别 Memory 资源"></a>识别 Memory 资源</h2><p>实验： 通过查看 JVM 运行时的参数来验证 JVM 对 Memory 资源的识别是否正确</p>
+<p><code>java -XshowSettings:vm -version</code></p>
+<h3 id="8u121-不支持"><a href="#8u121-不支持" class="headerlink" title="8u121 不支持"></a>8u121 不支持</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u121-alpine java -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
+
+<p>结果不符合预期，结果为主机内存的 25%，这是因为这个版本 JDK 的 MaxHeapSize 计算公式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MaxHeapSize = MaxRAM / MaxRAMFraction</span><br></pre></td></tr></table></figure>
+
+<p>其中的 <code>MaxRAM</code> <a href="">来自于主机</a></p>
+<h3 id="8u131-实验性支持"><a href="#8u131-实验性支持" class="headerlink" title="8u131 实验性支持"></a>8u131 实验性支持</h3><p>直接使用 8u131 版本的 JDK 运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u131-alpine java -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
+
+<p>结果不符合预期，说明 8u131 默认没有开启对容器化的支持，要开启需要加上实验性参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u131-alpine java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
+
+<p>结果符合预期</p>
+<h3 id="8u191-默认支持"><a href="#8u191-默认支持" class="headerlink" title="8u191 默认支持"></a>8u191 默认支持</h3><p>使用 8u191 版本运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u191-alpine java -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
+
+<p>结果符合预期</p>
+<h3 id="8u191-关闭自动识别最大可用内存"><a href="#8u191-关闭自动识别最大可用内存" class="headerlink" title="8u191 关闭自动识别最大可用内存"></a>8u191 关闭自动识别最大可用内存</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u191-alpine java -XX:-UseContainerSupport -XshowSettings:vm -version</span><br></pre></td></tr></table></figure>
+
+<p>结果符合预期，结果为主机内存的 25%</p>
+<h2 id="JVM-容器化相关参数"><a href="#JVM-容器化相关参数" class="headerlink" title="JVM 容器化相关参数"></a>JVM 容器化相关参数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100M --rm openjdk:8u191-alpine java \</span><br><span class="line">  -XX:+UnlockExperimentalVMOptions \</span><br><span class="line">  -XX:+UnlockDiagnosticVMOptions \</span><br><span class="line">  -XX:+PrintFlagsFinal \</span><br><span class="line">  -XX:+UseParallelGC -version | grep -i &#x27;cgroup\|container\|parallelgcthreads&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ActiveProcessorCount"><a href="#ActiveProcessorCount" class="headerlink" title="ActiveProcessorCount"></a>ActiveProcessorCount</h3><blockquote>
+<p>Specify the CPU count the VM should use and report as active</p>
+</blockquote>
+<p>8U191 引入</p>
+<h3 id="PrintContainerInfo"><a href="#PrintContainerInfo" class="headerlink" title="PrintContainerInfo"></a>PrintContainerInfo</h3><p>必须使用 UnlockDiagnosticVMOptions 开启</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 100MB --rm openjdk:8u191-alpine java -XshowSettings:vm -XX:+UnlockDiagnosticVMOptions -XX:+PrintContainerInfo -version</span><br></pre></td></tr></table></figure>
+
+<h3 id="UseContainerSupport"><a href="#UseContainerSupport" class="headerlink" title="UseContainerSupport"></a>UseContainerSupport</h3><blockquote>
+<p>Enable detection and runtime container configuration support</p>
+</blockquote>
+<p><code>8U191</code> 引入</p>
+<h3 id="PreferContainerQuotaForCPUCount"><a href="#PreferContainerQuotaForCPUCount" class="headerlink" title="PreferContainerQuotaForCPUCount"></a>PreferContainerQuotaForCPUCount</h3><blockquote>
+<p>Calculate the container CPU availability based on the value of quotas (if set), when true. Otherwise, use the CPU shares value, provided it is less than quota.</p>
+</blockquote>
+<h3 id="UseCGroupMemoryLimitForHeap"><a href="#UseCGroupMemoryLimitForHeap" class="headerlink" title="UseCGroupMemoryLimitForHeap"></a>UseCGroupMemoryLimitForHeap</h3><blockquote>
+<p>Use CGroup memory limit as physical memory limit for heap sizing</p>
+</blockquote>
+<p><code>8U131</code> 引入</p>
+<p>在 JDK11 中已移除，被默认开启的 <code>UseContainerSupport</code> 代替</p>
+<h3 id="MinRAMFraction"><a href="#MinRAMFraction" class="headerlink" title="MinRAMFraction"></a>MinRAMFraction</h3><blockquote>
+<p>Minimum fraction (1&#x2F;n) of real memory used for maximum heap  size on systems with small physical memory size.<br>Deprecated, use MinRAMPercentage instead</p>
+</blockquote>
+<p><code>8U131</code> 引入 <code>8U191</code> 移除</p>
+<h3 id="MaxRAMFraction"><a href="#MaxRAMFraction" class="headerlink" title="MaxRAMFraction"></a>MaxRAMFraction</h3><blockquote>
+<p>Maximum fraction (1&#x2F;n) of real memory used for maximum heap size.                                                          <br>Deprecated, use MaxRAMPercentage instead</p>
+</blockquote>
+<p><code>8U131</code> 引入 <code>8U191</code> 移除</p>
+<h3 id="InitialRAMPercentage"><a href="#InitialRAMPercentage" class="headerlink" title="InitialRAMPercentage"></a>InitialRAMPercentage</h3><blockquote>
+<p>Percentage of real memory used for initial heap size</p>
+</blockquote>
+<p><code>8U191</code> 引入</p>
+<h3 id="MaxRAMPercentage"><a href="#MaxRAMPercentage" class="headerlink" title="MaxRAMPercentage"></a>MaxRAMPercentage</h3><blockquote>
+<p>Maximum percentage of real memory used for maximum heap size</p>
+</blockquote>
+<p>MaxRAMPercentage 在可用内存大于 250MB 时生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 1000MB --rm openjdk:8u212-alpine java -XshowSettings:vm -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0 -version</span><br></pre></td></tr></table></figure>
+
+<h3 id="MinRAMPercentage"><a href="#MinRAMPercentage" class="headerlink" title="MinRAMPercentage"></a>MinRAMPercentage</h3><blockquote>
+<p>Minimum percentage of real memory used for maximum heap size on systems with small physical memory size</p>
+</blockquote>
+<p>MaxRAMPercentage 和 MaxRAMPercentage 都是用来计算 MaxHeapSize 的</p>
+<p>MinRAMPercentage 在可用内存小于 250MB 时生效 （实际很少除非 IoT 设备）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -m 200MB --rm openjdk:8u212-alpine java -XshowSettings:vm -XX:MaxRAMPercentage=50.0 -XX:MinRAMPercentage=50.0 -version</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://dzone.com/articles/difference-between-initialrampercentage-minramperc">https://dzone.com/articles/difference-between-initialrampercentage-minramperc</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2021/04/13/containerized-jvm-parameters.html" data-id="cm014jhwz0007psq6evfpfqhr" data-title="JVM 对容器化支持的参数" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/21/istio-response-flags.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Istio 请求响应标志
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/18/tencentyun.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">腾讯软件源</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/how-gps-work.html">[译] GPS 工作原理的可视化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+</a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2024 longtian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

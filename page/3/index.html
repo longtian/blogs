@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58200086-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58200086-6');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="龙天的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="龙天的博客">
+<meta property="og:url" content="https://blog.longtian.io/page/3/index.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="龙天的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="longtian">
+<meta property="article:tag" content="技术博客">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">大前端，DevOps，敏捷开发</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-introduction-to-outlier-detection" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/12/28/introduction-to-outlier-detection.html" class="article-date">
+  <time class="dt-published" datetime="2016-12-28T04:00:00.000Z" itemprop="datePublished">2016-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/12/28/introduction-to-outlier-detection.html">异常指标检测</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/cache_attack_in_javascript">源码</a></p>
+<h2 id="目前有两种算法"><a href="#目前有两种算法" class="headerlink" title="目前有两种算法"></a>目前有两种算法</h2><h3 id="MAD-中位数绝对值偏差"><a href="#MAD-中位数绝对值偏差" class="headerlink" title="MAD 中位数绝对值偏差"></a>MAD 中位数绝对值偏差</h3><p>对应的 JavaScript 实现</p>
+<p><a target="_blank" rel="noopener" href="http://mathjs.org/docs/reference/functions/mad.html">MAD in mathjs</a></p>
+<h3 id="DBSCAN-基于密度的聚类算法"><a href="#DBSCAN-基于密度的聚类算法" class="headerlink" title="DBSCAN 基于密度的聚类算法"></a>DBSCAN 基于密度的聚类算法</h3><p>对应的 JavaScript 实现</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/uhho/density-clustering#dbscan-1">DBSCAN in JavaScript</a></p>
+<h2 id="准确度"><a href="#准确度" class="headerlink" title="准确度"></a>准确度</h2><p>要准确的判定一个指标是否异常是很难的，取决于很多因素:</p>
+<ul>
+<li>数据本身的特征</li>
+<li>窗口大小</li>
+<li>节假日等突发情况</li>
+<li>噪点</li>
+</ul>
+<p>上面的两种算法都是经过 Datadog 工程师<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mG4ZpEhRKHA">精心挑选</a>的，有这样的特点：</p>
+<ul>
+<li>鲁棒性 避免噪点的干扰</li>
+<li>可用性 配置参数尽量少</li>
+</ul>
+<p>此外各算法的参数还需要不断地尝试，才能找到一个最佳的配置。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mG4ZpEhRKHA">Detecting outliers and anomalies in realtime at Datadog - Homin Lee (OSCON Austin 2016)-Youtube</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.khanacademy.org/math/6th-engage-ny/engage-6th-module-6/6th-module-6-topic-b/v/mean-absolute-deviation">MAD(Mean 变体)-Khanacademy</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/pinard/p/6217852.html">DBSCAN in scikit-learn</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/">Visualizing DBSCAN Clustering</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/12/28/introduction-to-outlier-detection.html" data-id="cm014jhx3000jpsq6eattfvn5" data-title="异常指标检测" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-speech-fed-devops-practices" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/09/04/speech-fed-devops-practices.html" class="article-date">
+  <time class="dt-published" datetime="2016-09-04T04:00:00.000Z" itemprop="datePublished">2016-09-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/09/04/speech-fed-devops-practices.html">[演讲] 前端 DevOps 实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.slideshare.net/wyvernnot/frontend-devops-at-cloudinsight">PPT</a></p>
+<blockquote>
+<p>这次 PPT 被吐槽太简单了，确实是。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/09/04/speech-fed-devops-practices.html" data-id="cm014jhxh001rpsq6hjhabzw3" data-title="[演讲] 前端 DevOps 实践" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-react-makes-you-sad" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/07/22/react-makes-you-sad.html" class="article-date">
+  <time class="dt-published" datetime="2016-07-22T04:00:00.000Z" itemprop="datePublished">2016-07-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/07/22/react-makes-you-sad.html">[译] React 让你不爽了么</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-makes-you-sad">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/07/22/react-makes-you-sad.html" data-id="cm014jhxe001gpsq668aq8xqf" data-title="[译] React 让你不爽了么" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-react-should-update-performance" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/07/10/react-should-update-performance.html" class="article-date">
+  <time class="dt-published" datetime="2016-07-10T15:22:19.000Z" itemprop="datePublished">2016-07-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/07/10/react-should-update-performance.html">React ShouldComponentUpdate 方法是如何影响性能的</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-scu">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/07/10/react-should-update-performance.html" data-id="cm014jhxf001ipsq6go01944f" data-title="React ShouldComponentUpdate 方法是如何影响性能的" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-webpack-feature-toggle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/07/01/webpack-feature-toggle.html" class="article-date">
+  <time class="dt-published" datetime="2016-07-01T04:00:00.000Z" itemprop="datePublished">2016-07-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/07/01/webpack-feature-toggle.html">基于 Webpack 的功能开关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/feature-toggles-with-webpack">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/07/01/webpack-feature-toggle.html" data-id="cm014jhxl002dpsq6e1hwgzx9" data-title="基于 Webpack 的功能开关" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-speech-nodejs-performance-mornitoring" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/06/04/speech-nodejs-performance-mornitoring.html" class="article-date">
+  <time class="dt-published" datetime="2016-06-04T04:00:00.000Z" itemprop="datePublished">2016-06-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/06/04/speech-nodejs-performance-mornitoring.html">[演讲] 小创公司如何提升前端开发效率</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>[PPT(<a target="_blank" rel="noopener" href="https://www.slideshare.net/wyvernnot/frontend-devopsv10-62972604">https://www.slideshare.net/wyvernnot/frontend-devopsv10-62972604</a>)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/06/04/speech-nodejs-performance-mornitoring.html" data-id="cm014jhxi001ypsq6gjay17p2" data-title="[演讲] 小创公司如何提升前端开发效率" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-v8-memory-dashboard" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/05/30/v8-memory-dashboard.html" class="article-date">
+  <time class="dt-published" datetime="2016-05-30T04:00:00.000Z" itemprop="datePublished">2016-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/05/30/v8-memory-dashboard.html">基于 野狗 打造一个 v8 内存分配的实时仪表盘</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/v8-memory-dashboard">源码</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/05/30/v8-memory-dashboard.html" data-id="cm014jhxk0026psq6clr8bud4" data-title="基于 野狗 打造一个 v8 内存分配的实时仪表盘" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-gpg-howto" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/05/12/gpg-howto.html" class="article-date">
+  <time class="dt-published" datetime="2016-05-12T04:00:00.000Z" itemprop="datePublished">2016-05-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/05/12/gpg-howto.html">怎样为你的 Commit 加上 GPG 的签名</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/gpg-howtot">源码</a></p>
+<blockquote>
+<p>开源赋予了每个人贡献代码的权利，要提高开源软件整体的安全性需要从一个个提交开始。<br>为 Commit 带上 GPG 的签名就是一个很好的开始，它能够在一定程度上保证安全性。<br>GPG 是一个非常出色的加密软件。当年斯诺登就是用 GPG 把大量的绝密文件发送给了记者。<br>本文以 Ubuntu 为例，介绍怎样为你的 Commit 加上 GPG 的签名。</p>
+</blockquote>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>注意只有 <code>git</code> 2.0 及以后的版本才支持 <code>GPG</code> 签名。</p>
+<p><strong>查看 git 版本：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~$ git --version</span><br><span class="line">git version 2.8.2</span><br></pre></td></tr></table></figure>
+
+<p><strong>确保 <code>git</code> 是 <code>2.x</code> 版本</strong> 如果需要可以执行下面的命令升级:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:git-core/ppa</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install git</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看 GPG 是否安装</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ gpg --version</span><br><span class="line">gpg (GnuPG) 1.4.16</span><br><span class="line">Copyright (C) 2013 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.</span><br></pre></td></tr></table></figure>
+
+<p>系统里一般都已经装上了 <code>GPG</code>，如果没有可以 <strong>手动安装 GnuPG</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install gnupg</span><br></pre></td></tr></table></figure>
+
+<p>确保 <code>git</code> 和 <code>GNU</code> 都安装成功就可以开始下一步了。</p>
+<h2 id="生成-GPG-Key"><a href="#生成-GPG-Key" class="headerlink" title="生成 GPG Key"></a>生成 GPG Key</h2><p>命令行输入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --gen-key</span><br></pre></td></tr></table></figure>
+
+<p>生成过程中需要输入一些信息：</p>
+<ul>
+<li>加密算法 推荐选择 <code>RSA</code></li>
+<li>密匙长度 推荐选择 <code>4096</code></li>
+<li>过期时间 推荐选择 <code>1y</code> 也就是一年</li>
+<li>名字 可以随便填</li>
+<li>邮箱 需要是 Github 认证过的邮箱</li>
+<li>注释 可以随便填</li>
+</ul>
+<p>最后需要输入一个密码，类似于保护 <code>SSH</code> 证书的密码，可以留空，不过最好是填上。</p>
+<p>接下来是漫长的生成过程，在等待的过程里可以多移动鼠标，多打开几个网页，以此来增加机器的随机性。</p>
+<h2 id="查看-GPG-Key-ID"><a href="#查看-GPG-Key-ID" class="headerlink" title="查看 GPG Key ID"></a>查看 GPG Key ID</h2><p><code>GPG Key ID</code> 是一个8位的字符串，对应着一个 <code>GPG Key</code></p>
+<p>在命令行里查看 <code>GPG Key</code> 列表：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~$ gpg --list-keys</span><br><span class="line">/home/***/.gnupg/pubring.gpg</span><br><span class="line">----------------------------</span><br><span class="line">pub   4096R/6******7 2016-05-11 [expires: 2017-05-11]</span><br><span class="line">uid                  Wang Yan &lt;wyvernnot@gmail.com&gt;</span><br><span class="line">sub   4096R/B******E 2016-05-11 [expires: 2017-05-11]</span><br></pre></td></tr></table></figure>
+
+<p>输出结果里的 6******7 就是这个 <code>GPG Key ID</code></p>
+<h2 id="导出-GPG-公匙"><a href="#导出-GPG-公匙" class="headerlink" title="导出 GPG 公匙"></a>导出 GPG 公匙</h2><p>执行命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpg --armor --<span class="built_in">export</span> 6******7</span><br></pre></td></tr></table></figure>
+
+<p>会在命令行看到公匙的文本：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PGP PUBLIC KEY BLOCK-----</span><br><span class="line">Version: GnuPG v1</span><br><span class="line"></span><br><span class="line">mQINBFczB1kBEAC3afc50p08I7knynnm4ea/8VZy42zGH/qrIWoInqT8HbgwLb9s</span><br><span class="line">TrulTgLMbMTTOhl4zqFtTR52ZTwfLOtnV8tCM62ZNqO6z0nd0bFPA7HVp5t9z4a5</span><br><span class="line">qBF3l3AZO5TFjn8gTsxatpVf5Ug9gmkEOCAejwSPFKNvfAun+WSLZ19LaFcorrj1</span><br><span class="line">                          ...</span><br><span class="line">cOyj7VNdmx1//BMp/5A6SEqJFkkLxebaJpcrv1dm1HvKGU8vty3JAdWgOjY5VVmn</span><br><span class="line">nUaAr8D0uNquASkap4dki/zscK+tEJiH6HLnQGGtIf+fR2zoHAUfBvtTuUhq8w/Q</span><br><span class="line">F0R/UVgc4Sg+Vz4gyYNJKO8BdTTTfvOZMDNFw4x70vXfhCZDm4QxgfUwRs//kkIh</span><br><span class="line">Z3QylTf5xSk4</span><br><span class="line">=kuFS</span><br><span class="line">-----END PGP PUBLIC KEY BLOCK-----</span><br></pre></td></tr></table></figure>
+
+<p>拷贝这一大段到剪贴板，然后登录 <code>Github</code> 添加这个公匙，添加的入口在 <code>Settings</code> 下的 <code>SSH and GPG Keys</code> 里面。</p>
+<h2 id="配置-Git-启用-GPG-签名"><a href="#配置-Git-启用-GPG-签名" class="headerlink" title="配置 Git 启用 GPG 签名"></a>配置 Git 启用 GPG 签名</h2><p>首先设置 <code>Git</code> 默认使用的 <code>GPG Key ID</code>，就是上面那个 8 位的字符串。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.signingkey 6******7</span><br></pre></td></tr></table></figure>
+
+<p>提交的时候加上一个 <code>-s</code> 参数就可以为提交签名：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -S -m your commit message</span><br></pre></td></tr></table></figure>
+
+<p>要想以后如果每次提交都默认都开启 <code>GPG</code> 签名，尤其是使用 IDE 的情况下，需要修改 <code>git</code> 的一个全局设置项：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global commit.gpgsign <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>执行 <code>git push</code> 后登录到 <code>Github</code>， 看看提交历史的右边是不是多了一个 <code>Verified</code> 图标。</p>
+<p>如果看到下面的结果，那么恭喜你已经为整个开源世界的安全迈出了一小步！</p>
+<p><img src="/./history.png" alt="提交历史"></p>
+<h2 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h2><p>如果在 Github 上把 <code>GPG Public Key</code> 移除, 那么之前的 <code>Verified</code> 提交会变成 <code>Unverified</code>。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2013/07/gpg.html">http://www.ruanyifeng.com/blog/2013/07/gpg.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.gnupg.org/howtos/zh/index.html">https://www.gnupg.org/howtos/zh/index.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2014-11/109972.htm">http://www.linuxidc.com/Linux/2014-11/109972.htm</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/articles/generating-a-new-gpg-key/">https://help.github.com/articles/generating-a-new-gpg-key/</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/articles/adding-a-new-gpg-key-to-your-github-account/">https://help.github.com/articles/adding-a-new-gpg-key-to-your-github-account/</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/articles/telling-git-about-your-gpg-key/">https://help.github.com/articles/telling-git-about-your-gpg-key/</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/articles/signing-commits-using-gpg/">https://help.github.com/articles/signing-commits-using-gpg/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/05/12/gpg-howto.html" data-id="cm014jhx1000cpsq6en5e4k9a" data-title="怎样为你的 Commit 加上 GPG 的签名" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-introduction-to-statsd" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/05/04/introduction-to-statsd.html" class="article-date">
+  <time class="dt-published" datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/05/04/introduction-to-statsd.html">StatsD 简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/introduction-to-statsd">源码</a></p>
+<blockquote>
+<p>介绍 StatsD 的发展，协议，最后附带有一个假想的例子。</p>
+</blockquote>
+<p>自主开发一套监控系统可以从这三个部分分别着手：数据采集，数据存储和数据展示。</p>
+<p>对于有代码经验的开发和运维人员，数据采集是很容易解决的问题，例如要统计一个方法的执行时间，只需要记录方法进入和退出的时间差即可。<br>而对于后台架构中常见的各种组件如 Redis 和 MySQL 等，它们往往各自提供了数量可观的指标接口，使得运维人员可以快速的获取组件的运行状况。</p>
+<p>数据存储曾经是比价复杂的一块，首先就是数据结构的设计，此外还要考虑快速的检索，统计操作等。<br>好在最近有很多兴起的时序数据库，如 InfluxDB 和 OpenTSDB，它们都对存储时间序列型的数据有很强的适用性。<br>数据展示可以采用开源的方案例如 Grafana 。</p>
+<p><strong>StatsD 的使用场景</strong></p>
+<p>把数据推送到存储模块的过程中，有的时候没有必要把所有采集到的数据都存起来。<br>典型的场景是 Web 服务器，当请求达到每分钟上万条时，把每条请求的响应时间都存入数据库是不现实也没有必要。</p>
+<p>这个时候可以考虑设计一个缓冲模块，来实现数据的累加，平均值，中间值计算等。<br>StatsD 正是这样一个实现数据中转的工具，它能够完成简单但是非常实用的统计步骤。<br>另一方面，由于往 StatsD 写入数据的时候使用的是 UDP 协议，所以对被检测的系统的影响可以控制的很小。</p>
+<h2 id="安装-StatsD-服务"><a href="#安装-StatsD-服务" class="headerlink" title="安装 StatsD 服务"></a>安装 StatsD 服务</h2><p>StatsD 安装指南</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/etsy/statsd#installation-and-configuration">https://github.com/etsy/statsd#installation-and-configuration</a></p>
+<p>装好 StatsD 以后，还需安装 InfluxDB 或者 OpenTSDB，由于篇幅的关系不再展开。</p>
+<p>本文推荐使用 CloudInsight 监控系统，如果已经有 OneAPM 的账号，安装只需要 1 分钟左右。</p>
+<p><a target="_blank" rel="noopener" href="http://docs-ci.oneapm.com/quick-start/">http://docs-ci.oneapm.com/quick-start/</a></p>
+<h1 id="StatsD-协议"><a href="#StatsD-协议" class="headerlink" title="StatsD 协议"></a>StatsD 协议</h1><p>StatsD 的协议其实非常简单，每一行就是一条数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;metric_name&gt;:&lt;metric_value&gt;|&lt;metric_type&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以监控系统负载为例，假如某一时刻系统 <code>1分钟的负载</code> 是 0.5，通过以下命令就可以写入 StatsD。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;system.load.1:0.5|g&quot;</span> | nc 127.0.0.1 8251</span><br></pre></td></tr></table></figure>
+
+<p>结合其中的 <code>system.load.1:0.5|g</code>，各个部分分别为：</p>
+<ul>
+<li>指标名称 metric_name  &#x3D; system.load.1</li>
+<li>指标的值 metric_value &#x3D; 0.5</li>
+<li>指标类型 metric_type  &#x3D; g(gauge)</li>
+</ul>
+<p><strong>指标名称</strong></p>
+<p>指标命名没有特别的限制，但是一般的约定是使用点号分割的命名空间。</p>
+<p><strong>指标的值</strong></p>
+<p>指标的值是大于等于 0 的浮点数。</p>
+<p><strong>指标类型</strong></p>
+<ul>
+<li><a href="gauge-%E6%A0%87%E9%87%8F">gauge</a></li>
+<li><a href="#counter-%E8%AE%A1%E6%95%B0%E5%99%A8">counter</a></li>
+<li><a href="#ms-%E6%97%B6%E9%97%B4">ms</a></li>
+<li><a href="#set-%E9%9B%86%E5%90%88">set</a></li>
+</ul>
+<p>StatsD 封装了一些最常用的操作，例如周期内指标值的累加、统计执行时间等，因此对指标的值分成以下几种：</p>
+<h4 id="gauge-标量"><a href="#gauge-标量" class="headerlink" title="gauge 标量"></a>gauge 标量</h4><p>标量是任何可以测量的一维变量。例如人的身高，体重、某一时刻北京市 PM2.5 的值等。</p>
+<h4 id="counter-计数器"><a href="#counter-计数器" class="headerlink" title="counter 计数器"></a>counter 计数器</h4><p>如果某个变量没有办法一下子测量出来，这时就可以使用计数器，分步累加。</p>
+<p>例如要统计某个接口的流量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ent0.traffic:100|c</span><br></pre></td></tr></table></figure>
+
+<p>在每个周期里 StatsD 会自动累加流量的值，并把平均值传给后端。</p>
+<h4 id="ms-时间"><a href="#ms-时间" class="headerlink" title="ms 时间"></a>ms 时间</h4><p>记录执行时间。请求响应时间是 12 ms，写入到 StatsD 服务器的方法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;request.time:12|ms&quot; | nc 127.0.0.1 8251</span><br></pre></td></tr></table></figure>
+
+<p>StatsD 会自动计算以下指标：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">request.time.avg</span><br><span class="line">request.time.count</span><br><span class="line">request.time.max</span><br><span class="line">request.time.mean</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h4 id="set-集合"><a href="#set-集合" class="headerlink" title="set 集合"></a>set 集合</h4><p>统计变量不重复的个数。例如：当前在线的用户</p>
+<p>‘echo “online.user:9587|s” | nc 127.0.0.1 8251’</p>
+<p>‘echo “online.user:9588|s” | nc 127.0.0.1 8251’</p>
+<h1 id="StatsD-实例"><a href="#StatsD-实例" class="headerlink" title="StatsD 实例"></a>StatsD 实例</h1><p>以做一个完美的煎饼果子的过程为例，参数和类型的对应关系如下：</p>
+<p><strong>计数器</strong></p>
+<ul>
+<li>鸡蛋</li>
+<li>薄脆</li>
+<li>面粉</li>
+</ul>
+<p><strong>标量</strong></p>
+<ul>
+<li>油温</li>
+<li>辣度</li>
+</ul>
+<p><strong>集合</strong></p>
+<ul>
+<li>口味</li>
+</ul>
+<p><strong>计时器</strong></p>
+<ul>
+<li>做每一个煎饼果子的时间</li>
+</ul>
+<h2 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:wyvernnot/introduction-to-statsd.git</span><br><span class="line">cd introduction-to-statsd</span><br><span class="line">npm install</span><br><span class="line">npm run-script pipe</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/etsy/statsd/blob/v0.7.2/docs/metric_types.md">https://github.com/etsy/statsd/blob/v0.7.2/docs/metric_types.md</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/etsy/statsd/wiki#client-implementations">https://github.com/etsy/statsd/wiki#client-implementations</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://docs.datadoghq.com/guides/dogstatsd/#datagram-format">http://docs.datadoghq.com/guides/dogstatsd/#datagram-format</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/05/04/introduction-to-statsd.html" data-id="cm014jhx4000lpsq6chwy4oqz" data-title="StatsD 简介" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-redux-unit-test" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/05/04/redux-unit-test.html" class="article-date">
+  <time class="dt-published" datetime="2016-05-04T04:00:00.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/05/04/redux-unit-test.html">Redux 如何单元测试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/redux-unit-test-example">源码</a></p>
+<p>redux 里有一些好玩的东西，如果与 React 一起学习各种环境搭起来速度比较慢，也比较麻烦。如果使用单元测试来学习，<br>并且阅读源代码，可以更快地搞懂。</p>
+<h2 id="TOP-Level"><a href="#TOP-Level" class="headerlink" title="TOP Level"></a>TOP Level</h2><blockquote>
+<p>Redux 顶层的 API 允许你创建 Store, 合并 Reducer，并通过 storeEnhancer 来引入中间件进行扩展。</p>
+</blockquote>
+<ul>
+<li>createStore(reducer, [initialState], [enhancer])</li>
+<li>combineReducers(reducers)</li>
+<li>applyMiddleware(…middlewares)</li>
+<li>bindActionCreators(actionCreators, dispatch)</li>
+<li>compose(…functions)</li>
+</ul>
+<h2 id="Store-API"><a href="#Store-API" class="headerlink" title="Store API"></a>Store API</h2><blockquote>
+<p>Store 创建后有这些方法可供调用</p>
+</blockquote>
+<ul>
+<li>dispatch</li>
+<li>subscribe</li>
+<li>getState</li>
+</ul>
+<h2 id="Redux-常用插件"><a href="#Redux-常用插件" class="headerlink" title="Redux 常用插件"></a>Redux 常用插件</h2><h3 id="redux-actions"><a href="#redux-actions" class="headerlink" title="redux-actions"></a>redux-actions</h3><blockquote>
+<p>简化 Action 的创建，使其符合 FSA 标准</p>
+</blockquote>
+<ul>
+<li>createAction(type, payloadCreator, metaCreator)</li>
+<li>handleAction(type, reducer | reducerMap)</li>
+<li>handleActions(reducerMap, defaultState)</li>
+</ul>
+<h3 id="redux-promise"><a href="#redux-promise" class="headerlink" title="redux-promise"></a>redux-promise</h3><blockquote>
+<p>使用 Promise 作为 Action 的 payload，以此减少不必要的代码</p>
+</blockquote>
+<h2 id="redux-thunk"><a href="#redux-thunk" class="headerlink" title="redux-thunk"></a>redux-thunk</h2><blockquote>
+<p>使用 Funtion 作为 Action， 从而延迟执行</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/05/04/redux-unit-test.html" data-id="cm014jhxg001opsq6d8jud5n5" data-title="Redux 如何单元测试" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/how-gps-work.html">[译] GPS 工作原理的可视化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+</a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2024 longtian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

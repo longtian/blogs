@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58200086-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-58200086-6');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>Kubernetes 资源分配 | 龙天的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="最近遇到了 Kubernetes 上的 Web 应用响应时间长尾的问题，上网收集资料，分析了一下原因。  CGroup 节流导致 Web 请求相应时间增加 当前执行的 CPU 不断变动 核数越多 CGroup 补偿碎片越严重 跨越 NUMA 节点  请求和限制计算资源Kubernetes 对资源的细粒度管理功能可以说是吸引传统应用上 Kubernetes 的重要原因之一 我们在定义 Pod 的时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 资源分配">
+<meta property="og:url" content="https://blog.longtian.io/2021/07/12/kubernetes-resources.html">
+<meta property="og:site_name" content="龙天的博客">
+<meta property="og:description" content="最近遇到了 Kubernetes 上的 Web 应用响应时间长尾的问题，上网收集资料，分析了一下原因。  CGroup 节流导致 Web 请求相应时间增加 当前执行的 CPU 不断变动 核数越多 CGroup 补偿碎片越严重 跨越 NUMA 节点  请求和限制计算资源Kubernetes 对资源的细粒度管理功能可以说是吸引传统应用上 Kubernetes 的重要原因之一 我们在定义 Pod 的时候">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-12T03:27:21.000Z">
+<meta property="article:modified_time" content="2021-07-12T03:27:21.000Z">
+<meta property="article:author" content="longtian">
+<meta property="article:tag" content="技术博客">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="龙天的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">龙天的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">大前端，DevOps，敏捷开发</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.longtian.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-kubernetes-resources" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/07/12/kubernetes-resources.html" class="article-date">
+  <time class="dt-published" datetime="2021-07-12T03:27:21.000Z" itemprop="datePublished">2021-07-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Kubernetes 资源分配
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近遇到了 Kubernetes 上的 Web 应用响应时间长尾的问题，上网收集资料，分析了一下原因。</p>
+<ul>
+<li>CGroup 节流导致 Web 请求相应时间增加</li>
+<li>当前执行的 CPU 不断变动</li>
+<li>核数越多 CGroup 补偿碎片越严重</li>
+<li>跨越 NUMA 节点</li>
+</ul>
+<h2 id="请求和限制计算资源"><a href="#请求和限制计算资源" class="headerlink" title="请求和限制计算资源"></a>请求和限制计算资源</h2><p>Kubernetes 对资源的细粒度管理功能可以说是吸引传统应用上 Kubernetes 的重要原因之一</p>
+<p>我们在定义 Pod 的时候通过以下两个字段可以控制计算资源的分配：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>requests</code></td>
+<td>请求的最少资源</td>
+</tr>
+<tr>
+<td><code>limits</code></td>
+<td>资源限制</td>
+</tr>
+</tbody></table>
+<ul>
+<li>当 <code>requests</code> 无法满足时，<code>Pod</code> 会一直停在 <code>Pending</code> 状态，触发 <code>FailedScheduling</code> 事件</li>
+<li>当使用内存资源超过 <code>limits</code> 时，如果有其他 POD 需要内存，则使用内存最多的容器会被 <code>sacrifice</code>，触发 <code>OOMKilled</code> 事件</li>
+<li>如果不指定 <code>limits</code> , 在没有命名空间默认值的情况下可以无限制地使用资源</li>
+<li>如果指定了 <code>limits</code> , 但是没有指定 <code>requests</code> , 则 <code>requests</code> 值默认为 <code>limits</code> 值</li>
+<li>从分配角度讲 <code>CPU</code> 属于可以压缩的资源、内存属于不可以压缩的资源</li>
+</ul>
+<p>例如</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">memory-demo</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">mem-example</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">memory-demo-ctr</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">polinux/stress</span></span><br><span class="line">    <span class="attr">resources:</span></span><br><span class="line">      <span class="attr">limits:</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">&quot;200Mi&quot;</span></span><br><span class="line">      <span class="attr">requests:</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">&quot;100Mi&quot;</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&quot;stress&quot;</span>]</span><br><span class="line">    <span class="attr">args:</span> [<span class="string">&quot;--vm&quot;</span>, <span class="string">&quot;1&quot;</span>, <span class="string">&quot;--vm-bytes&quot;</span>, <span class="string">&quot;150M&quot;</span>, <span class="string">&quot;--vm-hang&quot;</span>, <span class="string">&quot;1&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="命名空间默认值、最小值和最大值"><a href="#命名空间默认值、最小值和最大值" class="headerlink" title="命名空间默认值、最小值和最大值"></a>命名空间默认值、最小值和最大值</h2><p>有些 Kubernetes 集群环境下会出现这样的问题：定义 Pod 的时候明明没有给计算资源的限制，但是在实际运行的 Pod 上出现了资源限制的定义。</p>
+<p>这很有可能是命名空间的默认值造成的。 通过 <code>LimitRange</code> 对象可以设置命名空间资源的默认值、最小值和最大值。</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td><code>limit</code></td>
+</tr>
+<tr>
+<td>defaultRequest</td>
+<td><code>request</code></td>
+</tr>
+<tr>
+<td>min</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>max</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>maxLimitRequestRatio</td>
+<td>比率</td>
+</tr>
+<tr>
+<td>type</td>
+<td>对象</td>
+</tr>
+</tbody></table>
+<p>例如</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">LimitRange</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">mem-min-max-demo-lr</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">limits:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">default:</span></span><br><span class="line">      <span class="attr">memory:</span> <span class="string">1Gi</span></span><br><span class="line">    <span class="attr">defaultRequest:</span></span><br><span class="line">      <span class="attr">memory:</span> <span class="string">1Gi</span></span><br><span class="line">    <span class="attr">max:</span></span><br><span class="line">      <span class="attr">memory:</span> <span class="string">1Gi</span></span><br><span class="line">    <span class="attr">min:</span></span><br><span class="line">      <span class="attr">memory:</span> <span class="string">500Mi</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">Container</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Pod-服务质量"><a href="#Pod-服务质量" class="headerlink" title="Pod 服务质量"></a>Pod 服务质量</h2><p>当系统资源不足时就会有 Pod 遭殃，但是那么多 Pod 怎么知道要干掉哪一个呢。这就和 Pod 的服务质量有关。</p>
+<p>查看运行中的 <code>Pod</code> 会有一个 <code>qosClass</code> 字段，它有以下三种取值：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Guaranteed</td>
+<td>被保证的，优先级最高，除非超过限制不然不会被干掉</td>
+</tr>
+<tr>
+<td>Burstable</td>
+<td>允许突发，位于中间, 当系统资源不足且没有 <code>Best-Effort</code> 级别时</td>
+</tr>
+<tr>
+<td>BestEffort</td>
+<td>尽力保证，优先级最低，当系统资源不足时最先被干掉</td>
+</tr>
+</tbody></table>
+<p>需要注意 <code>qosClass</code> 的值无法直接设置，而是通过 <code>requests</code> 和 <code>limits</code> 组合隐式设置</p>
+<h3 id="Guaranteed"><a href="#Guaranteed" class="headerlink" title="Guaranteed"></a>Guaranteed</h3><ul>
+<li>Pod 中的每个容器都要指定 CPU 请求和限制，并且两者相等</li>
+<li>Pod 中的每个容器都要指定内存请求和限制，并且两者相等</li>
+</ul>
+<h3 id="Burstable"><a href="#Burstable" class="headerlink" title="Burstable"></a>Burstable</h3><ul>
+<li>Pod 不符合 Guaranteed QoS 类的标准</li>
+<li>Pod 至少有一个容器具有 CPU 或内存请求</li>
+</ul>
+<h3 id="BestEffort"><a href="#BestEffort" class="headerlink" title="BestEffort"></a>BestEffort</h3><ul>
+<li>没有 CPU、内存请求和限制</li>
+</ul>
+<h2 id="CPU-管理策略"><a href="#CPU-管理策略" class="headerlink" title="CPU 管理策略"></a>CPU 管理策略</h2><p>在现代操作系统的设计下，负载运行可能会不断地迁移到不同的 CPU 核心，Kubernetes 上也是一样。</p>
+<p>Kubernetes 提供了 CPU 管理策略来实现负载和 CPU 核的绑定。</p>
+<p>通过 kubelet 参数 <code>--cpu-manager-policy</code> 来指定 CPU 管理策略。</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>默认策略，按照 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AE%8C%E5%85%A8%E5%85%AC%E5%B9%B3%E6%8E%92%E7%A8%8B%E5%99%A8">CFS</a> 来执行调度</td>
+</tr>
+<tr>
+<td>static</td>
+<td>允许为节点上具有某些资源特征的 Pod 赋予增强的 CPU 亲和性和独占性</td>
+</tr>
+</tbody></table>
+<p>为了将 Pod 绑定到 CPU 需要</p>
+<ul>
+<li>Kubelet 开启 <code>--cpu-manager-policy static</code></li>
+<li>Pod 的服务优先级为 <code>Guaranteed</code></li>
+<li>Pod 的 CPU 资源为整数</li>
+</ul>
+<p>例如，下面的 Nginx Pod</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: nginx</span><br><span class="line">    image: nginx</span><br><span class="line">    resources:</span><br><span class="line">      limits:</span><br><span class="line">        memory: &quot;200Mi&quot;</span><br><span class="line">        cpu: &quot;2&quot;</span><br><span class="line">      requests:</span><br><span class="line">        memory: &quot;200Mi&quot;</span><br><span class="line">        cpu: &quot;2&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在运行时可独占两颗 CPU</p>
+<h2 id="NUMA-和拓扑管理策略"><a href="#NUMA-和拓扑管理策略" class="headerlink" title="NUMA 和拓扑管理策略"></a>NUMA 和拓扑管理策略</h2><p>NUMA 是系统优化的一个常用思路，它是伴随着多处理器出现的一个问题。</p>
+<blockquote>
+<p>非统一内存访问架构（英语：Non-uniform memory access，简称NUMA）是一种为多处理器的电脑设计的内存架构，内存访问时间取决于内存相对于处理器的位置。</p>
+</blockquote>
+<p>常见的硬件有</p>
+<ul>
+<li>CPU</li>
+<li>Memory</li>
+<li>GPU</li>
+<li>NIC</li>
+</ul>
+<p>安装 <code>numactl</code> 后可以通过下面的命令查看主机的 NUMA 相关信息</p>
+<p><code>numactl --harware</code></p>
+<p>通过下面的命令查看 NUMA 的统计信息</p>
+<p><code>numastat</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">numa_hit       | Number of pages allocated from the node the process wanted.</span><br><span class="line">numa_miss      | Number of pages allocated from this node, but the process preferred another node.</span><br><span class="line">numa_foreign   | Number of pages allocated another node, but the process preferred this node.</span><br><span class="line">local_node     | Number of pages allocated from this node while the process was running locally.</span><br><span class="line">other_node     | Number of pages allocated from this node while the process was running remotely (on another node).</span><br><span class="line">interleave_hit | Number of pages allocated successfully with the interleave strategy.</span><br></pre></td></tr></table></figure>
+
+<p>以上指标均可以通过 Telegraf 监控</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[inputs.kernel_vmstat]]</span><br></pre></td></tr></table></figure>
+
+<p><code>--cpu-manager-policy static --topology-manager-scope pod --topology-manager-policy single-numa-node</code></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/configure-pod-container/assign-memory-resource/">https://kubernetes.io/zh/docs/tasks/configure-pod-container/assign-memory-resource/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/configure-pod-container/assign-cpu-resource/">https://kubernetes.io/zh/docs/tasks/configure-pod-container/assign-cpu-resource/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/">https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/">https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/">https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/cpu-constraint-namespace/">https://kubernetes.io/zh/docs/tasks/administer-cluster/manage-resources/cpu-constraint-namespace/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/configure-pod-container/quality-service-pod/">https://kubernetes.io/zh/docs/tasks/configure-pod-container/quality-service-pod/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/cpu-management-policies/">https://kubernetes.io/zh/docs/tasks/administer-cluster/cpu-management-policies/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/administer-cluster/topology-manager/">https://kubernetes.io/zh/docs/tasks/administer-cluster/topology-manager/</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/administer-cluster/memory-manager/">https://kubernetes.io/docs/tasks/administer-cluster/memory-manager/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/resource-qos.md">https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/resource-qos.md</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2021/07/12/kubernetes-resources.html" data-id="cm014jhx6000upsq616zpc6yx" data-title="Kubernetes 资源分配" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/21/istio-response-flags.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Istio 请求响应标志</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BC%94%E8%AE%B2/">演讲</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/06/21/reading-2022.html">我的 2022 书单</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/how-gps-work.html">[译] GPS 工作原理的可视化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/12/kubernetes-resources.html">Kubernetes 资源分配</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/21/istio-response-flags.html">Istio 请求响应标志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" />
+</a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2024 longtian<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://blog.longtian.io/2022/06/21/reading-2022.html</loc>
+    
+    <lastmod>2022-06-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2022/02/11/how-gps-work.html</loc>
+    
+    <lastmod>2022-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2021/11/25/different-image-digest-in-console-and-on-hub.html</loc>
+    
+    <lastmod>2021-11-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2021/07/12/kubernetes-resources.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2021/04/21/istio-response-flags.html</loc>
+    
+    <lastmod>2021-04-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2021/04/13/containerized-jvm-parameters.html</loc>
+    
+    <lastmod>2021-04-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2021/03/18/tencentyun.html</loc>
+    
+    <lastmod>2021-03-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/09/18/letsencrypt-root-ca.html</loc>
+    
+    <lastmod>2020-09-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/08/12/jira-internal-and-ldap.html</loc>
+    
+    <lastmod>2020-08-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/07/09/vagrantfile-highliting.html</loc>
+    
+    <lastmod>2020-07-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/06/22/crontab-in-docker.html</loc>
+    
+    <lastmod>2020-06-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/05/30/hashicorp-export-control.html</loc>
+    
+    <lastmod>2020-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/05/30/snap-proxy.html</loc>
+    
+    <lastmod>2020-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2020/05/14/migrate-to-aliyun-oss.html</loc>
+    
+    <lastmod>2020-05-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2018/10/21/5-reasons-sourcemaps-are-broken.html</loc>
+    
+    <lastmod>2018-10-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2018/10/05/make-your-ansible-playbooks-flexible-maintainable-and-scalable.html</loc>
+    
+    <lastmod>2018-10-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2018/09/16/webpack-cross-platform-development.html</loc>
+    
+    <lastmod>2018-09-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2018/08/06/live-long.html</loc>
+    
+    <lastmod>2018-08-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2018/08/05/migrate-to-hexo.html</loc>
+    
+    <lastmod>2018-08-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2017/05/04/speech-fed-to-devops.html</loc>
+    
+    <lastmod>2017-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/12/28/introduction-to-outlier-detection.html</loc>
+    
+    <lastmod>2016-12-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/09/04/speech-fed-devops-practices.html</loc>
+    
+    <lastmod>2016-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/07/22/react-makes-you-sad.html</loc>
+    
+    <lastmod>2016-07-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/07/10/react-should-update-performance.html</loc>
+    
+    <lastmod>2016-07-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/07/01/webpack-feature-toggle.html</loc>
+    
+    <lastmod>2016-07-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/06/04/speech-nodejs-performance-mornitoring.html</loc>
+    
+    <lastmod>2016-06-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/05/30/v8-memory-dashboard.html</loc>
+    
+    <lastmod>2016-05-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/05/12/gpg-howto.html</loc>
+    
+    <lastmod>2016-05-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/05/04/introduction-to-statsd.html</loc>
+    
+    <lastmod>2016-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/05/04/redux-unit-test.html</loc>
+    
+    <lastmod>2016-05-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/05/03/other-webpack-loaders.html</loc>
+    
+    <lastmod>2016-05-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/04/21/thressjs-react.html</loc>
+    
+    <lastmod>2016-04-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/03/28/speech-improve-fed-speed.html</loc>
+    
+    <lastmod>2016-03-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/01/20/isomorphic-fetch-example%20.html</loc>
+    
+    <lastmod>2016-01-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/01/20/react-component-example.html</loc>
+    
+    <lastmod>2016-01-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/01/20/speech-rum-basedon-wilddog.html</loc>
+    
+    <lastmod>2016-01-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/01/18/docker-compose-firsttime.html</loc>
+    
+    <lastmod>2016-01-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/01/13/react-datatables-example.html</loc>
+    
+    <lastmod>2016-01-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2016/01/08/react-zeroclipboard-example.html</loc>
+    
+    <lastmod>2016-01-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/10/27/service-discovery-using-nodejs.html</loc>
+    
+    <lastmod>2015-10-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/09/16/minecraft-in-docker.html</loc>
+    
+    <lastmod>2015-09-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/09/11/nodejs-4.html</loc>
+    
+    <lastmod>2015-09-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/08/11/javascript-performance-measurement.html</loc>
+    
+    <lastmod>2015-08-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/07/21/nodejs-arduino-mbot.html</loc>
+    
+    <lastmod>2015-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/06/27/using-v8-debug-protocol.html</loc>
+    
+    <lastmod>2015-06-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/06/08/visual-callback-demo.html</loc>
+    
+    <lastmod>2015-06-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/05/20/node-production-practices.html</loc>
+    
+    <lastmod>2015-05-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/04/13/cache-attack-in-javascript.html</loc>
+    
+    <lastmod>2015-04-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2015/01/21/node-oneapm-decorators.html</loc>
+    
+    <lastmod>2015-01-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2014/08/18/phpunit-yo-integration.html</loc>
+    
+    <lastmod>2014-08-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2014/08/08/nodejs-qemu-demo.html</loc>
+    
+    <lastmod>2014-08-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/2014/07/02/h5ml-vdi.html</loc>
+    
+    <lastmod>2014-07-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://blog.longtian.io/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/docker/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/opensource/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/devops/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/istio/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/pki/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/ubuntu/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/vagrant/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/tags/pycharm/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>https://blog.longtian.io/categories/%E7%BF%BB%E8%AF%91/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/categories/%E9%9A%8F%E6%83%B3/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/categories/%E8%AF%BB%E4%B9%A6/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.longtian.io/categories/%E6%BC%94%E8%AE%B2/</loc>
+    <lastmod>2024-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+</urlset>
