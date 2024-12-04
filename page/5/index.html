@@ -87,6 +87,134 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-react-datatables-example" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/01/13/react-datatables-example.html" class="article-date">
+  <time class="dt-published" datetime="2016-01-13T04:00:00.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/01/13/react-datatables-example.html">React 中集成 Datatables</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/react-datatables-example">源码</a></p>
+<h1 id="react-datables-example"><a href="#react-datables-example" class="headerlink" title="react-datables-example"></a>react-datables-example</h1><p>Example for Datatables usage with React and Webpack</p>
+<blockquote>
+<p>This example will mainly focus on how to use Datatables and its extensions in React project instead of diving into the <a target="_blank" rel="noopener" href="http://www.datatables.net/reference/api/">fabulous API</a>.</p>
+</blockquote>
+<p><strong>How to run this example</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install &amp;&amp; npm start</span><br></pre></td></tr></table></figure>
+
+<p>Open your browser and navigate to <a target="_blank" rel="noopener" href="http://localhost:8080/static/entry">http://localhost:8080/static/entry</a></p>
+<h3 id="How-to-import-Datatables"><a href="#How-to-import-Datatables" class="headerlink" title="How to import Datatables ?"></a>How to import Datatables ?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">&#x27;jquery&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>After being imported, you can initialize a table DOM element normally</p>
+<p><code>$(elem).dataTable(options)</code> or <code>$(elem).DataTable(options)</code></p>
+<h3 id="Is-it-possible-to-use-DataTable-object-directly"><a href="#Is-it-possible-to-use-DataTable-object-directly" class="headerlink" title="Is it possible to use DataTable object directly ?"></a>Is it possible to use DataTable object directly ?</h3><p>No, because it is deeply coupled with jQuery, it requires jQuery context to intialize the table.</p>
+<p>In fact, the DataTable object is imported by default.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">&#x27;jquery&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">DataTable</span> <span class="keyword">from</span> <span class="string">&#x27;datatables.net&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">DataTable</span> === $.fn.<span class="property">dataTable</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="How-to-import-Bootstrap-styling"><a href="#How-to-import-Bootstrap-styling" class="headerlink" title="How to import Bootstrap styling ?"></a>How to import Bootstrap styling ?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;bootstrap/dist/css/bootstrap.css&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-bs/js/dataTables.bootstrap&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-bs/css/dataTables.bootstrap.css&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>Then, make sure you configure the <code>css-loader</code> and <code>style-loader</code> right in <code>webpack.config.js</code> file.</p>
+<h3 id="How-to-load-the-i18n-fonts-file-asynchronously"><a href="#How-to-load-the-i18n-fonts-file-asynchronously" class="headerlink" title="How to load the i18n&#x2F;fonts file asynchronously ?"></a>How to load the i18n&#x2F;fonts file asynchronously ?</h3><p>Extend the dataTable.defaults object</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="title function_">extend</span>(<span class="literal">true</span>, $.fn.<span class="property">dataTable</span>.<span class="property">defaults</span>, &#123;</span><br><span class="line">  <span class="attr">language</span>: &#123;</span><br><span class="line">    <span class="attr">url</span>: <span class="built_in">require</span>(<span class="string">&#x27;../lib/zh_cn.json&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Loading i18n files is just like loading icon font files.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  test   : <span class="regexp">/\.(json|ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/</span>,</span><br><span class="line">  loader : <span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">  <span class="attr">query</span>:&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;[name]-[md5:hash:8].[ext]&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="How-to-load-extensions"><a href="#How-to-load-extensions" class="headerlink" title="How to load extensions ?"></a>How to load extensions ?</h3><p>Check the extensions list, <a target="_blank" rel="noopener" href="https://www.npmjs.com/~datatables">https://www.npmjs.com/~datatables</a></p>
+<p>To import an extension, normaly it would require two steps as following:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-fixedheader&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.css&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>1. Load the extension script, normaly the entry file is defined in package.json <code>main</code> property ;</p>
+<p>2. Load the style for specific front-end framework. For example, <code>bs</code> means <code>Bootstrap</code>.</p>
+<h3 id="How-to-use-string-templates"><a href="#How-to-use-string-templates" class="headerlink" title="How to use string templates"></a>How to use string templates</h3><p><a target="_blank" rel="noopener" href="https://github.com/esnext/es6-templates">ES6 template</a> is a good choice</p>
+<p>Data:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">    <span class="attr">foo</span>:&#123;</span><br><span class="line">      <span class="attr">bar</span>:<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>Columns:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">data</span>:<span class="string">&#x27;foo&#x27;</span>,</span><br><span class="line">    <span class="attr">title</span>:<span class="string">&#x27;foo.bar&#x27;</span>,</span><br><span class="line">    <span class="attr">render</span>:<span class="function"><span class="params">foo</span>=&gt;</span><span class="string">`&lt;em&gt;<span class="subst">$&#123;foo.bar&#125;</span>&lt;/em&gt;`</span></span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="How-to-use-React-components-in-cell-rendering"><a href="#How-to-use-React-components-in-cell-rendering" class="headerlink" title="How to use React components in cell rendering"></a>How to use React components in cell rendering</h3><p>Let’s assume we need to use the <code>react-toggle</code> component in our table.</p>
+<p>We have three ways to use it:</p>
+<p><strong>Implement render function and use React DOM server’s renderToStaticMarkup method</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">columns</span>:[&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">render</span>:<span class="function"><span class="params">elem</span>=&gt;</span><span class="title function_">renderToStaticMarkup</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Toggle</span>/&gt;</span></span>)</span><br><span class="line">  &#125;]</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Implement datatable createdCell function and create multiple React roots</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">columns</span>:[&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">createdCell</span>:<span class="function">(<span class="params">td,val</span>)=&gt;</span><span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Toggle</span>/&gt;</span></span>,td)</span><br><span class="line">  &#125;]</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Prepare the HTML markup first and then initialize the Datatable</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">&#123;</span><br><span class="line">  DATA.map(e=&gt;<span class="tag">&lt;<span class="name">tr</span> <span class="attr">key</span>=<span class="string">&#123;e.id&#125;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;e.id&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">data-order</span>=<span class="string">&#123;e.id&#125;</span>&gt;</span>&#123;e.name&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;e.value&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">Toggle</span>/&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>A performance test page is written to show the difference between these ways</p>
+<p><a target="_blank" rel="noopener" href="http://localhost:8080/static/toggle">http://localhost:8080/static/toggle</a></p>
+<p><img src="/assets/test_performance.png" alt="performance"></p>
+<p>And here is the performance report with 5000 data in table comparing above three options.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Duration</th>
+<th>usedJSHeapSize</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>renderToStaticMarkup</td>
+<td>6384.74ms</td>
+<td>29.75M</td>
+</tr>
+<tr>
+<td>render</td>
+<td>4579.46ms</td>
+<td>103.95M</td>
+</tr>
+<tr>
+<td>markup</td>
+<td>6497.95ms</td>
+<td>189.78M</td>
+</tr>
+</tbody></table>
+<p>Summary:</p>
+<ul>
+<li>If your component is dummy(e.g stateless funtion), use <code>renderToStaticMarkup</code></li>
+<li>If your component has state, but has no dependency in its context, use <code>render</code></li>
+<li>If your component has state or has dependency in its context (e.g Redux Componet or React Router Links), use <code>markup</code></li>
+</ul>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> work with JSON data</li>
+<li><input disabled="" type="checkbox"> Lifecycle</li>
+<li><input checked="" disabled="" type="checkbox"> Using React in column rendering</li>
+<li><input disabled="" type="checkbox"> How to avoid conflicts between them</li>
+<li><input checked="" disabled="" type="checkbox"> Work with react-dom&#x2F;server</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.longtian.io/2016/01/13/react-datatables-example.html" data-id="cm4a44ui3001looq62mob7hnk" data-title="React 中集成 Datatables" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-react-zeroclipboard-example" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2016/01/08/react-zeroclipboard-example.html" class="article-date">
@@ -147,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2016/01/08/react-zeroclipboard-example.html" data-id="cm0177moi001n3kq6cwyyb2lu" data-title="React 中集成 Datatables" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2016/01/08/react-zeroclipboard-example.html" data-id="cm4a44ui4001nooq60yd4gtam" data-title="React 中集成 Datatables" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -186,7 +314,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/10/27/service-discovery-using-nodejs.html" data-id="cm0177mok001s3kq6fxuoa6s0" data-title="Node.JS 做 Docker 上服务发现" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/10/27/service-discovery-using-nodejs.html" data-id="cm4a44ui5001tooq6b36tbvfv" data-title="Node.JS 做 Docker 上服务发现" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -231,7 +359,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/09/16/minecraft-in-docker.html" data-id="cm0177mob00143kq64om6004v" data-title="使用 Docker 构建一个 Minecraft 服务器" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/09/16/minecraft-in-docker.html" data-id="cm4a44uhx0013ooq6hzqqduj8" data-title="使用 Docker 构建一个 Minecraft 服务器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -270,7 +398,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/09/11/nodejs-4.html" data-id="cm0177mog001c3kq6cfa58r75" data-title="Node.JS 4.0.0，灵雀云和 OneAPM 的整合测试" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/09/11/nodejs-4.html" data-id="cm4a44uhz001dooq68pksf9a6" data-title="Node.JS 4.0.0，灵雀云和 OneAPM 的整合测试" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -309,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/08/11/javascript-performance-measurement.html" data-id="cm0177mo7000o3kq6g9948lu4" data-title="JavaScript 性能分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/08/11/javascript-performance-measurement.html" data-id="cm4a44uht000kooq6dtjbfioy" data-title="JavaScript 性能分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -348,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/07/21/nodejs-arduino-mbot.html" data-id="cm0177mof001b3kq63ljqco05" data-title="我的第一个 Arduino 项目" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/07/21/nodejs-arduino-mbot.html" data-id="cm4a44uhz001booq6547q1w27" data-title="我的第一个 Arduino 项目" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -387,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/06/27/using-v8-debug-protocol.html" data-id="cm0177mon00283kq61n6r1ikv" data-title="使用 v8 的 debug 协议搞事情" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/06/27/using-v8-debug-protocol.html" data-id="cm4a44ui9002cooq6dmeshgep" data-title="使用 v8 的 debug 协议搞事情" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -427,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/06/08/visual-callback-demo.html" data-id="cm0177moo002e3kq6h73v9xxv" data-title="可视化的 Callback" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/06/08/visual-callback-demo.html" data-id="cm4a44uia002iooq6fvd5alnv" data-title="可视化的 Callback" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -470,50 +598,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/05/20/node-production-practices.html" data-id="cm0177mof001a3kq6hmkcaipv" data-title="[译] Node.js 异常处理最佳实践" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cache-attack-in-javascript" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2015/04/13/cache-attack-in-javascript.html" class="article-date">
-  <time class="dt-published" datetime="2015-04-13T04:00:00.000Z" itemprop="datePublished">2015-04-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BF%BB%E8%AF%91/">翻译</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2015/04/13/cache-attack-in-javascript.html">[译] 基于 JavaScript 的缓冲区攻击</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://github.com/longtian/cache_attack_in_javascript">源码</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.longtian.io/2015/04/13/cache-attack-in-javascript.html" data-id="cm0177mnx00013kq63d2dh8k8" data-title="[译] 基于 JavaScript 的缓冲区攻击" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://blog.longtian.io/2015/05/20/node-production-practices.html" data-id="cm4a44uhy0019ooq6c5cr9nvk" data-title="[译] Node.js 异常处理最佳实践" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -550,7 +635,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alpine/" rel="tag">alpine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/alpine/" rel="tag">alpine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/devops/" rel="tag">devops</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istio/" rel="tag">istio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opensource/" rel="tag">opensource</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pki/" rel="tag">pki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pycharm/" rel="tag">pycharm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vagrant/" rel="tag">vagrant</a></li></ul>
     </div>
   </div>
 
@@ -560,7 +645,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/alpine/" style="font-size: 10px;">alpine</a> <a href="/tags/devops/" style="font-size: 20px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+      <a href="/tags/alpine/" style="font-size: 10px;">alpine</a> <a href="/tags/devops/" style="font-size: 20px;">devops</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/opensource/" style="font-size: 10px;">opensource</a> <a href="/tags/pki/" style="font-size: 10px;">pki</a> <a href="/tags/pycharm/" style="font-size: 10px;">pycharm</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
     </div>
   </div>
 
@@ -569,7 +654,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li></ul>
     </div>
   </div>
 
@@ -580,6 +665,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/11/06/rtos.html">[译] 等了 20 年，实时 Linux 终于进入了主线</a>
+          </li>
         
           <li>
             <a href="/2024/05/01/my-first-commit-to-alpine.html">我的第一个 Alpine OS Commit</a>
@@ -595,10 +684,6 @@
         
           <li>
             <a href="/2022/02/11/how-gps-work.html">[译] GPS 工作原理的可视化</a>
-          </li>
-        
-          <li>
-            <a href="/2021/11/25/different-image-digest-in-console-and-on-hub.html">为什么 Docker Pull 显示的 Digest 和 Docker Hub 的不一样</a>
           </li>
         
       </ul>
